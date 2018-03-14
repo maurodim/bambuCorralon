@@ -2,16 +2,11 @@
 package ListasDePrecios;
 
 import Articulos.Articulos;
-import Articulos.Rubros;
 import Articulos.SubRubros;
 import Conversores.Numeros;
 import Proveedores.Proveedores;
 import facturacion.clientes.Clientes;
-import facturacion.clientes.Facturable;
 import facturacion.clientes.ListasDePrecios;
-import interfaceGraficas.BarraDeProgreso;
-import interfaces.Comparables;
-import interfaces.Editables;
 import interfaces.Personalizable;
 import interfaces.Transaccionable;
 import interfacesPrograma.Facturar;
@@ -21,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JProgressBar;
 import javax.swing.table.DefaultTableModel;
 import objetos.Conecciones;
 import tablas.MiModeloTablaContacto;
@@ -43,7 +37,7 @@ public class ArticulosAsignados implements Articulable{
     private String observaciones;
     private Integer origen;
     private String descLista;
-    private static Transaccionable tra=new Conecciones();
+    private static Transaccionable tra;
     private static ResultSet rs;
 
     public String getDescLista() {
@@ -151,6 +145,7 @@ public class ArticulosAsignados implements Articulable{
         ArrayList listado=new ArrayList();
         String sql="";
         SubRubros rubro=new SubRubros();
+        tra=new Conecciones();
         Integer idC=0;
         Integer idLista=1;
         Double coeficiente1=1.00;

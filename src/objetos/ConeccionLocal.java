@@ -11,7 +11,6 @@ import Sucursales.Cajas;
 import Sucursales.ListasDePrecios;
 import Sucursales.Sucursales;
 import Sucursales.Usuarios;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import facturacion.clientes.Clientes;
 import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;
@@ -23,12 +22,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
-import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,7 +75,7 @@ public class ConeccionLocal implements Transaccionable{
             FileWriter fichero=null;
             PrintWriter pw=null;
             try {
-                fichero = new FileWriter("C:\\Gestion\\"+Inicio.fechaDia+" - erroresDeConeccion.txt",true);
+                fichero = new FileWriter("Gestion\\"+Inicio.fechaDia+" - erroresDeConeccion.txt",true);
                 pw=new PrintWriter(fichero);
                 pw.println(sql);
             } catch (IOException ex1) {
@@ -137,7 +131,7 @@ public class ConeccionLocal implements Transaccionable{
         Connection dbConnection = null;
         try {
             
-                String strUrl = "jdbc:derby:C:\\GestionRyR\\DB\\respaldo.db;create=true";
+                String strUrl = "jdbc:derby:GestionRyR\\DB\\respaldo.db;create=true";
                     Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
                      dbConnection = DriverManager.getConnection (strUrl,"maurodim","mau*2012");
                      String sql="CREATE TABLE APP.articulos( ID  INTEGER not null primary key, BARRAS   varchar(30) default NULL, NOMBRE   varchar(49) default NULL, SERVICIO   double default NULL, COSTO   double default NULL, PRECIO   double default NULL, MINIMO   INTEGER default NULL, STOCK  INTEGER default NULL, PROVEEDOR  INTEGER default NULL, RUBRON  varchar(12) default NULL, ALTA  varchar(19) default NULL, INHABILITADO  INTEGER not null , idRubro   INTEGER not null,equivalencia  double not null, modificaPrecio  INTEGER not null, modificaServicio INTEGER not null,recargo double not null,servicio1 Double default 0.00)";

@@ -63,7 +63,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable{
     private int descuento;
     private int idRenglon;
     private Integer idSubRubro;
-    private static Transaccionable tra=new Conecciones();
+    private static Transaccionable tra;
     private String sql;
     private static ResultSet rs;
     private static Double totalVenta;
@@ -1153,7 +1153,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable{
         ArrayList resultado=new ArrayList();
         Articulos articulo=null;
         criterio=criterio.toUpperCase();
-        
+        tra=new Conecciones();
         
         sql="select *,(select articulosMov.cantidad from articulosMov where articulosMov.idArticulo=articulos.ID)as sst from articulos where nombre like '%"+criterio+"%' or idrubro="+rubro+" or idsubrubro="+subRubro+" order by nombre";
         

@@ -30,6 +30,27 @@ public class Propiedades {
     static String ARCHIVOKEY;
     static String PUNTODEVENTA;
     static String CUIT;
+    static String NOMBRE;
+    static String DIRECCION;
+    static String TELEFONO;
+    static String MAIL;
+
+    public static String getNOMBRE() {
+        return NOMBRE;
+    }
+
+    public static String getDIRECCION() {
+        return DIRECCION;
+    }
+
+    public static String getTELEFONO() {
+        return TELEFONO;
+    }
+
+    public static String getMAIL() {
+        return MAIL;
+    }
+    
 
     public static String getSERVER() {
         return SERVER;
@@ -118,7 +139,10 @@ public class Propiedades {
                             ARCHIVOBCRT=p.getProperty("ARCHIVOBCRT");
                             ARCHIVOKEY=p.getProperty("ARCHIVOKEY");
                             PUNTODEVENTA=p.getProperty("PUNTODEVENTA");
-                            
+                            NOMBRE=p.getProperty("NOMBRE");
+                            DIRECCION=p.getProperty("DIRECCION");
+                            TELEFONO=p.getProperty("TELEFONO");
+                            MAIL=p.getProperty("MAIL");
                             
                         
             

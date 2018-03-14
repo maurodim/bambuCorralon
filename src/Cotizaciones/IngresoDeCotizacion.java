@@ -16,7 +16,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +23,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import Articulos.Articulos;
 import Articulos.Modificable;
@@ -34,13 +32,10 @@ import Articulos.SubRubros;
 import ListasDePrecios.Articulable;
 import ListasDePrecios.ArticulosAsignados;
 import Sucursales.ListasDePrecios;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import objetos.Comprobantes;
-import objetos.Conecciones;
-import tablas.MiModeloTablaBuscarCliente;
 import tablas.MiModeloTablaFacturacion;
 
 
@@ -75,7 +70,8 @@ public class IngresoDeCotizacion extends javax.swing.JInternalFrame {
     
     public IngresoDeCotizacion() {
         //Articulos.CargarMap();
-        cliT=new Clientes("1");
+        cliT=new Clientes();
+        cliT=(Clientes) cliT.CargarConsF();
         lista=new ListasDePrecios(cliT.getListaDePrecios());
         //cliT=(ClientesTango)oob;
         //comp.setCliente(cliT);
