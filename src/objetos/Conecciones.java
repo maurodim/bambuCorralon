@@ -51,14 +51,13 @@ public class Conecciones implements Transaccionable{
                     dataSource.setDatabaseName(Propiedades.getBD());//ryr
                     dataSource.setPassword(Propiedades.getCLAVE());//("Remoto");//4FTfQRKWPDe4KF9d//("");//
                     dataSource.setServerName(Propiedades.getSERVER());//10.0.0.201//("localhost");//rrpapeles.dyndns.org
+                    
                     /*
                     DATOS DE ROOT
                     USUARIO:ROOT
                     CLAVE: GER (TODO MINUSCULA)
                     ACCESO: 10.0.0.201/phpmyadmin
                     */
-                    
-                    
                     con=dataSource.getConnection();
                     //st=con.createStatement();
                  }catch(Exception ex){
