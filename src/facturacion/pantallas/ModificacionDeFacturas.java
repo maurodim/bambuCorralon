@@ -40,7 +40,7 @@ import Pedidos.Pedable;
 import Pedidos.Pedidos;
 import Sucursales.ListasDePrecios;
 import facturacion.clientes.Facturable;
-import facturacion.clientes.Facturas;
+import facturacion.clientes.MovimientoProveedores;
 import facturacion.clientes.ImprimirFactura;
 import static facturacion.pantallas.IngresoDeFacturas.cliT;
 import static facturacion.pantallas.IngresoDeFacturas.jTextField1;
@@ -71,7 +71,7 @@ public class ModificacionDeFacturas extends javax.swing.JInternalFrame {
     private static ArrayList listadoDeBusqueda=new ArrayList();
     private static Double montoTotal=0.00;
     private static Comprobantes comp=new Comprobantes();
-    private Facturas factura;
+    private MovimientoProveedores factura;
     private Rubros rubro=new Rubros();
     private SubRubros subRubro;
     private ArrayList listadoSubRubros;
@@ -103,7 +103,7 @@ public class ModificacionDeFacturas extends javax.swing.JInternalFrame {
         
     }
     public ModificacionDeFacturas(Object ped){
-        factura=new Facturas();
+        factura=new MovimientoProveedores();
         Pedidos pedido=new Pedidos();
         ArrayList listadoPed=new ArrayList();
         pedido=(Pedidos)ped;

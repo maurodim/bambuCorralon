@@ -158,14 +158,14 @@ public class Sucursales extends Administracion implements Personalizable{
     }
 
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
          Boolean verif=false;
         Sucursales deposito=(Sucursales)objeto;
         String sql="insert into sucursal (descripcion,deposito) values ('"+deposito.getDescripcion()+"','"+deposito.getDepositos().getNumero()+"')";
         Transaccionable tra=new Conecciones();
         verif=tra.guardarRegistro(sql);
         
-        return verif;
+        return 0;
     }
 
     @Override

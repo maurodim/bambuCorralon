@@ -56,13 +56,20 @@ public class Numeros {
         return fecha;
     }
     public static Date ConvertirStringEnDate(String ff){
+        //ff=ff.substring(0,10);
+        System.out.println(ff);
         SimpleDateFormat fh=new SimpleDateFormat("yyyy-mm-dd");
         Date fechaVal = null;    
+       
+        
         try {
-            fechaVal = fh.parse(ff);
+            //fechaVal = fh.parse(ff.substring(0, 10));
+            fechaVal=(Date) fh.parse(ff);
         } catch (ParseException ex) {
-            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Numeros.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
         return fechaVal;
     }
     public static Double ConvertirStringADouble(String num){

@@ -355,7 +355,7 @@ public class UsuariosAbm extends javax.swing.JInternalFrame {
         if(nuevo==0){
             if(person.modificar(usuario))this.dispose();
         }else{
-            if(person.agregar(usuario))this.dispose();
+            if(person.agregar(usuario)==0)this.dispose();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

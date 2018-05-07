@@ -8,11 +8,11 @@ import Proveedores.Proveedores;
 import Cotizaciones.Cotizacion;
 import Cotizaciones.IngresoDeCotizacion;
 import FacturaE.FacturableE;
+import Proveedores.objetos.ImprimirOrdenDeTrabajo;
 import Proveedores.objetos.MovimientoProveedores;
-import facturacion.clientes.Facturas;
-import facturacion.clientes.ImprimirFactura;
+import Proveedores.objetos.OrdenDePago;
+import Recibos.Recidable;
 import facturacion.clientes.ListasDePrecios;
-import facturacion.pantallas.ModificacionDeFacturas;
 import interfaceGraficas.Inicio;
 import interfaceGraficas.NuevoCliente;
 import interfaces.Personalizable;
@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.table.DefaultTableModel;
@@ -200,6 +201,11 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         setResizable(true);
         setTitle("FACTURACION - CARGA DE NUEVO PROVEEDOR");
         setAutoscrolls(true);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
                 formInternalFrameActivated(evt);
@@ -220,11 +226,6 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
-            }
-        });
-        addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                formFocusGained(evt);
             }
         });
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -356,7 +357,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         jScrollPane3.setViewportView(jTable3);
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Currency- Dollar.png"))); // NOI18N
-        jButton10.setText("Ingresar Recibo");
+        jButton10.setText("Orden de Pago");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
@@ -364,7 +365,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         });
 
         jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/List.png"))); // NOI18N
-        jButton14.setText("Reimprimir");
+        jButton14.setText("Reimprimir Orden De Pago");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton14ActionPerformed(evt);
@@ -372,7 +373,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         });
 
         jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/black_folder_search.png"))); // NOI18N
-        jButton15.setText("Visualizar");
+        jButton15.setText("Visualizar factura");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
@@ -504,7 +505,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         MovimientoProveedores mov=new MovimientoProveedores();
         listadoFac=mov.listarFacturasProveedor(cliTa.getNumero());
-        AbmRecibos recibo=new AbmRecibos(listadoFac,cliTa.getSaldo(),cliTa);
+        AbmOrdenDePagos recibo=new AbmOrdenDePagos(cliTa.getSaldo(),cliTa);
         recibo.setVisible(true);
         recibo.toFront();
         //Inicio.jDesktopPane1.add(recibo);
@@ -523,7 +524,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
         }
         System.out.println("cantidad a recibir "+listadoParaRecibo.size()+" monto total: "+montt);
         Recidable reci=new DetalleRecibo();
-        AbmRecibos abm=new AbmRecibos(listadoParaRecibo,montt,cliTa);
+        AbmOrdenDePagos abm=new AbmOrdenDePagos(listadoParaRecibo,montt,cliTa);
         //abm.jTable1.setModel(reci.mostrarARecibir(listadoParaRecibo));
         //AbmRecibos.listadoFc=listadoParaRecibo;
         //AbmRecibos.montoTotal=montt;
@@ -541,23 +542,32 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        Facturas comprobante=new Facturas();
-        int posicion=this.jTable3.getSelectedRow();
-        comprobante=(Facturas)listadoFac.get(posicion);
-        ImprimirFactura imprimir=new ImprimirFactura();
-            try {
-                imprimir.ImprimirFactura(comprobante.getId(),comprobante.getTipo());
-            } catch (IOException ex) {
-                Logger.getLogger(NuevoCliente.class.getName()).log(Level.SEVERE, null, ex);
-            }
+       int posicion=this.jTable3.getSelectedRow();
+       MovimientoProveedores mov=(MovimientoProveedores) listadoCot.get(posicion);
+       if(mov.getTipoComprobante()==2){
+           OrdenDePago recibo=new OrdenDePago();
+           Recidable reci=new OrdenDePago();
+           recibo=(OrdenDePago) reci.cargar(mov.getIdComprobante());
+           ImprimirOrdenDeTrabajo imprimir=new ImprimirOrdenDeTrabajo();
+           try {
+               imprimir.ReImprimirOrdenDeTrabajo(recibo);
+               //ArrayList lstR=reci.listar(mov.getNumeroComprobante());
+               //Iterator it=
+           } catch (IOException ex) {
+               Logger.getLogger(NuevoProveedor.class.getName()).log(Level.SEVERE, null, ex);
+           }
+           
+       }else{
+           JOptionPane.showMessageDialog(null,"Seleccione un recibo por favor");
+       }
                 
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-                Facturas comprobante=new Facturas();
+                MovimientoProveedores comprobante=new MovimientoProveedores();
         int posicion=this.jTable3.getSelectedRow();
-        comprobante=(Facturas)listadoFac.get(posicion);
-        ModificacionDeFacturas factu=new ModificacionDeFacturas(comprobante);
+        comprobante=(MovimientoProveedores)listadoCot.get(posicion);
+        IngresoDeFacturas factu=new IngresoDeFacturas(comprobante,cliTa);
         Inicio.jDesktopPane1.add(factu);
         try {
             factu.setMaximum(true);
@@ -590,6 +600,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
 
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
         FacturableE factu=new MovimientoProveedores();
+        
         listadoCot=factu.listarPorEstado(cliTa.getNumero());
         this.jTable3.setModel(factu.mostrarListado(listadoCot));
     }//GEN-LAST:event_formInternalFrameActivated

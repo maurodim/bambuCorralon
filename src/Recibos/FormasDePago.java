@@ -38,6 +38,25 @@ public class FormasDePago implements Formable{
     private static Transaccionable tra=new Conecciones();
     private static ResultSet rs;
     private String sql;
+    private Integer idTipoComprobante;
+    private Integer idPago;
+
+    public Integer getIdTipoComprobante() {
+        return idTipoComprobante;
+    }
+
+    public void setIdTipoComprobante(Integer idTipoComprobante) {
+        this.idTipoComprobante = idTipoComprobante;
+    }
+
+    public Integer getIdPago() {
+        return idPago;
+    }
+
+    public void setIdPago(Integer idPago) {
+        this.idPago = idPago;
+    }
+    
 
     public Integer getIdRecibo() {
         return idRecibo;
@@ -201,6 +220,38 @@ public class FormasDePago implements Formable{
     @Override
     public DefaultListModel mostrarChequesEnListado(ArrayList listado) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList listarPagosProveedores(Integer orden) {
+        FormasDePago forma;
+        ArrayList listado=new ArrayList();
+        sql="select * from detallepagos where idcomprobante="+orden;
+        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        try {
+            while(rs.next()){
+                forma=new FormasDePago();
+                forma.setIdRecibo(rs.getInt("idcomprobante"));
+                forma.setDescripcion(rs.getString("descripcion"));
+                forma.setBanco(rs.getString("banco"));
+                forma.setNumero(rs.getString("numero"));
+                forma.setVencimiento(rs.getString("vencimiento"));
+                forma.setMonto(rs.getDouble("monto"));
+                listado.add(forma);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FormasDePago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
+    }
+
+    @Override
+    public Boolean guardarPagoAProveedores(Object pagos) {
+        FormasDePago forma=new FormasDePago();
+        forma=(FormasDePago)pagos;
+        sql="insert into detallepagos (idtipocomprobante,idcomprobante,idpago,descripcion,banco,monto,vencimiento,numero) values ("+forma.getIdTipoComprobante()+","+forma.getIdRecibo()+","+forma.getIdPago()+",'"+forma.getDescripcion()+"','"+forma.getBanco()+"',"+forma.getMonto()+",'"+forma.getVencimiento()+"',"+forma.getNumero()+")";
+        tra.guardarRegistro(sql);
+        return true;
     }
     
     

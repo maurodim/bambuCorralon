@@ -15,7 +15,7 @@ import objetos.Conecciones;
  *
  * @author mauro
  */
-public class MovimientoArticulos implements Personalizable{
+public class MovimientoArticulos implements Personalizable,Proveer{
     private Integer tipoMovimiento;
     private Integer idArticulo;
     private Double cantidad;
@@ -144,12 +144,12 @@ public class MovimientoArticulos implements Personalizable{
     }
 
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
         MovimientoArticulos mov=(MovimientoArticulos) objeto;
         String sql="insert into movimientosarticulos (tipoMovimiento,idArticulo,cantidad,numeroDeposito,tipoComprobante,numeroComprobante,numeroCliente,fechaComprobante,numeroUsuario,precioDeCosto,precioDeVenta,precioServicio,estado,idcaja) values ("+mov.getTipoMovimiento()+","+mov.getIdArticulo()+","+mov.getCantidad()+","+mov.getNumeroDeposito()+","+mov.getTipoComprobante()+",'"+mov.getNumeroComprobante()+"',"+mov.getIdCliente()+",'"+mov.getFechaComprobante()+"',"+Inicio.usuario.getNumeroId()+","+mov.getPrecioDeCosto()+","+mov.getPrecioDeVenta()+","+mov.getPrecioDeServicio()+","+mov.getEstado()+","+mov.getIdCaja()+")";
         Transaccionable tra=new Conecciones();
         tra.guardarRegistro(sql);
-        return true;
+        return 0;
     }
 
     @Override
@@ -190,6 +190,22 @@ public class MovimientoArticulos implements Personalizable{
     @Override
     public ArrayList listarPorCuit(String cuit) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean GuardarImpuestos(ArrayList lista, Integer idFactura) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList LeerImpuestos(Integer idFactura) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList ListarDetalleFactura(Integer idFactura, Integer tipo) {
+      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
     
     

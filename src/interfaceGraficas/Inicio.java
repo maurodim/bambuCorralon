@@ -81,7 +81,7 @@ public class Inicio extends javax.swing.JFrame {
         }else{
             Proveedores.cargarListadoProv();
         }
-        //Clientes.cargarMap();
+        Clientes.cargarMap();
         actualizacionesClientes=2;
         ListasDePrecios.cargarMap();
         //Cajas.BackapearCajas();
@@ -162,6 +162,8 @@ public class Inicio extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
@@ -231,6 +233,22 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem16);
+
+        jMenuItem19.setText("Listado de Transportes");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem19);
+
+        jMenuItem20.setText("Administración de Impuestos");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem20);
 
         jMenuItem10.setText("Sucursales");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
@@ -760,6 +778,35 @@ public class Inicio extends javax.swing.JFrame {
                 
     }//GEN-LAST:event_jMenuItem18ActionPerformed
 
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        TransporteAbm tran=new TransporteAbm();
+        Inicio.jDesktopPane1.add(tran);
+        try {
+            tran.setMaximum(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tran.setVisible(true);
+        tran.pack();
+        tran.toFront();
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        ImpuestosAbm impu=new ImpuestosAbm();
+        
+        Inicio.jDesktopPane1.add(impu);
+        impu.setVisible(true);
+        impu.setMaximizable(true);
+        try {
+            impu.setMaximum(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        impu.pack();
+        impu.toFront();
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -836,7 +883,9 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
     private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem23;

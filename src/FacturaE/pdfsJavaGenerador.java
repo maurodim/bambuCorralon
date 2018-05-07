@@ -17,7 +17,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import facturacion.clientes.Clientes;
 import facturacion.clientes.DetalleFacturas;
 import facturacion.clientes.Facturable;
-import facturacion.clientes.Facturas;
+import facturacion.clientes.MovimientoProveedores;
 import interfaceGraficas.Inicio;
 import interfaces.Personalizable;
 import java.awt.image.BufferedImage;
@@ -57,7 +57,7 @@ public class pdfsJavaGenerador {
     public void run(){
         Document documento=new Document();
         int i=1;
-        //String arch="\\\\Diseno\\c\\Users\\RyR\\Documents\\Facturas Electronicas\\"+doc.getIdCliente()+"_"+doc.getAfipPlastCbte()+"_factura.pdf";
+        //String arch="\\\\Diseno\\c\\Users\\RyR\\Documents\\MovimientoProveedores Electronicas\\"+doc.getIdCliente()+"_"+doc.getAfipPlastCbte()+"_factura.pdf";
         String arch="Facturas Electronicas\\"+doc.getIdCliente()+"_"+doc.getAfipPlastCbte()+"_factura.pdf";
         
         File fich=new File(arch);
@@ -67,9 +67,9 @@ public class pdfsJavaGenerador {
             fich=new File(arch);
         }
         FileOutputStream fichero;
-        Facturas factura=new Facturas();
-        Facturable fac=new Facturas();
-        factura=(Facturas)fac.cargarIdFactura(doc.getIdFactura());
+        MovimientoProveedores factura=new MovimientoProveedores();
+        Facturable fac=new MovimientoProveedores();
+        factura=(MovimientoProveedores)fac.cargarIdFactura(doc.getIdFactura());
         try {
             DetalleFacturas saldo=new DetalleFacturas();
             Facturable cotizable=new DetalleFacturas();

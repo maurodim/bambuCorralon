@@ -136,7 +136,7 @@ public class Depositos implements Personalizable, Trasladable{
 
     }
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
         //
         Boolean verif=false;
         Depositos deposito=(Depositos)objeto;
@@ -144,7 +144,7 @@ public class Depositos implements Personalizable, Trasladable{
         Transaccionable tra=new Conecciones();
         verif=tra.guardarRegistro(sql);
         
-        return verif;
+        return 0;
         
     }
 

@@ -49,7 +49,7 @@ public class Rubros implements Personalizable,Rubrable{
     }
 
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

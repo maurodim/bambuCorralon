@@ -23,7 +23,7 @@ import Recibos.Recidable;
 import Remitos.IngresoDeRemitos;
 import facturacion.clientes.Clientes;
 import facturacion.clientes.Facturable;
-import facturacion.clientes.Facturas;
+import facturacion.clientes.MovimientoProveedores;
 import facturacion.clientes.ImprimirFactura;
 import facturacion.clientes.ListasDePrecios;
 import facturacion.pantallas.IngresoDeFacturas;
@@ -943,8 +943,8 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         Integer numeroF=0;
-        Facturas factura=new Facturas();
-        factura=(Facturas)listadoFac.get(this.jTable3.getSelectedRow());
+        MovimientoProveedores factura=new MovimientoProveedores();
+        factura=(MovimientoProveedores)listadoFac.get(this.jTable3.getSelectedRow());
         IngresoDeRemitos remi=new IngresoDeRemitos(cliTa,factura);
         Inicio.jDesktopPane1.add(remi);
         try {
@@ -960,11 +960,11 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         ArrayList listadoParaRecibo=new ArrayList();
         int cantidad=this.jTable3.getRowCount();
         Double montt=0.00;
-        Facturas factura;
+        MovimientoProveedores factura;
         for(int a=0;a < cantidad;a++){
             if(Numeros.ConvertirStringADouble((String)this.jTable3.getValueAt(a, 4)) > 0){
-                factura=new Facturas();
-                factura=(Facturas)listadoFac.get(a);
+                factura=new MovimientoProveedores();
+                factura=(MovimientoProveedores)listadoFac.get(a);
                 listadoParaRecibo.add(factura);
                 montt=montt + factura.getTotal();
             }
@@ -986,9 +986,9 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        Facturas comprobante=new Facturas();
+        MovimientoProveedores comprobante=new MovimientoProveedores();
         int posicion=this.jTable3.getSelectedRow();
-        comprobante=(Facturas)listadoFac.get(posicion);
+        comprobante=(MovimientoProveedores)listadoFac.get(posicion);
         ImprimirFactura imprimir=new ImprimirFactura();
             try {
                 imprimir.ImprimirFactura(comprobante.getId(),comprobante.getTipo());
@@ -999,9 +999,9 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-                Facturas comprobante=new Facturas();
+                MovimientoProveedores comprobante=new MovimientoProveedores();
         int posicion=this.jTable3.getSelectedRow();
-        comprobante=(Facturas)listadoFac.get(posicion);
+        comprobante=(MovimientoProveedores)listadoFac.get(posicion);
         ModificacionDeFacturas factu=new ModificacionDeFacturas(comprobante);
         Inicio.jDesktopPane1.add(factu);
         try {
@@ -1137,8 +1137,8 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         columnaNumero=this.jTable2.getColumn("Numero");
         columnaNumero.setPreferredWidth(40);
         columnaNumero.setMaxWidth(40);
-        Facturable ff=new Facturas();
-        Facturas factura=new Facturas();
+        Facturable ff=new MovimientoProveedores();
+        MovimientoProveedores factura=new MovimientoProveedores();
         
         listadoFac=ff.listarPorClienteNoRemitidas(cliTa.getCodigoId());
         modelo2=ff.mostrarListado(listadoFac);

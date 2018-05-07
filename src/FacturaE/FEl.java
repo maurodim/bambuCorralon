@@ -5,8 +5,9 @@ import Conversores.Numeros;
 import Objetos.FacturaElectronica;
 import facturacion.clientes.Clientes;
 import facturacion.clientes.Facturable;
-import facturacion.clientes.Facturas;
+import facturacion.clientes.MovimientoProveedores;
 import interfaces.Transaccionable;
+import interfacesPrograma.Busquedas;
 import interfacesPrograma.Facturar;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.net.URLConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,6 +39,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import Interface.Electronicable;
+import java.io.File;
+import static java.lang.Thread.sleep;
 
 
 
@@ -458,8 +462,8 @@ public class FEl implements FacturableE{
         FEl cotizacion;
         Clientes cliente;
         Facturar bus=new Clientes();
-        Facturable ff=new Facturas();
-        Facturas factura;
+        Facturable ff=new MovimientoProveedores();
+        MovimientoProveedores factura;
         Iterator iL=listadoC.listIterator();
         listado.addColumn("Fecha");
         listado.addColumn("Cliente");
@@ -470,12 +474,12 @@ public class FEl implements FacturableE{
         while(iL.hasNext()){
             cotizacion=(FEl)iL.next();
             cliente=new Clientes();
-            factura=new Facturas();
+            factura=new MovimientoProveedores();
             fila[0]=String.valueOf(cotizacion.getFecha());
             cliente=(Clientes)bus.cargarPorCodigoAsignado(cotizacion.getIdCliente());
             fila[1]=cliente.getRazonSocial();
             fila[2]=cliente.getNumeroDeCuit();
-            //factura=(Facturas)ff.
+            //factura=(MovimientoProveedores)ff.
             fila[3]=String.valueOf(cotizacion.getImporteTotal());
             if(cotizacion.getRespuesta().equals("OK")){
                 fila[4]="Aprobada";

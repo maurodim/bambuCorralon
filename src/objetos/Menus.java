@@ -114,19 +114,19 @@ public class Menus implements Personalizable{
     }
 
     @Override
-    public Boolean agregar(Object objeto) {
-        Boolean verif=false;
+    public Integer agregar(Object objeto) {
+        int verif=1;
         Menus menu=(Menus)objeto;
         Transaccionable tra=new Conecciones();
         String sql="insert into tipoacceso (descripcion,menu1,menu2,menu3,menu4,menu5,menu6,menu7) values ('"+menu.getNombre()+"',"+menu.getMenu1()+","+menu.getMenu2()+","+menu.getMenu3()+","+menu.getMenu4()+","+menu.getMenu5()+","+menu.getMenu6()+","+menu.getMenu7()+")";
-        verif=tra.guardarRegistro(sql);
+        tra.guardarRegistro(sql);
         sql="select LAST_INSERT_ID()";
         int nivel=0;
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
         try {
             while(rs.next()){
             nivel=rs.getInt(1);
-                
+              verif=nivel;  
             }
             rs.close();
             sql="update tipoacceso set nivel="+nivel+" where numero="+nivel;

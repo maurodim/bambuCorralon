@@ -10,6 +10,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import objetos.Conecciones;
 
@@ -17,7 +19,7 @@ import objetos.Conecciones;
  *
  * @author mauro di
  */
-public class Recibo implements Recidable{
+public class OrdenDePago implements Recidable{
     private Integer id;
     private Integer idCliente;
     private Double monto;
@@ -56,8 +58,8 @@ public class Recibo implements Recidable{
 
     @Override
     public Integer nuevo(Object rec) {
-        Recibo recibo=new Recibo();
-        recibo=(Recibo)rec;
+        OrdenDePago recibo=new OrdenDePago();
+        recibo=(OrdenDePago)rec;
         int numero=0;
         sql="insert into recibos (idcliente,monto) values ("+recibo.getIdCliente()+","+recibo.getMonto()+")";
         tra.guardarRegistro(sql);
@@ -75,7 +77,25 @@ public class Recibo implements Recidable{
 
     @Override
     public ArrayList listar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        OrdenDePago recibo;
+        //recibo=(OrdenDePago)rec;
+        ArrayList numero=new ArrayList();
+        sql="select * from recibos where id="+id;
+        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        try {
+            while(rs.next()){
+                recibo=new OrdenDePago();
+                recibo.setId(rs.getInt("id"));
+                recibo.setFecha(rs.getDate("fecha"));
+                recibo.setIdCliente(rs.getInt("idcliente"));
+                recibo.setMonto(rs.getDouble("monto"));
+                numero.add(recibo);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrdenDePago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return numero;
     }
 
     @Override
@@ -94,6 +114,11 @@ public class Recibo implements Recidable{
 
     @Override
     public DefaultTableModel mostrarARecibirSuma(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object cargar(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

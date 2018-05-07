@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -31,9 +32,17 @@ public class BbsGestion {
         Usuarios usuarios=new Usuarios();
         usuariosList=usuarios.listarUsuario();
         */
-        File folder=new File("Gestion");
-        File archivos=new File("Informes");
-        File bases=new File("Gestion\\DB");
+        try{
+           //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            UIManager.setLookAndFeel("com.jtattoo.plaf.aero.AeroLookAndFeel");
+            //UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
+            //UIManager.setLookAndFeel("ch.randelshofer.quaqua.BasicQuaquaLookAndFeel");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        File folder=new File("C:\\GestionRyR");
+        File archivos=new File("C:\\Informes");
+        File bases=new File("C:\\GestionRyR\\DB");
         File configuracion=new File("Configuracion");
         //File imagenes=new File("C:\\Gestion\\imagenes\\saynomore.jpg");
         File bk;
@@ -78,7 +87,7 @@ public class BbsGestion {
           
         fregis.close();
         */
-        bk=new File("Gestion\\backUp.sql");
+        bk=new File("C:\\Gestion\\backUp.sql");
         //String sql="select * from movimientoscaja into outfile "+bk+" FIELDS TERMINATED BY ';' OPTIONALLY ENCLOSED BY '\"' LINES TERMINATED BY '\n\r'";
        // Transaccionable tra=new Conecciones();
         //tra.guardarRegistro(sql);
@@ -86,7 +95,7 @@ public class BbsGestion {
         try {
          // Apertura del fichero y creacion de BufferedReader para poder
          // hacer una lectura comoda (disponer del metodo readLine()).
-         archivo = new File ("Gestion\\erroresDeConeccion.txt");
+         archivo = new File ("C:\\Gestion\\erroresDeConeccion.txt");
          if(archivo.exists()){
          fr = new FileReader (archivo);
          br = new BufferedReader(fr);
@@ -118,7 +127,7 @@ public class BbsGestion {
          }
           File archivo1=null;
         
-         archivo = new File ("Gestion\\idEquipo.txt");
+         archivo = new File ("C:\\Gestion\\idEquipo.txt");
         try {
             /*
             if(archivo1.exists()){

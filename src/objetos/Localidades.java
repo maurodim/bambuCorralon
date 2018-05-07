@@ -129,12 +129,12 @@ public class Localidades implements Busquedas,Personalizable,Componable,Rubrable
     }
 
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
         Localidades localidad;
         localidad=(Localidades) objeto;
         sql="insert into localidades (localidad,codigo_postal,id_provincia,codigo_interno) values ('"+localidad.getDescripcion()+"','"+localidad.getCodigoPostal()+"',"+localidad.getProvincia()+",(select last_insert_id()))";
         tra.guardarRegistro(sql);
-        return true;
+        return 0;
         
     }
 

@@ -242,7 +242,7 @@ public class TipoAccesoAbm extends javax.swing.JInternalFrame {
         if(nuevo==0){
             if(perso.modificar(menu))this.dispose();
         }else{
-            if(perso.agregar(menu))this.dispose();
+            if(perso.agregar(menu)==0)this.dispose();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

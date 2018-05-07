@@ -423,14 +423,14 @@ public class Usuarios extends TipoAcceso implements Personalizable{
     }
 
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
         Boolean verif=false;
         Usuarios usuario=(Usuarios)objeto;
         Transaccionable tra=new Conecciones();
         String sql="insert into usuarios (nombre,direccion,telefono,mail,nombreUsuario,clave,autorizacion,numeroTipoAcceso,sucursal) values ('"+usuario.getNombre()+"','"+usuario.getDireccion()+"','"+usuario.getTelefono()+"','"+usuario.getMail()+"','"+usuario.getNombreDeUsuario().toUpperCase()+"','"+usuario.getClave()+"',"+usuario.getNivelDeAutorizacion()+","+usuario.getNivelDeAutorizacion()+","+usuario.getSucursal().getNumero()+")";
         verif=tra.guardarRegistro(sql);
         
-        return verif;
+        return 0;
     }
 
     @Override

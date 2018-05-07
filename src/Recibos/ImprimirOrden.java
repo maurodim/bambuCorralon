@@ -31,7 +31,7 @@ import java.util.Iterator;
  *
  * @author hernan
  */
-public class ImprimirRecibo {
+public class ImprimirOrden {
 
     Font fuente = new Font("Courier", Font.PLAIN, 9);
     Font fuente1=new Font("Courier",Font.BOLD,12);
@@ -52,7 +52,7 @@ public class ImprimirRecibo {
 	*	A continuación el constructor de la clase. Aquí lo único que	*
 	*	hago es tomar un objeto de impresion.							*
 	********************************************************************/
-	public ImprimirRecibo()
+	public ImprimirOrden()
 	{
 		pj = Toolkit.getDefaultToolkit().getPrintJob(new Frame(), "SCAT", null);
                 
@@ -68,7 +68,7 @@ public class ImprimirRecibo {
 
     
     public void ImprimirOrdenDeTrabajo(Object recibo,ArrayList detalle,ArrayList pagos) throws IOException{
-        Recibo rec=new Recibo();
+        OrdenDePago rec=new OrdenDePago();
         DetalleRecibo det=new DetalleRecibo();
         FormasDePago formas=new FormasDePago();
         /*
@@ -78,7 +78,7 @@ public class ImprimirRecibo {
         Pedable cotiz=new DetallePedidos();
         listadoDetalle=cotiz.cargarDetallePedido(cotizacion.getId());
         */
-        rec=(Recibo)recibo;
+        rec=(OrdenDePago)recibo;
         Clientes cliente=new Clientes();
         Facturar factu=new Clientes();
         cliente=(Clientes)factu.cargarPorCodigoAsignado(rec.getIdCliente());

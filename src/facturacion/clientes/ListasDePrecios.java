@@ -57,7 +57,7 @@ public class ListasDePrecios implements Personalizable{
     }
 
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

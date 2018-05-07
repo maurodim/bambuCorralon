@@ -124,12 +124,12 @@ public class Transportes implements Personalizable,Componable{
     }
 
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
         Transportes transporte=(Transportes) objeto;
-        Boolean verif=false;
+        int verif=0;
         String sql="insert into transportes (descripcion,direccion,telefono,cuit,idlocalidad,codigopostal,encargado,idprovincia) values ('"+transporte.getDescripcion()+"','"+transporte.getDireccion()+"','"+transporte.getTelefono()+"','"+transporte.getCuit()+"',"+transporte.getIdLocalidad()+",'"+transporte.getCodigoPostal()+"','"+transporte.getEncargado()+"',"+transporte.getIdProvincia()+")";
         Transaccionable tra=new Conecciones();
-        verif=tra.guardarRegistro(sql);
+        tra.guardarRegistro(sql);
         
         return verif;
     }

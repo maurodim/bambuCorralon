@@ -5,7 +5,6 @@
  */
 package Cotizaciones;
 
-import Configuracion.Propiedades;
 import Conversores.Numeros;
 
 import com.itextpdf.text.Document;
@@ -71,15 +70,15 @@ public class pdfsJavaGenerador {
             cb.setFontAndSize(bf,16);
             cb.beginText();
             cb.setTextMatrix(100,750);
-            cb.showText(Propiedades.getNOMBRE());
+            cb.showText("eR&Re");
             //linea.drawLine(cb,100,750,100);
             cb.setFontAndSize(bf,10);
             cb.setTextMatrix(100, 740);
-            cb.showText(Propiedades.getDIRECCION());
+            cb.showText("PAPELES");
             bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             cb.setFontAndSize(bf,8);
             cb.setTextMatrix(40,720);
-            cb.showText("T.E.: "+Propiedades.getTELEFONO()+" - mail: "+Propiedades.getMAIL());
+            cb.showText("de Rivadeneira Enrique y Rivadeneira Jorge S.H.");
             
             bf = BaseFont.createFont(BaseFont.COURIER_BOLD,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             cb.setFontAndSize(bf,14);

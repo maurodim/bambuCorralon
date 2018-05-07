@@ -8,7 +8,7 @@ package Recibos;
 import Conversores.Numeros;
 import Proveedores.Proveedores;
 import facturacion.clientes.Clientes;
-import facturacion.clientes.Facturas;
+import facturacion.clientes.MovimientoProveedores;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -391,24 +391,24 @@ public class AbmRecibos extends javax.swing.JDialog {
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Recibo recibo=new Recibo();
+        OrdenDePago recibo=new OrdenDePago();
         DetalleRecibo detalle;
         Recidable det=new DetalleRecibo();
         recibo.setIdCliente(cli.getCodigoId());
         recibo.setMonto(montoTotal);
-        Recidable recc=new Recibo();
+        Recidable recc=new OrdenDePago();
         int numero=0;
         numero=recc.nuevo(recibo);
         recibo.setId(numero);
         Iterator itF=listadoFc.listIterator();
         //int cantRecibos=listadoFc.size();
         ArrayList listadoDet=new ArrayList();
-        Facturas factura;
+        MovimientoProveedores factura;
         int contador=0;
         Double saldoAImputar=montoTotal - saldo;
         while(itF.hasNext()){
             
-            factura=(Facturas)itF.next();
+            factura=(MovimientoProveedores)itF.next();
             if((Boolean)this.jTable1.getValueAt(contador,0)){
             detalle=new DetalleRecibo();
             detalle.setIdCliente(cli.getCodigoId());
@@ -462,7 +462,7 @@ public class AbmRecibos extends javax.swing.JDialog {
             recibo.setMonto(montt);
             
         //}
-        ImprimirRecibo imprimir=new ImprimirRecibo();
+        ImprimirOrden imprimir=new ImprimirOrden();
         try {
             imprimir.ImprimirOrdenDeTrabajo(recibo, listadoDet, detallePagos);
         } catch (IOException ex) {
@@ -476,13 +476,13 @@ public class AbmRecibos extends javax.swing.JDialog {
             int cantidad=this.jTable1.getRowCount();
         Double total=0.00;
         Double parte=0.00;
-        Facturas factu;
+        MovimientoProveedores factu;
         Recidable reci=new DetalleRecibo();
         ArrayList aEliminar=new ArrayList();
         for(int a=0;a < cantidad;a++){
             if((Boolean)this.jTable1.getValueAt(a, 0)){
                 parte=Numeros.ConvertirStringADouble((String) this.jTable1.getValueAt(a, 4));
-                factu=(Facturas)listadoFc.get(a);
+                factu=(MovimientoProveedores)listadoFc.get(a);
                 //factu.setEstado(1);
                 factu.setTotal(parte);
                 total=total + parte;
@@ -507,13 +507,13 @@ public class AbmRecibos extends javax.swing.JDialog {
             int cantidad=this.jTable1.getRowCount();
         Double total=0.00;
         Double parte=0.00;
-        Facturas factu;
+        MovimientoProveedores factu;
         Recidable reci=new DetalleRecibo();
         ArrayList aEliminar=new ArrayList();
         for(int a=0;a < cantidad;a++){
             if((Boolean)this.jTable1.getValueAt(a, 0)){
                 parte=Numeros.ConvertirStringADouble((String) this.jTable1.getValueAt(a, 4));
-                factu=(Facturas)listadoFc.get(a);
+                factu=(MovimientoProveedores)listadoFc.get(a);
                 //factu.setEstado(1);
                 factu.setTotal(parte);
                 total=total + parte;

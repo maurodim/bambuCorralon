@@ -8,7 +8,7 @@ import Articulos.Articulos;
 import facturacion.clientes.Clientes;
 import facturacion.clientes.DetalleFacturas;
 import facturacion.clientes.Facturable;
-import facturacion.clientes.Facturas;
+import facturacion.clientes.MovimientoProveedores;
 import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;
 import interfacesPrograma.Facturar;
@@ -331,7 +331,7 @@ public class Comprobantes implements Facturar{
         Transaccionable tra=new Conecciones();
         Articulos articulo=new Articulos();
         Articulos art;
-        Facturas factura=new Facturas();
+        MovimientoProveedores factura=new MovimientoProveedores();
         factura.setEstado(comp.getPagado());
         factura.setIdCliente(comp.getCliente().getCodigoId());
         factura.setIdPedido(0);
@@ -343,7 +343,7 @@ public class Comprobantes implements Facturar{
         factura.setNumeroFactura(numeroComprobante);
         factura.setTipo(comp.getTipoComprobante());
         factura.setTotal(comp.getMontoTotal());
-        Facturable ff=new Facturas();
+        Facturable ff=new MovimientoProveedores();
         factura.setId(ff.nuevaFactura(factura));
         comp.setIdFactura(factura.getId());
         DetalleFacturas detalle=new DetalleFacturas();

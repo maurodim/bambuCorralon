@@ -186,7 +186,7 @@ public class DepositosAbm extends javax.swing.JInternalFrame {
        if(nuevo==0){
            if(per.modificar(depSeleccionado))this.dispose();
        }else{
-           if(per.agregar(depSeleccionado))this.dispose();
+           if(per.agregar(depSeleccionado)==0)this.dispose();
        }
       
     }//GEN-LAST:event_jButton2ActionPerformed

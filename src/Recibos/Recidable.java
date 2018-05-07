@@ -18,4 +18,5 @@ public interface Recidable {
     public Double imputarAFactura(Object rec);//devuelve el saldo no imputado en la factura
     public DefaultTableModel mostrarARecibir(ArrayList listado);
     public DefaultTableModel mostrarARecibirSuma(ArrayList listado);
+    public Object cargar(Integer id);
 }

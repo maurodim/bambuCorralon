@@ -5,6 +5,8 @@
 package Articulos;
 
 import Conversores.Numeros;
+import Proveedores.objetos.Proveer;
+import com.mysql.jdbc.CommunicationsException;
 import interfaceGraficas.Inicio;
 import interfaces.Comparables;
 import interfaces.Editables;
@@ -14,10 +16,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import objetos.Conecciones;
 import tablas.MiModeloTablaContacto;
@@ -26,7 +32,7 @@ import tablas.MiModeloTablaContacto;
  *
  * @author mauro
  */
-public class Articulos implements Facturar,Editables,Comparables,Modificable{
+public class Articulos implements Facturar,Editables,Comparables,Modificable,Proveer{
     private String codigoDeBarra;
     private String codigoAsignado;
     private Integer rubro;
@@ -63,7 +69,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable{
     private int descuento;
     private int idRenglon;
     private Integer idSubRubro;
-    private static Transaccionable tra;
+    private static Transaccionable tra=new Conecciones();
     private String sql;
     private static ResultSet rs;
     private static Double totalVenta;
@@ -1153,7 +1159,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable{
         ArrayList resultado=new ArrayList();
         Articulos articulo=null;
         criterio=criterio.toUpperCase();
-        tra=new Conecciones();
+        
         
         sql="select *,(select articulosMov.cantidad from articulosMov where articulosMov.idArticulo=articulos.ID)as sst from articulos where nombre like '%"+criterio+"%' or idrubro="+rubro+" or idsubrubro="+subRubro+" order by nombre";
         
@@ -1472,6 +1478,49 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable{
         Articulos arti=(Articulos) articulo;
         String sql="insert into movimientosarticulos (tipoMovimiento,idArticulo,cantidad,numeroDeposito,tipoComprobante,numeroComprobante,numeroCliente,numeroUsuario,precioDeCosto,precioDeVenta,precioServicio,idcaja,fechaComprobante) values (7,"+arti.getNumeroId()+","+arti.getCantidad()+",1,0,0,0,"+Inicio.usuario.getNumeroId()+",0.00,0.00,0.00,"+Inicio.caja.getNumero()+",'"+Inicio.fechaDia+"')";
         tra.guardarRegistro(sql);
+    }
+
+    @Override
+    public Boolean GuardarImpuestos(ArrayList lista, Integer idFactura) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList LeerImpuestos(Integer idFactura) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList ListarDetalleFactura(Integer idFactura, Integer tipo) {
+         ArrayList listado = new ArrayList();
+       String sql="select movimientosarticulos.cantidad,movimientosarticulos.idarticulo,movimientosarticulos.numeroComprobante,movimientosarticulos.numerocliente,movimientosarticulos.preciodecosto,movimientosarticulos.preciodeventa,articulos.barras,articulos.servicio,articulos.id,articulos.nombre,articulos.modificaprecio,articulos.idcombo from movimientosarticulos left join articulos on articulos.id=movimientosarticulos.idarticulo where tipoMovimiento="+tipo+" and numeroComprobante="+idFactura;
+       Transaccionable tra=new Conecciones();
+       ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+       Articulos articul;
+        try {
+            while(rs.next()){
+                    articul=new Articulos();
+                    articul.setCantidad(rs.getDouble("cantidad"));
+                    
+                    articul.setCodigoAsignado(rs.getString("id"));
+                    articul.setPrecioServicio(rs.getDouble("servicio"));
+                    articul.setCodigoDeBarra(rs.getString("barras"));
+                    articul.setDescripcionArticulo(rs.getString("nombre"));
+                    articul.setNumeroId(rs.getInt("idarticulo"));//idArticulo
+                    articul.setPrecioDeCosto(rs.getDouble("preciodecosto"));
+                    articul.setPrecioUnitario(rs.getDouble("preciodeventa"));
+                    articul.setPrecioUnitarioNeto(rs.getDouble("preciodecosto"));
+                    articul.setModificaPrecio(rs.getBoolean("modificaprecio"));
+                    articul.setIdCombo(rs.getInt("idcombo"));
+                    //articul.setCombo(arti.getCombo());
+                    listado.add(articul);
+                
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listado;
     }
     
     

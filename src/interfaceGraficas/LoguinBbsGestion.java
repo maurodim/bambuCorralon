@@ -5,7 +5,6 @@
 package interfaceGraficas;
 
 import Actualizaciones.BkDeConeccion;
-import Configuracion.Propiedades;
 import Sucursales.Usuarios;
 import interfaces.Backpeable;
 import javax.swing.JFrame;
@@ -132,7 +131,7 @@ public class LoguinBbsGestion extends javax.swing.JFrame {
         Inicio.usuario=usuarios;
         Inicio.sucursal=usuarios.getSucursal();
         Inicio.deposito=Inicio.sucursal.getDepositos();
-        in.setTitle(" SISTEMA DE GESTION "+Propiedades.getNOMBRE()+" //   USUARIO : "+Inicio.usuario.getNombre()+" SUCURSAL :"+Inicio.sucursal.getNumero()+" - "+Inicio.sucursal.getDescripcion());
+        in.setTitle(" SISTEMA DE GESTION IMPRENTA eR&Re //   USUARIO : "+Inicio.usuario.getNombre()+" SUCURSAL :"+Inicio.sucursal.getNumero()+" - "+Inicio.sucursal.getDescripcion());
         in.setExtendedState(JFrame.MAXIMIZED_BOTH);
         in.setVisible(true);
         

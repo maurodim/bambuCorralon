@@ -33,7 +33,7 @@ import Pedidos.Pedable;
 import Pedidos.Pedidos;
 import facturacion.clientes.DetalleFacturas;
 import facturacion.clientes.Facturable;
-import facturacion.clientes.Facturas;
+import facturacion.clientes.MovimientoProveedores;
 import objetos.Comprobantes;
 import objetos.Conecciones;
 import tablas.MiModeloTablaBuscarCliente;
@@ -56,7 +56,7 @@ public class IngresoDeRemitos extends javax.swing.JInternalFrame {
     private static Double montoTotal=0.00;
     private static Comprobantes comp=new Comprobantes();
     private Integer fc;
-    private Facturas factura=new Facturas();
+    private MovimientoProveedores factura=new MovimientoProveedores();
     private Pedidos pedido=new Pedidos();
     
     
@@ -73,7 +73,7 @@ public class IngresoDeRemitos extends javax.swing.JInternalFrame {
 
     public IngresoDeRemitos(Clientes ccl,Object fc) {
         cliT=(Clientes)ccl;
-        factura=(Facturas)fc;
+        factura=(MovimientoProveedores)fc;
         fc=factura.getId();
         Facturable fac=new DetalleFacturas();
         listadoDeBusqueda=fac.cargarDetallefactura((Integer) fc);

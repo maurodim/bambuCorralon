@@ -22,7 +22,7 @@ import tablas.MiModeloTablaContacto;
  *
  * @author mauro di
  */
-public class Facturas implements Facturable{
+public class MovimientoProveedores implements Facturable{
     private Integer id;
     private Integer idCliente;
     private Date fecha;
@@ -186,8 +186,8 @@ public class Facturas implements Facturable{
 
     @Override
     public Integer nuevaFactura(Object ped) {
-        Facturas factura=new Facturas();
-        factura=(Facturas)ped;
+        MovimientoProveedores factura=new MovimientoProveedores();
+        factura=(MovimientoProveedores)ped;
         Transaccionable tra=new Conecciones();
         String sql="insert into facturas (idcliente,total,tipo,idusuario,idpedido,idremito,numerofactura,estado,saldo,subtotal,descuento,porcentajeD) values ("+factura.getIdCliente()+",round("+factura.getTotal()+",4),"+factura.getTipo()+","+factura.getIdUsuario()+","+factura.getIdPedido()+","+factura.getIdRemito()+","+factura.getNumeroFactura()+","+factura.getEstado()+",round("+factura.getTotal()+",4),"+factura.getSubTotal()+","+factura.getDescuento()+","+factura.getPorcentajeDescuento()+")";
         tra.guardarRegistro(sql);
@@ -199,7 +199,7 @@ public class Facturas implements Facturable{
                 idNuevo=rs.getInt(1);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovimientoProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
         return idNuevo;
     }
@@ -211,7 +211,7 @@ public class Facturas implements Facturable{
 
     @Override
     public Object cargarEncabezadoFactura(Integer idPed,Integer tipo) {
-        Facturas factura=new Facturas();
+        MovimientoProveedores factura=new MovimientoProveedores();
         String sql="select *,(select tipocomprobantes.descripcion from tipocomprobantes where tipocomprobantes.id=facturas.tipo)as descripcionTipo from facturas where numerofactura="+idPed+" and tipo="+tipo;
         Transaccionable tra=new Conecciones();
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
@@ -233,7 +233,7 @@ public class Facturas implements Facturable{
                 factura.setPorcentajeDescuento(rs.getDouble("porcentajeD"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovimientoProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return factura;
@@ -267,7 +267,7 @@ public class Facturas implements Facturable{
     @Override
     public DefaultTableModel mostrarListado(ArrayList lista) {
         MiModeloTablaContacto listado1=new MiModeloTablaContacto();
-        Facturas cotizacion;
+        MovimientoProveedores cotizacion;
         Iterator iL=lista.listIterator();
         listado1.addColumn("Recibo");
         listado1.addColumn("Fecha");
@@ -277,7 +277,7 @@ public class Facturas implements Facturable{
         listado1.addColumn("Remito");
         Object[] fila=new Object[6];
         while(iL.hasNext()){
-            cotizacion=(Facturas)iL.next();
+            cotizacion=(MovimientoProveedores)iL.next();
             fila[0]=false;
             fila[1]=String.valueOf(cotizacion.getFecha());
             if(cotizacion.getNumeroFiscal()!=null){
@@ -320,10 +320,10 @@ public class Facturas implements Facturable{
        System.out.println(sql);
        Transaccionable tra=new Conecciones();
        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
-       Facturas factura;
+       MovimientoProveedores factura;
         try {
             while(rs.next()){
-                factura=new Facturas();
+                factura=new MovimientoProveedores();
                 factura.setId(rs.getInt("id"));
                 factura.setEstado(rs.getInt("estado"));
                 factura.setFecha(rs.getDate("fecha"));
@@ -343,7 +343,7 @@ public class Facturas implements Facturable{
                 listado.add(factura);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovimientoProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
        return listado;
     }
@@ -371,7 +371,7 @@ public class Facturas implements Facturable{
 
     @Override
     public Object cargarIdFactura(Integer id) {
-        Facturas factura=new Facturas();
+        MovimientoProveedores factura=new MovimientoProveedores();
         String sql="select *,(select tipocomprobantes.descripcion from tipocomprobantes where tipocomprobantes.id=facturas.tipo)as descripcionTipo from facturas where id="+id;
         Transaccionable tra=new Conecciones();
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
@@ -393,7 +393,7 @@ public class Facturas implements Facturable{
                 factura.setPorcentajeDescuento(rs.getDouble("porcentajeD"));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Facturas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovimientoProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return factura;

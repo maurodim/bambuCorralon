@@ -198,7 +198,7 @@ public class SucursalesAbm extends javax.swing.JInternalFrame {
         if(nuevo==0){
             if(per.modificar(sucursalSeleccionada))this.dispose();
         }else{
-            if(per.agregar(sucursalSeleccionada))this.dispose();
+            if(per.agregar(sucursalSeleccionada)==0)this.dispose();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

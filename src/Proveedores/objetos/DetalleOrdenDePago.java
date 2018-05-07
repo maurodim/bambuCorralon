@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Recibos;
+package Proveedores.objetos;
 
-import facturacion.clientes.MovimientoProveedores;
+import Recibos.Recidable;
 import interfaces.Transaccionable;
-
-import java.sql.Date;
 import java.sql.ResultSet;
-
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import objetos.Conecciones;
 import java.util.Iterator;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import tablas.MiModeloTablaContacto;
 
@@ -22,7 +22,7 @@ import tablas.MiModeloTablaContacto;
  *
  * @author mauro di
  */
-public class DetalleRecibo implements Recidable{
+public class DetalleOrdenDePago implements Recidable{
     private Integer id;
     private Integer idRecibo;
     private Integer idCliente;
@@ -36,6 +36,46 @@ public class DetalleRecibo implements Recidable{
     private static ResultSet rs;
     private String sql;
     private String montoFcatura;
+    private String numeroStringFac;
+    private String montoFac;
+    private Double saldoItem;
+    private Double montoFacturaDouble;
+    //private Double 
+
+    public Double getMontoFacturaDouble() {
+        return montoFacturaDouble;
+    }
+
+    public void setMontoFacturaDouble(Double montoFacturaDouble) {
+        this.montoFacturaDouble = montoFacturaDouble;
+    }
+
+    public Double getSaldoItem() {
+        return saldoItem;
+    }
+
+    public void setSaldoItem(Double saldoItem) {
+        this.saldoItem = saldoItem;
+    }
+    
+    
+
+    public String getNumeroStringFac() {
+        return numeroStringFac;
+    }
+
+    public void setNumeroStringFac(String numeroStringFac) {
+        this.numeroStringFac = numeroStringFac;
+    }
+
+    public String getMontoFac() {
+        return montoFac;
+    }
+
+    public void setMontoFac(String montoFac) {
+        this.montoFac = montoFac;
+    }
+    
 
     public String getMontoFcatura() {
         return montoFcatura;
@@ -121,23 +161,48 @@ public class DetalleRecibo implements Recidable{
 
     @Override
     public Integer nuevo(Object rec) {
-        DetalleRecibo detalle=new DetalleRecibo();
-        detalle=(DetalleRecibo)rec;
-        sql="insert into detallerecibos (idrecibo,idcliente,monto,idfactura) values ("+detalle.getIdRecibo()+","+detalle.getIdCliente()+","+detalle.getMonto()+","+detalle.getIdFactura()+")";
+        DetalleOrdenDePago detalle=new DetalleOrdenDePago();
+        detalle=(DetalleOrdenDePago)rec;
+        sql="insert into detalleordendepagos (idorden,idcliente,monto,idfactura,saldo,montofactura) values ("+detalle.getIdRecibo()+","+detalle.getIdCliente()+","+detalle.getMonto()+","+detalle.getIdFactura()+","+detalle.getSaldoItem()+","+detalle.getMontoFacturaDouble()+")";
         tra.guardarRegistro(sql);
         return 0;
     }
 
     @Override
     public ArrayList listar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //DetalleOrdenDePago detalle=new DetalleOrdenDePago();
+        ArrayList listado=new ArrayList();
+        //detalle=(DetalleOrdenDePago)rec;
+        sql="select *,(select movimientosproveedores.numerocomprobante from movimientosproveedores where movimientosproveedores.id=detalleordendepagos.idfactura)as numerocomprobante from detalleordendepagos where idorden="+id;
+        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        DetalleOrdenDePago detalle=null;
+        try {
+            while(rs.next()){
+                detalle=new DetalleOrdenDePago();
+                detalle.setNumeroStringFac(rs.getString("numerocomprobante"));
+                detalle.setFecha(rs.getDate("fecha"));
+                detalle.setMontoFacturaDouble(rs.getDouble("montofactura"));
+                detalle.setMonto(rs.getDouble("monto"));
+                detalle.setSaldoItem(rs.getDouble("saldo"));
+                listado.add(detalle);
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DetalleOrdenDePago.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //tra.guardarRegistro(sql);
+        return listado;
     }
 
     @Override
     public Double imputarAFactura(Object rec) {
         MovimientoProveedores factura=new MovimientoProveedores();
         factura=(MovimientoProveedores)rec;
-        sql="update facturas set saldo=(total - "+factura.getTotal()+") where id="+factura.getId();
+        if(factura.getSaldo() > 0){
+            sql="update movimientosproveedores set saldo="+factura.getSaldo()+" where id="+factura.getId();
+        }else{
+            sql="update movimientosproveedores set saldo="+factura.getSaldo()+",pagado=1 where id="+factura.getId();
+        }
         System.out.println(sql);
         tra.guardarRegistro(sql);
         return 0.00;
@@ -148,7 +213,7 @@ public class DetalleRecibo implements Recidable{
         MiModeloTablaContacto listado1=new MiModeloTablaContacto();
         MovimientoProveedores cotizacion;
         Iterator iL=listado.listIterator();
-        listado1.addColumn("Recibo");
+        listado1.addColumn("Orden");
         listado1.addColumn("Fecha");
         listado1.addColumn("Numero");
         listado1.addColumn("Monto");
@@ -161,9 +226,9 @@ public class DetalleRecibo implements Recidable{
             fila[0]=false;
             
             fila[1]=String.valueOf(cotizacion.getFecha());
-            fila[2]=String.valueOf(cotizacion.getNumeroFactura());
-            fila[3]=String.valueOf(cotizacion.getMontoOriginal());
-            fila[4]=String.valueOf(cotizacion.getTotal());
+            fila[2]=String.valueOf(cotizacion.getNumeroComprobante());
+            fila[3]=String.valueOf(cotizacion.getMonto());
+            fila[4]=String.valueOf(cotizacion.getSaldo());
             listado1.addRow(fila);
         }
         return listado1;

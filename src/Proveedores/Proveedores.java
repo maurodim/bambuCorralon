@@ -275,7 +275,7 @@ public class Proveedores implements Personalizable{
         }
     }
     @Override
-    public Boolean agregar(Object objeto) {
+    public Integer agregar(Object objeto) {
        Proveedores prov=(Proveedores)objeto;
        Boolean veri=false;
        String sql="insert into proveedores (NOMBRE,DOMICILIO,LOCALIDAD,TELEFONO,mail,responsable,celular,cuit) values ('"+prov.getNombre()+"','"+prov.getDireccion()+"','"+prov.getLocalidad()+"','"+prov.getTelefono()+"','"+prov.getMail()+"','"+prov.getResponsable()+"','"+prov.getCelular()+"','"+prov.getCuit()+"')";
@@ -299,7 +299,7 @@ public class Proveedores implements Personalizable{
        }
        
        
-       return veri;
+       return numero;
     }
 
     @Override
@@ -332,7 +332,7 @@ public class Proveedores implements Personalizable{
     public Object buscarPorNumero(Integer id) {
         Proveedores prov=new Proveedores();
         try {
-            String sql="select *,(SELECT sum(movimientosproveedores.monto) FROM movimientosproveedores WHERE movimientosproveedores.numeroProveedor=proveedores.ID)as saldo,(select localidades.localidad from localidades where localidades.id=proveedores.localidad)as nomL from proveedores where numero="+id+" and INHABILITADO=0";
+            String sql="select *,(SELECT sum(movimientosproveedores.monto) FROM movimientosproveedores WHERE movimientosproveedores.numeroProveedor=proveedores.ID)as saldo,(select localidades.localidad from localidades where localidades.id=proveedores.localidad)as nomL from proveedores where id="+id;
             Transaccionable tra=new Conecciones();
             ResultSet rr=tra.leerConjuntoDeRegistros(sql);
             while(rr.next()){
@@ -471,6 +471,7 @@ public class Proveedores implements Personalizable{
                 prov.setDescripcionLocalidad(rr.getString("nomL"));
                 prov.setCuit(rr.getString("cuit"));
                 prov.setSaldo(rr.getDouble("saldo"));
+                
                 /*
                 prov.setCondicionDeIva(rr.getInt("condicionIva"));
                 prov.setNumeroDeCuit(rr.getString("numeroCuit"));

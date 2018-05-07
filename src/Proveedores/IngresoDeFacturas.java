@@ -33,8 +33,10 @@ import Articulos.SubRubros;
 import FacturaE.FacturableE;
 import ListasDePrecios.Articulable;
 import ListasDePrecios.ArticulosAsignados;
+import Proveedores.objetos.Impuestos;
 import Proveedores.objetos.MovimientoArticulos;
 import Proveedores.objetos.MovimientoProveedores;
+import Proveedores.objetos.Proveer;
 import Sucursales.ListasDePrecios;
 import interfaces.Personalizable;
 import javax.swing.DefaultComboBoxModel;
@@ -70,6 +72,8 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
     private String valorCargado;
     private Double porcentajeDescuento;
     private Double subTotal;
+    private ArrayList lstImpuestos;
+    
     
     
 
@@ -82,6 +86,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
         initComponents();
         porcentajeDescuento=0.00;
         subTotal=0.00;
+        lstImpuestos=new ArrayList();
         this.jButton3.setVisible(false);
         this.jButton5.setVisible(false);
         this.jLabel6.setText(cliT.getNombre());
@@ -92,6 +97,74 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
         this.jCheckBox2.setVisible(false);
         this.jTextField1.requestFocus();
         
+    }
+    public IngresoDeFacturas(MovimientoProveedores ped,Proveedores clienteTango){
+        //factura=new Facturas();
+        MovimientoProveedores pedido=new MovimientoProveedores();
+        ArrayList listadoPed=new ArrayList();
+        pedido=(MovimientoProveedores)ped;
+        Proveer prov=new Articulos();
+        cliT=(Proveedores)clienteTango;
+        detalleDelPedido=prov.ListarDetalleFactura(pedido.getId(),2);
+        //detalleDelPedido=detP.convertirAArticulos(listadoPed);
+        lstImpuestos=new ArrayList();
+        Proveer pImp=new Impuestos();
+        lstImpuestos=pImp.LeerImpuestos(pedido.getId());
+//cliT=(ClientesTango)oob;
+        //comp.setCliente(cliT);
+        initComponents();
+        porcentajeDescuento=0.00;
+        subTotal=0.00;
+        Iterator irP=detalleDelPedido.listIterator();
+        int fil=0;
+        ArrayList paraEliminar=new ArrayList();
+        Articulos arrrt;
+        while(irP.hasNext()){
+            arrrt=new Articulos();
+            arrrt=(Articulos) irP.next();
+            //fila[0]=pedidos.getCodigo();
+            if(arrrt.getNumeroId()==0){
+               paraEliminar.add(fil);
+            }
+            fil++;
+        }
+        if(paraEliminar.size() > 0){
+            Iterator iEl=paraEliminar.listIterator();
+            int pos=0;
+            while(iEl.hasNext()){
+                pos=(Integer)iEl.next();
+                detalleDelPedido.remove(pos);
+            }
+        }
+        
+        agregarRenglonTabla();
+       this.jPanel3.setVisible(false);
+        this.jButton1.setVisible(false);
+         this.jButton2.setVisible(false);
+        this.jButton3.setVisible(false);
+        this.jButton5.setVisible(false);
+         this.jButton6.setVisible(false);
+          this.jButton4.setVisible(false);
+           this.jButton7.setVisible(false);
+           this.jLabel10.setVisible(false);
+           this.jLabel2.setVisible(false);
+           this.jLabel3.setVisible(false);
+           this.jLabel4.setVisible(false);
+           this.jLabel7.setVisible(false);
+           this.jTextField2.setVisible(false);
+           this.jTextField4.setVisible(false);
+           this.jTextField5.setVisible(false);
+           this.jTextField1.setVisible(false);
+           this.jComboBox2.setVisible(false);
+           
+        //this.jCheckBox2.isSelected();
+        this.jLabel6.setText(cliT.getNombre());
+        this.jLabel7.setVisible(false);
+        this.jTextField4.setVisible(false);
+        this.jCheckBox1.setVisible(false);
+        //this.jCheckBox2.setEnabled(false);
+        this.jTextField1.requestFocus();
+        //this.jPanel2.requestFocus();
     }
 
     /**
@@ -112,6 +185,8 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jCheckBox2 = new javax.swing.JCheckBox();
         jButton6 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -195,6 +270,20 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton4.setText("Agregar Impuestos");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("Eliminar Impuestos");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -204,7 +293,8 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(432, 432, 432)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(257, 257, 257)
                         .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
@@ -212,8 +302,9 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
@@ -225,14 +316,18 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(63, 63, 63)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 11, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox2)
-                    .addComponent(jButton1))
-                .addGap(24, 24, 24))
+                    .addComponent(jButton1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         jPanel2.setMaximumSize(new java.awt.Dimension(570, 230));
@@ -444,8 +539,8 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
 
@@ -767,7 +862,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
         
         //comprobante1.setIdUsuario(Inicio.usuario.getNumero());
         
-        subTotal=montoTotal;
+        //subTotal=montoTotal;
         /*
         Double ivv=subTotal * 0.21;
         Double sub=0.00;
@@ -779,15 +874,22 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
             sub=montoTotal;
         }
         */
+        comprobante1.setSubTotal(subTotal);
         comprobante1.setMonto(montoTotal);
         //comprobante1.setTotal(montoTotal);
         //comprobante1.setSubTotal(sub);
-        
+        if(this.jCheckBox2.isSelected()){
+            comprobante1.setSaldo(0.00);
+        }else{
+            comprobante1.setSaldo(montoTotal);
+        }
         //System.out.println("subtotal "+montoTotal+" descuento "+descuen+" total "+subTotal);
         FacturableE fact=new MovimientoProveedores();
         Integer idComprobante=fact.guardar(comprobante1);
         comprobante1.setId(idComprobante);
+        Proveer pro=new Impuestos();
         
+        pro.GuardarImpuestos(lstImpuestos,comprobante1.getId());
         MovimientoArticulos movA;
         Personalizable per=new MovimientoArticulos();
         Iterator iArt=detalleDelPedido.listIterator();
@@ -809,6 +911,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
             movA.setPrecioDeVenta(0.00);
             movA.setTipoComprobante(1);
             //movA.setTipoMovimiento(idComprobante);
+            
             per.agregar(movA);
             
         }
@@ -995,6 +1098,25 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
         jTextField1.setText("");
         jTextField1.requestFocus();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        LstImpuestos lstI=new LstImpuestos(null,true);
+        lstI.setVisible(true);
+        Impuestos impu=new Impuestos();
+        impu=lstI.impuesto;
+        
+        JOptionPane.showMessageDialog(this, "Impuesto cargado ID: "+impu.getDescripcion());
+        lstImpuestos.add(impu);
+        agregarRenglonTabla();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        int poss=this.jTable1.getSelectedRow();
+        int deta=detalleDelPedido.size();
+        poss=poss - (deta + 1);
+        lstImpuestos.remove(poss);
+        agregarRenglonTabla();
+    }//GEN-LAST:event_jButton7ActionPerformed
 private void cargarLista(ArrayList lista){
     DefaultTableModel modelo=new DefaultTableModel();
     Iterator il=lista.listIterator();
@@ -1084,6 +1206,7 @@ private void agregarRenglonTabla(){
             sub = sub * porcentajeDescuento;
             sub= tot - sub;
         }
+        
         fila[0]="";
         fila[1]="<html><strong>SUBTOTAL</strong></html>";
         fila[2]="";
@@ -1093,6 +1216,24 @@ private void agregarRenglonTabla(){
         fila[4]="<html><strong>"+Numeros.ConvertirNumero(ivv)+"</strong></html>";
         Double descuen=tot - sub;
         busC.addRow(fila);
+        //ACA VA EL BUCLE QUE LEE LOS IMPUESTOS AGREGADOS, ES UN ARRAY
+        Iterator itImp=lstImpuestos.listIterator();
+        Impuestos impu=new Impuestos();
+        Double montoI=0.00;
+        while(itImp.hasNext()){
+            impu=(Impuestos) itImp.next();
+            fila[0]="";
+            fila[1]="<html><strong>"+impu.getDescripcion()+"</strong></html>";
+            fila[2]="";
+            fila[3]="";
+            //fila[4]="";
+            montoI=ivv * impu.getTasa();
+            fila[4]="<html><strong> "+Numeros.ConvertirNumero(montoI)+"</strong></html>";
+            impu.setMonto(montoI);
+            tot=tot + montoI;
+            busC.addRow(fila);
+        }
+        
         fila[0]="";
         fila[1]="<html><strong>IVA </strong></html>";
         fila[2]="";
@@ -1119,9 +1260,9 @@ private void agregarRenglonTabla(){
         columnaCodigo=this.jTable1.getColumn("CANTIDAD");
         columnaCodigo.setPreferredWidth(80);
         columnaCodigo.setMaxWidth(80);
-        montoTotal=montoTotal * 1.21;
-        String total=String.valueOf(montoTotal);
-        this.jLabel1.setText("TOTAL COTIZACION:  "+total);
+        montoTotal=tot;
+        String total=String.valueOf(tot);
+        this.jLabel1.setText("TOTAL:  "+total);
         listadoDeBusqueda.clear();
         cargarLista(listadoDeBusqueda);
         this.jCheckBox1.setSelected(true);
@@ -1173,8 +1314,10 @@ private void verificar(){
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     public static javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox jComboBox2;

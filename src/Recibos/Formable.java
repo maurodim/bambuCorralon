@@ -24,5 +24,7 @@ public interface Formable {
     public ArrayList listarChequesPorReciboDeProveedor(Integer idRecibo);
     public DefaultTableModel mostrarChequesEnTabla(ArrayList listado);
     public DefaultListModel mostrarChequesEnListado(ArrayList listado);
+    public ArrayList listarPagosProveedores(Integer orden);
+    public Boolean guardarPagoAProveedores(Object pagos);
     
 }

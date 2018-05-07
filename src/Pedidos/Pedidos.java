@@ -268,7 +268,7 @@ public class Pedidos implements Pedable{
     public ArrayList listarPorEstado(Integer idClient, int estado) {
         Pedidos pedido;
         ArrayList listado=new ArrayList();
-        String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and estado="+estado+" order by id desc";
+        String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 order by id desc";
         
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
         try {
