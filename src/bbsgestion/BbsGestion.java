@@ -5,6 +5,7 @@
 package bbsgestion;
 
 import Configuracion.Propiedades;
+import bienvenida.Bienvenida;
 import interfaceGraficas.LoguinBbsGestion;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import pantalla.Ventana;
 
 /**
  *
@@ -40,6 +42,8 @@ public class BbsGestion {
         }catch(Exception e){
             e.printStackTrace();
         }
+        Ventana ventana=new Ventana();
+        ventana.setVisible(true);
         File folder=new File("C:\\GestionRyR");
         File archivos=new File("C:\\Informes");
         File bases=new File("C:\\GestionRyR\\DB");

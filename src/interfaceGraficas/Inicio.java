@@ -158,6 +158,7 @@ public class Inicio extends javax.swing.JFrame {
             }
 
         };
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -208,6 +209,10 @@ public class Inicio extends javax.swing.JFrame {
                 jDesktopPane1ComponentShown(evt);
             }
         });
+        jDesktopPane1.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/logo-bamboosoft-final-para-ico.png"))); // NOI18N
+        jDesktopPane1.add(jLabel1, java.awt.BorderLayout.PAGE_END);
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/developer_black.png"))); // NOI18N
         jMenu1.setText("Administracion");
@@ -507,7 +512,7 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -864,6 +869,7 @@ public class Inicio extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JLabel jLabel1;
     public static javax.swing.JMenu jMenu1;
     public static javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

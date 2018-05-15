@@ -7,7 +7,6 @@ import facturacion.clientes.Clientes;
 import facturacion.clientes.Facturable;
 import facturacion.clientes.MovimientoProveedores;
 import interfaces.Transaccionable;
-import interfacesPrograma.Busquedas;
 import interfacesPrograma.Facturar;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
-import java.net.URLConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,8 +37,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import Interface.Electronicable;
-import java.io.File;
-import static java.lang.Thread.sleep;
 
 
 

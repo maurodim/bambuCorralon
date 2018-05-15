@@ -20,6 +20,10 @@ public class LoguinBbsGestion extends javax.swing.JFrame {
      */
     public LoguinBbsGestion() {
         initComponents();
+        iniciar();
+    }
+    public void iniciar(){
+        setLocationRelativeTo(null);
     }
 
     /**
