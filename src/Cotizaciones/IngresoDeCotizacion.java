@@ -75,7 +75,9 @@ public class IngresoDeCotizacion extends javax.swing.JInternalFrame {
     
     public IngresoDeCotizacion() {
         //Articulos.CargarMap();
-        cliT=new Clientes("1");
+        cliT=new Clientes();
+        Facturar fa=new Clientes();
+        cliT=(Clientes) fa.cargarPorCodigoAsignado(1);
         lista=new ListasDePrecios(cliT.getListaDePrecios());
         //cliT=(ClientesTango)oob;
         //comp.setCliente(cliT);

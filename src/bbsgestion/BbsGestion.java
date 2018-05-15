@@ -35,8 +35,8 @@ public class BbsGestion {
         usuariosList=usuarios.listarUsuario();
         */
         try{
-           //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-            UIManager.setLookAndFeel("com.jtattoo.plaf.aero.AeroLookAndFeel");
+           UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            //UIManager.setLookAndFeel("com.jtattoo.plaf.aero.AeroLookAndFeel");
             //UIManager.setLookAndFeel("com.jtattoo.plaf.aluminium.AluminiumLookAndFeel");
             //UIManager.setLookAndFeel("ch.randelshofer.quaqua.BasicQuaquaLookAndFeel");
         }catch(Exception e){

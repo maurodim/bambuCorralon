@@ -81,7 +81,7 @@ public class Inicio extends javax.swing.JFrame {
         }else{
             Proveedores.cargarListadoProv();
         }
-        Clientes.cargarMap();
+        //Clientes.cargarMap();
         actualizacionesClientes=2;
         ListasDePrecios.cargarMap();
         //Cajas.BackapearCajas();
