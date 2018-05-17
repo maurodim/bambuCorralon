@@ -30,6 +30,22 @@ public class Propiedades {
     static String ARCHIVOKEY;
     static String PUNTODEVENTA;
     static String CUIT;
+    static String NOMBRE;
+    static String DIRECCION;
+    static String TELEFONO;
+
+    public static String getNOMBRE() {
+        return NOMBRE;
+    }
+
+    public static String getDIRECCION() {
+        return DIRECCION;
+    }
+
+    public static String getTELEFONO() {
+        return TELEFONO;
+    }
+    
 
     public static String getSERVER() {
         return SERVER;
@@ -118,6 +134,9 @@ public class Propiedades {
                             ARCHIVOBCRT=p.getProperty("ARCHIVOBCRT");
                             ARCHIVOKEY=p.getProperty("ARCHIVOKEY");
                             PUNTODEVENTA=p.getProperty("PUNTODEVENTA");
+                            NOMBRE=p.getProperty("NOMBRE");
+                            DIRECCION=p.getProperty("DIRECCION");
+                            TELEFONO=p.getProperty("TELEFONO");
                             
                             
                         
@@ -138,6 +157,9 @@ public class Propiedades {
              ARCHIVOBCRT=confi.jTextField6.getText();
              ARCHIVOKEY=confi.jTextField7.getText();
              PUNTODEVENTA=confi.jTextField5.getText();
+             NOMBRE=confi.nombre.getText();
+             DIRECCION=confi.direccion.getText();
+             TELEFONO=confi.telefono.getText();
              
              
              p.setProperty("CREADA",CREADA);
@@ -151,6 +173,9 @@ public class Propiedades {
              p.setProperty("ARCHIVOBCRT",ARCHIVOBCRT);
              p.setProperty("ARCHIVOKEY",ARCHIVOKEY);
              p.setProperty("PUNTODEVENTA",PUNTODEVENTA);
+             p.setProperty("NOMBRE", NOMBRE);
+             p.setProperty("DIRECCION", DIRECCION);
+             p.setProperty("TELEFONO",TELEFONO);
                         
                     
              

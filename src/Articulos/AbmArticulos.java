@@ -115,6 +115,7 @@ public class AbmArticulos extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Modificacion de Artículos");
 
+        jTable2.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jTable2.setModel(modelo2);
         jTable2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -125,6 +126,7 @@ public class AbmArticulos extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Filtrar por Rubros - Seleccione o des seleccione los rubros a incluir // Para subRubros - seleccione y luego presione F1 - Para seleccionar/ des seleccionar F2");
 
+        jTable3.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jTable3.setModel(modelo3);
         jTable3.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -237,6 +239,7 @@ public class AbmArticulos extends javax.swing.JInternalFrame {
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
+        jTable1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jTable1.setModel(modelo1);
         jTable1.setMinimumSize(new java.awt.Dimension(600, 200));
         jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -296,7 +299,7 @@ public class AbmArticulos extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                 .addGap(31, 31, 31)))
                         .addGap(70, 70, 70))
                     .addGroup(jPanel1Layout.createSequentialGroup()

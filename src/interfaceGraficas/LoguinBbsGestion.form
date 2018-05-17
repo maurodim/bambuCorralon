@@ -89,7 +89,7 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="73" max="32767" attributes="0"/>
+                  <EmptySpace pref="43" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -120,7 +120,7 @@
               <Color blue="cc" green="cc" red="cc" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/imagen/unlock - copia.png"/>
+              <Image iconType="3" name="/imagen/isologo_64.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;strong&gt;INGRESAR&lt;/strong&gt;&lt;/html&gt;"/>
           </Properties>

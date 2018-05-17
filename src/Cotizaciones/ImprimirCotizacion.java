@@ -5,9 +5,6 @@ package Cotizaciones;
  * and open the template in the editor.
  */
 
-import Impresiones.*;
-import Depositos.RemitosInternos;
-import Sucursales.Cajas;
 import interfaceGraficas.Inicio;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,9 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import javax.imageio.ImageIO;
-import Articulos.Articulos;
 import javax.print.attribute.standard.Copies;
 
 

@@ -5,6 +5,7 @@
 package interfaceGraficas;
 
 import Actualizaciones.BkDeConeccion;
+import Configuracion.Propiedades;
 import Sucursales.Usuarios;
 import interfaces.Backpeable;
 import javax.swing.JFrame;
@@ -52,7 +53,7 @@ public class LoguinBbsGestion extends javax.swing.JFrame {
         jLabel3.setText("CLAVE");
 
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/unlock - copia.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/isologo_64.png"))); // NOI18N
         jButton1.setText("<html><strong>INGRESAR</strong></html>");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,7 +98,7 @@ public class LoguinBbsGestion extends javax.swing.JFrame {
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,7 +136,7 @@ public class LoguinBbsGestion extends javax.swing.JFrame {
         Inicio.usuario=usuarios;
         Inicio.sucursal=usuarios.getSucursal();
         Inicio.deposito=Inicio.sucursal.getDepositos();
-        in.setTitle(" SISTEMA DE GESTION IMPRENTA eR&Re //   USUARIO : "+Inicio.usuario.getNombre()+" SUCURSAL :"+Inicio.sucursal.getNumero()+" - "+Inicio.sucursal.getDescripcion());
+        in.setTitle(" SISTEMA DE GESTION "+Propiedades.getNOMBRE()+" //   USUARIO : "+Inicio.usuario.getNombre()+" SUCURSAL :"+Inicio.sucursal.getNumero()+" - "+Inicio.sucursal.getDescripcion());
         in.setExtendedState(JFrame.MAXIMIZED_BOTH);
         in.setVisible(true);
         

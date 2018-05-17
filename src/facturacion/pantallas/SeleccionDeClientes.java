@@ -5,6 +5,7 @@
 package facturacion.pantallas;
 
 import Cotizaciones.IngresoDeCotizacion;
+import Pedidos.IngresoDePedidos;
 import facturacion.clientes.Clientes;
 import interfaceGraficas.Inicio;
 import interfacesPrograma.Busquedas;
@@ -26,10 +27,15 @@ public class SeleccionDeClientes extends javax.swing.JInternalFrame {
      */
     private ArrayList resultado=new ArrayList();
     private Clientes cliT=new Clientes();
+    private int pantallaOrigen;
     public SeleccionDeClientes() {
         initComponents();
+        pantallaOrigen=0;
     }
-
+    public SeleccionDeClientes(int oirgen) {
+        initComponents();
+        pantallaOrigen=oirgen;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -283,9 +289,28 @@ public class SeleccionDeClientes extends javax.swing.JInternalFrame {
         cliT.setCondicionDeVenta(condicionVta);
         cliT.setListaDePrecios(listaDePrecio);
         //System.out.println(" DESCUENTO PANTALLA CLIENTE"+desc);
-        IngresoDeCotizacion.cliT=cliT;
-        IngresoDeCotizacion.jLabel6.setText(cliT.getRazonSocial());
-        IngresoDeCotizacion.jTextField1.requestFocus();
+        switch(pantallaOrigen){
+            case 1:
+        
+                IngresoDeCotizacion.cliT=cliT;
+                IngresoDeCotizacion.jLabel6.setText(cliT.getRazonSocial());
+                IngresoDeCotizacion.jTextField1.requestFocus();
+            break;
+            case 2:
+                IngresoDePedidos.cliT=cliT;
+                IngresoDePedidos.jLabel6.setText(cliT.getRazonSocial());
+                IngresoDePedidos.jTextField1.requestFocus();
+            break;
+            case 3:
+                IngresoDeFacturas.cliT=cliT;
+                IngresoDeFacturas.jLabel6.setText(cliT.getRazonSocial());
+                IngresoDeFacturas.jTextField1.requestFocus();
+            break;
+            default:
+                
+            break;
+        
+        }
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 private void cargarTabla(){
