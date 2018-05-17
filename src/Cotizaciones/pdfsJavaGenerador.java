@@ -194,7 +194,7 @@ public class pdfsJavaGenerador {
             cb.showText(Propiedades.getNOMBRE());
             
             cb.setFontAndSize(bf,10);
-            cb.setTextMatrix(100, 740);
+            cb.setTextMatrix(40, 740);
             cb.showText(Propiedades.getDIRECCION());
             bf = BaseFont.createFont(BaseFont.COURIER,BaseFont.CP1252,BaseFont.NOT_EMBEDDED);
             cb.setFontAndSize(bf,8);
