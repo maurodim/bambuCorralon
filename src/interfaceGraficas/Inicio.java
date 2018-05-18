@@ -40,6 +40,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import Articulos.Articulos;
+import Articulos.EquivalenciasGral;
 import Articulos.SubRubrosAbm;
 import FacturaE.AbmFacturaElectronica;
 import Recibos.ChequesAbm;
@@ -169,6 +170,7 @@ public class Inicio extends javax.swing.JFrame {
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenuItem21 = new javax.swing.JMenuItem();
         jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem26 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
@@ -281,12 +283,21 @@ public class Inicio extends javax.swing.JFrame {
         jMenu1.add(jMenuItem21);
 
         jMenuItem24.setText("Blanquear Base");
+        jMenuItem24.setEnabled(false);
         jMenuItem24.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem24ActionPerformed(evt);
             }
         });
         jMenu1.add(jMenuItem24);
+
+        jMenuItem26.setText("Administrar Monedas/Equivalencias");
+        jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem26ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem26);
 
         jMenuBar1.add(jMenu1);
 
@@ -812,6 +823,14 @@ public class Inicio extends javax.swing.JFrame {
         impu.toFront();
     }//GEN-LAST:event_jMenuItem20ActionPerformed
 
+    private void jMenuItem26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem26ActionPerformed
+        EquivalenciasGral equiva=new EquivalenciasGral();
+        Inicio.jDesktopPane1.add(equiva);
+        equiva.setVisible(true);
+        equiva.pack();
+        equiva.toFront();
+    }//GEN-LAST:event_jMenuItem26ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -897,6 +916,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem23;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem25;
+    private javax.swing.JMenuItem jMenuItem26;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;

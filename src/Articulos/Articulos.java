@@ -6,7 +6,6 @@ package Articulos;
 
 import Conversores.Numeros;
 import Proveedores.objetos.Proveer;
-import com.mysql.jdbc.CommunicationsException;
 import interfaceGraficas.Inicio;
 import interfaces.Comparables;
 import interfaces.Editables;
@@ -16,14 +15,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import objetos.Conecciones;
 import tablas.MiModeloTablaContacto;
@@ -32,7 +27,7 @@ import tablas.MiModeloTablaContacto;
  *
  * @author mauro
  */
-public class Articulos implements Facturar,Editables,Comparables,Modificable,Proveer{
+public class Articulos implements Facturar,Editables,Comparables,Modificable,Proveer,Articulable{
     private String codigoDeBarra;
     private String codigoAsignado;
     private Integer rubro;
@@ -75,6 +70,55 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
     private static Double totalVenta;
     private static Double totalCosto;
     private Double montoDescuento;
+    private int idEquivalencia;
+    private String descripcionEquivalencia;
+    private Double cotizacionActual;
+    private Double equivalenciaCosto;
+    private String simboloEquivalencia;
+
+    public Double getEquivalenciaCosto() {
+        return equivalenciaCosto;
+    }
+
+    public void setEquivalenciaCosto(Double equivalenciaCosto) {
+        this.equivalenciaCosto = equivalenciaCosto;
+    }
+
+    public String getSimboloEquivalencia() {
+        return simboloEquivalencia;
+    }
+
+    public void setSimboloEquivalencia(String simboloEquivalencia) {
+        this.simboloEquivalencia = simboloEquivalencia;
+    }
+    
+
+    public Double getCotizacionActual() {
+        return cotizacionActual;
+    }
+
+    public void setCotizacionActual(Double cotizacionActual) {
+        this.cotizacionActual = cotizacionActual;
+    }
+    
+
+    public int getIdEquivalencia() {
+        return idEquivalencia;
+    }
+
+    public void setIdEquivalencia(int idEquivalencia) {
+        this.idEquivalencia = idEquivalencia;
+    }
+
+    public String getDescripcionEquivalencia() {
+        return descripcionEquivalencia;
+    }
+
+    public void setDescripcionEquivalencia(String descripcionEquivalencia) {
+        this.descripcionEquivalencia = descripcionEquivalencia;
+    }
+    
+    
 
     public Double getMontoDescuento() {
         return montoDescuento;
@@ -463,46 +507,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
         //ArrayList resultado=new ArrayList();
         Articulos articulo=null;
         
-        /*
-        String sql="select *,(select stockart.stock from stockart where stockart.id=articulos.ID)as stock,(select rubros.recargo from rubros where rubros.id=articulos.idRubro)as recargo from articulos where INHABILITADO=0 and actualizacion=0";
-        ResultSet rr=tra.leerConjuntoDeRegistros(sql);
-        try {
-            listadoBarr1.clear();
-             listadoNom1.clear();
-             listadoCodigo1.clear();
-            while(rr.next()){
-                articulo=new Articulos();
-                articulo.setCodigoAsignado(rr.getString("ID"));
-                articulo.setDescripcionArticulo(rr.getString("NOMBRE"));
-                articulo.setNumeroId(rr.getInt("ID"));
-                articulo.setCodigoDeBarra(rr.getString("BARRAS"));
-                articulo.setRecargo(rr.getDouble("recargo"));
-                articulo.setPrecioUnitarioNeto(rr.getDouble("PRECIO"));
-                articulo.setEquivalencia(rr.getDouble("equivalencia"));
-                articulo.setPrecioDeCosto(rr.getDouble("COSTO"));
-                articulo.setStockMinimo(rr.getDouble("MINIMO"));
-                articulo.setStockActual(rr.getDouble("stock"));
-//                System.out.println(Inicio.sucursal.getDireccion());
-                try{
-                if(Inicio.sucursal.getDireccion().equals("1")){
-                articulo.setPrecioServicio(rr.getDouble("SERVICIO"));
-                }else{
-                    articulo.setPrecioServicio(rr.getDouble("SERVICIO1"));
-                }
-                }catch(NullPointerException nEx){
-                    articulo.setPrecioServicio(rr.getDouble("SERVICIO"));
-                    articulo.setPrecioServicio1(rr.getDouble("SERVICIO1"));
-                }
-                articulo.setModificaPrecio(rr.getBoolean("modificaPrecio"));
-                articulo.setModificaServicio(rr.getBoolean("modificaServicio"));
-                listadoBarr1.putIfAbsent(articulo.getCodigoDeBarra(),articulo);
-               listadoCodigo1.putIfAbsent(articulo.getCodigoAsignado(),articulo);
-                //resultado.add(articulo);
-            }
-                  } catch (SQLException ex) {
-            Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
+        
         Transaccionable tta=new Conecciones();
         String sql1="";
         Boolean completo=false;
@@ -781,7 +786,8 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
         ArrayList resultado=new ArrayList();
         Articulos articulo=null;
         criterio=criterio.toUpperCase();
-        String sql="select *,(select articulosMov.cantidad from articulosMov where articulosMov.idArticulo=articulos.ID)as sst from articulos where nombre like '%"+criterio+"%'";
+        String sql="select *,articulosMov.cantidad as sst,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left JOIN articulosmov ON articulosmov.idArticulo=articulos.ID JOIN equivalencias ON equivalencias.id=articulos.idequivalencia where nombre like '%"+criterio+"%'";
+        
         Transaccionable tra=new Conecciones();
         ResultSet rr=tra.leerConjuntoDeRegistros(sql);
         try {
@@ -795,6 +801,11 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
                 articulo.setRecargo(rr.getDouble("recargo"));
                 articulo.setPrecioUnitarioNeto(rr.getDouble("PRECIO"));
                 articulo.setEquivalencia(rr.getDouble("equivalencia"));
+                articulo.setDescripcionEquivalencia(rr.getString("descripcionE"));
+                articulo.setCotizacionActual(rr.getDouble("coeficienteE"));
+                articulo.setIdEquivalencia(rr.getInt("idE"));
+                articulo.setSimboloEquivalencia(rr.getString("simboloE"));
+                articulo.setEquivalenciaCosto(rr.getDouble("equivalenciacosto"));
                 articulo.setPrecioDeCosto(rr.getDouble("COSTO"));
                 articulo.setStockMinimo(rr.getDouble("MINIMO"));
                 articulo.setStockActual(rr.getDouble("sst"));
@@ -864,7 +875,8 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
     @Override
     public ArrayList listarClientes(String nombre) {
          ArrayList listado=new ArrayList();
-        String sql="select id,nombre,barras,idsubrubro,idrubro,precio,equivalencia,costo,minimo,stock,servicio,servicio1,modificaprecio,modificaservicio,stock,recargo,idcombo,(select articulosMov.cantidad from articulosMov where articulosMov.idArticulo=articulos.ID)as sst from articulos where BARRAS like '"+nombre+"' and INHABILITADO=0";
+        String sql="select *,articulosMov.cantidad as sst,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left JOIN articulosmov ON articulosmov.idArticulo=articulos.ID JOIN equivalencias ON equivalencias.id=articulos.idequivalencia where BARRAS like '"+nombre+"' and INHABILITADO=0";
+        
         Transaccionable tra=new Conecciones();
         ResultSet rr=tra.leerConjuntoDeRegistros(sql);
         Articulos articulo=new Articulos();
@@ -879,6 +891,11 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
                 articulo.setRecargo(rr.getDouble("recargo"));
                 articulo.setPrecioUnitarioNeto(rr.getDouble("PRECIO"));
                 articulo.setEquivalencia(rr.getDouble("equivalencia"));
+                articulo.setDescripcionEquivalencia(rr.getString("descripcionE"));
+                articulo.setCotizacionActual(rr.getDouble("coeficienteE"));
+                articulo.setIdEquivalencia(rr.getInt("idE"));
+                articulo.setSimboloEquivalencia(rr.getString("simboloE"));
+                articulo.setEquivalenciaCosto(rr.getDouble("equivalenciacosto"));
                 articulo.setPrecioDeCosto(rr.getDouble("COSTO"));
                 articulo.setStockMinimo(rr.getDouble("MINIMO"));
                 articulo.setStockActual(rr.getDouble("sst"));
@@ -906,7 +923,8 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
         //Articulos articulo;
         //articulo=(Articulos)listadoBarr.get(codigoDeBarra);
         
-        String sql="select id,nombre,idrubro,idsubrubro,barras,precio,equivalencia,costo,minimo,stock,servicio,servicio1,modificaprecio,modificaservicio,stock,recargo,idcombo,(select articulosMov.cantidad from articulosMov where articulosMov.idArticulo=articulos.ID)as sst from articulos where BARRAS like '"+codigoDeBarra+"' and INHABILITADO=0";
+        String sql="select *,articulosMov.cantidad as sst,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left JOIN articulosmov ON articulosmov.idArticulo=articulos.ID JOIN equivalencias ON equivalencias.id=articulos.idequivalencia where BARRAS like '"+codigoDeBarra+"' and INHABILITADO=0";
+        
         System.out.println(sql);
         Transaccionable tra=new Conecciones();
         ResultSet rr=tra.leerConjuntoDeRegistros(sql);
@@ -922,6 +940,11 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
                 articulo.setRecargo(rr.getDouble("recargo"));
                 articulo.setPrecioUnitarioNeto(rr.getDouble("PRECIO"));
                 articulo.setEquivalencia(rr.getDouble("equivalencia"));
+                articulo.setDescripcionEquivalencia(rr.getString("descripcionE"));
+                articulo.setCotizacionActual(rr.getDouble("coeficienteE"));
+                articulo.setIdEquivalencia(rr.getInt("idE"));
+                articulo.setSimboloEquivalencia(rr.getString("simboloE"));
+                articulo.setEquivalenciaCosto(rr.getDouble("equivalenciacosto"));
                 articulo.setPrecioDeCosto(rr.getDouble("COSTO"));
                 articulo.setStockMinimo(rr.getDouble("MINIMO"));
                 articulo.setStockActual(rr.getDouble("sst"));
@@ -948,7 +971,8 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
         Articulos articulo=(Articulos)objeto;
         Boolean ch=false;
         //String sql="insert into articulos (NOMBRE='"+articulo.getDescripcionArticulo()+"',SERVICIO="+articulo.getPrecioServicio()+",COSTO="+articulo.getPrecioDeCosto()+",PRECIO="+articulo.getPrecioUnitarioNeto()+",MINIMO="+articulo.getStockMinimo()+",BARRAS ='"+articulo.getCodigoDeBarra()+"',modificaPrecio="+articulo.getModificaPrecio()+" where ID="+articulo.getNumeroId();
-        String sql="insert into articulos (NOMBRE,SERVICIO,COSTO,PRECIO,MINIMO,BARRAS,SERVICIO1,idcombo,actualizacion,idrubro,idsubrubro) values ('"+articulo.getDescripcionArticulo()+"',"+articulo.getPrecioServicio()+","+articulo.getPrecioDeCosto()+","+articulo.getPrecioUnitarioNeto()+","+articulo.getStockMinimo()+",'"+articulo.getCodigoDeBarra()+"',"+articulo.getPrecioServicio1()+","+articulo.getIdCombo()+",3,"+articulo.getRubroId()+","+articulo.getIdSubRubro()+")";
+        String sql="insert into articulos (NOMBRE,SERVICIO,COSTO,PRECIO,MINIMO,BARRAS,SERVICIO1,idcombo,actualizacion,idrubro,idsubrubro,idequivalencia,equivalencia,equivalenciacosto) values ('"+articulo.getDescripcionArticulo()+"',"+articulo.getPrecioServicio()+","+articulo.getPrecioDeCosto()+","+articulo.getPrecioUnitarioNeto()+","+articulo.getStockMinimo()+",'"+articulo.getCodigoDeBarra()+"',"+articulo.getPrecioServicio1()+","+articulo.getIdCombo()+",3,"+articulo.getRubroId()+","+articulo.getIdSubRubro()+","+articulo.getIdEquivalencia()+","+articulo.getEquivalencia()+","+articulo.getEquivalenciaCosto()+")";
+        
         System.out.println(sql);
         Transaccionable tra=new Conecciones();
         ch=tra.guardarRegistro(sql);
@@ -984,7 +1008,8 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
     public Boolean ModificaionObjeto(Object objeto) {
         Articulos articulo=(Articulos)objeto;
         Boolean ch=false;
-        sql="update articulos set NOMBRE='"+articulo.getDescripcionArticulo()+"',COSTO="+articulo.getPrecioDeCosto()+",PRECIO="+articulo.getPrecioUnitarioNeto()+",MINIMO="+articulo.getStockMinimo()+",BARRAS ='"+articulo.getCodigoDeBarra()+"',modificaPrecio="+articulo.getModificaPrecio()+",modificaServicio="+articulo.getModificaServicio()+",actualizacion=2,idcombo="+articulo.getIdCombo()+",idrubro="+articulo.getRubroId()+",idsubrubro="+articulo.getIdSubRubro()+" where ID="+articulo.getNumeroId();
+        sql="update articulos set NOMBRE='"+articulo.getDescripcionArticulo()+"',COSTO="+articulo.getPrecioDeCosto()+",PRECIO="+articulo.getPrecioUnitarioNeto()+",MINIMO="+articulo.getStockMinimo()+",BARRAS ='"+articulo.getCodigoDeBarra()+"',modificaPrecio="+articulo.getModificaPrecio()+",modificaServicio="+articulo.getModificaServicio()+",actualizacion=2,idcombo="+articulo.getIdCombo()+",idrubro="+articulo.getRubroId()+",idsubrubro="+articulo.getIdSubRubro()+",idequivalencia="+articulo.getIdEquivalencia()+",equivalencia="+articulo.getEquivalencia()+",equivalenciacosto="+articulo.getEquivalenciaCosto()+" where ID="+articulo.getNumeroId();
+        
         System.out.println(sql);
         tra=new Conecciones();
         ch=tra.guardarRegistro(sql);
@@ -1040,7 +1065,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
          */
             
             
-            sql="select articulos.ID,articulos.idrubro,articulos.idsubrubro,articulos.NOMBRE,articulos.BARRAS,articulos.recargo,articulos.PRECIO,articulos.equivalencia,articulos.COSTO,articulos.MINIMO,(select articulosMov.cantidad from articulosMov where articulosMov.idArticulo=articulos.ID)as sst,articulos.SERVICIO, articulos.modificaPrecio,articulos.modificaServicio,articulos.SERVICIO1,articulos.idcombo from articulos where INHABILITADO=0 and id="+id;
+            sql="select *,articulosMov.cantidad as sst,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left JOIN articulosmov ON articulosmov.idArticulo=articulos.ID JOIN equivalencias ON equivalencias.id=articulos.idequivalencia where INHABILITADO=0 and id="+id;
             
         //}
         
@@ -1058,6 +1083,11 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
                 articulo.setRecargo(rr.getDouble("recargo"));
                 articulo.setPrecioUnitarioNeto(rr.getDouble("PRECIO"));
                 articulo.setEquivalencia(rr.getDouble("equivalencia"));
+                articulo.setDescripcionEquivalencia(rr.getString("descripcionE"));
+                articulo.setCotizacionActual(rr.getDouble("coeficienteE"));
+                articulo.setIdEquivalencia(rr.getInt("idE"));
+                articulo.setSimboloEquivalencia(rr.getString("simboloE"));
+                articulo.setEquivalenciaCosto(rr.getDouble("equivalenciacosto"));
                 articulo.setPrecioDeCosto(rr.getDouble("COSTO"));
                 articulo.setStockMinimo(rr.getDouble("MINIMO"));
                 articulo.setStockActual(rr.getDouble("sst"));
@@ -1161,7 +1191,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
         criterio=criterio.toUpperCase();
         
         
-        sql="select *,(select articulosMov.cantidad from articulosMov where articulosMov.idArticulo=articulos.ID)as sst from articulos where nombre like '%"+criterio+"%' or idrubro="+rubro+" or idsubrubro="+subRubro+" order by nombre";
+        sql="select *,articulosMov.cantidad as sst,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left JOIN articulosmov ON articulosmov.idArticulo=articulos.ID JOIN equivalencias ON equivalencias.id=articulos.idequivalencia where nombre like '%"+criterio+"%' or idrubro="+rubro+" or idsubrubro="+subRubro+" order by nombre";
         
         rs=tra.leerConjuntoDeRegistros(sql);
         try {
@@ -1175,6 +1205,11 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
                 articulo.setRecargo(rs.getDouble("recargo"));
                 articulo.setPrecioUnitarioNeto(rs.getDouble("PRECIO"));
                 articulo.setEquivalencia(rs.getDouble("equivalencia"));
+                articulo.setDescripcionEquivalencia(rs.getString("descripcionE"));
+                articulo.setCotizacionActual(rs.getDouble("coeficienteE"));
+                articulo.setIdEquivalencia(rs.getInt("idE"));
+                articulo.setSimboloEquivalencia(rs.getString("simboloE"));
+                articulo.setEquivalenciaCosto(rs.getDouble("equivalenciacosto"));
                 articulo.setPrecioDeCosto(rs.getDouble("COSTO"));
                 articulo.setStockMinimo(rs.getDouble("MINIMO"));
                 articulo.setStockActual(rs.getDouble("sst"));
@@ -1192,33 +1227,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
         } catch (SQLException ex) {
             Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*
-        Transaccionable tra=new Conecciones();
-        ArrayList resultado=new ArrayList();
-        Articulos articulo=null;
-        String sql="select *,(select stockart.stock from stockart where stockart.id=articulos.ID)as stock,(select rubros.recargo from rubros where rubros.id=articulos.idRubro)as recargo from articulos where NOMBRE like '"+criterio+"%' and INHABILITADO=0";
-        ResultSet rr=tra.leerConjuntoDeRegistros(sql);
-        try {
-            while(rr.next()){
-                articulo=new Articulos();
-                articulo.setCodigoAsignado(rr.getString("ID"));
-                articulo.setDescripcionArticulo(rr.getString("NOMBRE"));
-                articulo.setNumeroId(rr.getInt("ID"));
-                articulo.setCodigoDeBarra(rr.getString("BARRAS"));
-                articulo.setRecargo(rr.getDouble("recargo"));
-                articulo.setPrecioUnitarioNeto(rr.getDouble("PRECIO"));
-                articulo.setEquivalencia(rr.getDouble("equivalencia"));
-                articulo.setPrecioDeCosto(rr.getDouble("COSTO"));
-                articulo.setStockMinimo(rr.getDouble("MINIMO"));
-                articulo.setStockActual(rr.getDouble("stock"));
-                articulo.setPrecioServicio(rr.getDouble("SERVICIO"));
-                articulo.setModificaPrecio(rr.getBoolean("modificaPrecio"));
-                resultado.add(articulo);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        */
+        
         return resultado;
     }
 
@@ -1321,7 +1330,8 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
         Iterator it=rubro1.listIterator();
         while(it.hasNext()){
             rubro=(SubRubros)it.next();
-            sql="select *,(select articulosMov.cantidad from articulosMov where articulosMov.idArticulo=articulos.ID)as sst from articulos where idsubrubro="+rubro.getId()+" and inhabilitado=0 order by nombre";
+            sql="select *,articulosMov.cantidad as sst,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left JOIN articulosmov ON articulosmov.idArticulo=articulos.ID JOIN equivalencias ON equivalencias.id=articulos.idequivalencia where idsubrubro="+rubro.getId()+" and inhabilitado=0 order by nombre";
+            
             ResultSet rs=tra.leerConjuntoDeRegistros(sql);
             System.out.println(sql);
         Double precio=0.00;
@@ -1338,6 +1348,11 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
                 articulo.setRecargo(rs.getDouble("recargo"));
                 articulo.setPrecioUnitarioNeto(rs.getDouble("PRECIO"));
                 articulo.setEquivalencia(rs.getDouble("equivalencia"));
+                articulo.setDescripcionEquivalencia(rs.getString("descripcionE"));
+                articulo.setCotizacionActual(rs.getDouble("coeficienteE"));
+                articulo.setIdEquivalencia(rs.getInt("idE"));
+                articulo.setSimboloEquivalencia(rs.getString("simboloE"));
+                articulo.setEquivalenciaCosto(rs.getDouble("equivalenciacosto"));
                 articulo.setPrecioDeCosto(rs.getDouble("COSTO"));
                 articulo.setStockMinimo(rs.getDouble("MINIMO"));
                 articulo.setStockActual(rs.getDouble("sst"));
@@ -1521,6 +1536,270 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
             Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listado;
+    }
+
+    @Override
+    public void NuevoMasivo(ArrayList listado) {
+        Iterator it=listado.listIterator();
+        Articulos articulo;
+        Integer cantt=0;
+        int total=0;
+        String nuevo="insert into articulos (NOMBRE,COSTO,PRECIO,MINIMO,BARRAS,modificaPrecio,modificaServicio,idcombo,actualizacion) values ";
+        while(it.hasNext()){
+            articulo=(Articulos) it.next();
+            //AltaObjeto(artic);
+            nuevo+="('"+articulo.getDescripcionArticulo()+"',"+articulo.getPrecioDeCosto()+",round("+articulo.getPrecioUnitarioNeto()+",2),"+articulo.getStockMinimo()+",'"+articulo.getCodigoDeBarra()+"',"+articulo.getModificaPrecio()+","+articulo.getModificaServicio()+","+articulo.getIdCombo()+",3),";
+            if(cantt==200){
+                total=nuevo.length();
+                total=total -1;
+                nuevo=nuevo.substring(0,total);
+                tra.guardarRegistro(nuevo);
+                cantt=0;
+                nuevo="insert into articulos (NOMBRE,COSTO,PRECIO,MINIMO,BARRAS,modificaPrecio,modificaServicio,idcombo,actualizacion) values ";
+                total=0;
+            }
+            cantt++;
+        }
+        total=nuevo.length();
+        System.out.println("TOTAL SENTENCIA "+total);
+        total=total -1;
+        nuevo=nuevo.substring(0,total);
+        if(nuevo.length() > 153){
+            tra.guardarRegistro(nuevo);
+        }
+    }
+
+    @Override
+    public void ModificadoMasivo(ArrayList listado) {
+        Iterator it=listado.listIterator();
+        Articulos artic;
+        String modificar="update articulos set ";
+        String ww=" where id in(";
+        while(it.hasNext()){
+            artic=(Articulos) it.next();
+            ModificaionObjeto(artic);
+            //modificar+="nombre=case id when "+artic.getNumeroId()+" then '"+artic.getDescripcionArticulo()+"',barras= case id when "+artic.getNumeroId()+" then '"+artic.getCodigoDeBarra()+"'";
+        }
+    }
+
+    @Override
+    public DefaultTableModel mostrarListadoParaSeleccionRubro(ArrayList listado, Integer idRubro) {
+        MiModeloTablaContacto modelo=new MiModeloTablaContacto();
+        Iterator it=listado.listIterator();
+        Articulos articulo=new Articulos();
+        modelo.addColumn("Seleccion");
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Descripcion");
+        modelo.addColumn("Costo");
+        modelo.addColumn("Precio");
+        //modelo.addColumn("Proveedor");
+        Object [] fila=new Object[5];
+        while(it.hasNext()){
+            articulo=(Articulos)it.next();
+            if(articulo.getRubro()==idRubro){
+                fila[0]=true;
+            }else{
+                fila[0]=false;
+            }
+            fila[1]=String.valueOf(articulo.getCodigoDeBarra());
+            fila[2]=articulo.getDescripcionArticulo();
+            fila[3]=" $"+Numeros.ConvertirNumero(articulo.getPrecioDeCosto());
+            fila[4]=" $"+Numeros.ConvertirNumero(articulo.getPrecioUnitarioNeto());
+            //fila[5]=articulo.getp;
+            //modelo.addElement(articulo.getDescripcionArticulo()+" $"+Numeros.ConvertirNumero(articulo.getPrecioUnitarioNeto()));
+            modelo.addRow(fila);
+        }
+        return modelo;
+    }
+
+    @Override
+    public void asignarMasivoRubros(ArrayList listado, Integer idRubro) {
+        String sql;
+        Articulos articulo;
+        Iterator it=listado.listIterator();
+        while(it.hasNext()){
+            articulo=(Articulos) it.next();
+            sql="update articulos set idrubro="+idRubro+" where id="+articulo.numeroId;
+            tra.guardarRegistro(sql);
+        }
+    }
+
+    @Override
+    public ArrayList listadoPorRubro(Integer idR) {
+        ArrayList resultado=new ArrayList();
+        Articulos articulo=null;
+        //criterio=criterio.toUpperCase();
+        String sql="select *,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left join equivalencias on equivalencias.id=articulos.idequivalencia where idequivalencia="+idR;
+        
+        //Transaccionable tra=new ConeccionLocal();
+        ResultSet rr=tra.leerConjuntoDeRegistros(sql);
+        try {
+            Double precioIva=0.00;
+            while(rr.next()){
+                articulo=new Articulos();
+                articulo.setCodigoAsignado(rr.getString("ID"));
+                articulo.setDescripcionArticulo(rr.getString("NOMBRE"));
+                articulo.setNumeroId(rr.getInt("ID"));
+                articulo.setCodigoDeBarra(rr.getString("BARRAS"));
+                //articulo.setRecargo(rr.getDouble("recargo"));
+                articulo.setPrecioUnitarioNeto(rr.getDouble("PRECIO"));
+                //articulo.setEquivalencia(rr.getDouble("equivalencia"));
+                articulo.setEquivalencia(1.00);
+                articulo.setPrecioDeCosto(rr.getDouble("COSTO"));
+                //articulo.setStockMinimo(rr.getDouble("MINIMO"));
+                //articulo.setPrecioServicio(rr.getDouble("equivalencia"));
+                articulo.setEquivalencia(rr.getDouble("equivalencia"));
+                articulo.setDescripcionEquivalencia(rr.getString("descripcionE"));
+                articulo.setCotizacionActual(rr.getDouble("coeficienteE"));
+                articulo.setIdEquivalencia(rr.getInt("idE"));
+                articulo.setSimboloEquivalencia(rr.getString("simboloE"));
+                articulo.setEquivalenciaCosto(rr.getDouble("equivalenciacosto"));
+                articulo.setStockMinimo(0.00);
+                articulo.setStockActual(rr.getDouble("sstock"));
+                //precioIva=rr.getDouble("PRECIO") * rr.getDouble("tasa");
+                //articulo.setPrecioIva(rr.getDouble("precioiva"));
+                //articulo.setIdIva(rr.getInt("idiva"));
+                Boolean modifica;
+                if(rr.getInt("modificaPrecio")==0){
+                    modifica=false;
+                }else{
+                    modifica=true;
+                }
+                articulo.setModificaPrecio(modifica);
+                articulo.setModificaServicio(false);
+                String nom=rr.getString("NOMBRE");
+                articulo.setIdCombo(rr.getInt("idcombo"));
+                articulo.setRubro(rr.getInt("idrubro"));
+                if(articulo.getIdCombo() > 0)articulo.setCombo(CargarCombo(articulo.getNumeroId()));
+                resultado.add(articulo);
+            }
+            rr.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*
+        Transaccionable tra=new Conecciones();
+        ArrayList resultado=new ArrayList();
+        Articulos articulo=null;
+        String sql="select *,(select stockart.stock from stockart where stockart.id=articulos.ID)as stock,(select rubros.recargo from rubros where rubros.id=articulos.idRubro)as recargo from articulos where NOMBRE like '"+criterio+"%' and INHABILITADO=0";
+        ResultSet rr=tra.leerConjuntoDeRegistros(sql);
+        try {
+            while(rr.next()){
+                articulo=new Articulos();
+                articulo.setCodigoAsignado(rr.getString("ID"));
+                articulo.setDescripcionArticulo(rr.getString("NOMBRE"));
+                articulo.setNumeroId(rr.getInt("ID"));
+                articulo.setCodigoDeBarra(rr.getString("BARRAS"));
+                articulo.setRecargo(rr.getDouble("recargo"));
+                articulo.setPrecioUnitarioNeto(rr.getDouble("PRECIO"));
+                articulo.setEquivalencia(rr.getDouble("equivalencia"));
+                articulo.setPrecioDeCosto(rr.getDouble("COSTO"));
+                articulo.setStockMinimo(rr.getDouble("MINIMO"));
+                articulo.setStockActual(rr.getDouble("stock"));
+                articulo.setPrecioServicio(rr.getDouble("SERVICIO"));
+                articulo.setModificaPrecio(rr.getBoolean("modificaPrecio"));
+                resultado.add(articulo);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        */
+        return resultado;
+    }
+
+    @Override
+    public void desAsignarMasivoRubros(ArrayList listado) {
+        String sql;
+        Articulos articulo;
+        Iterator it=listado.listIterator();
+        while(it.hasNext()){
+            articulo=(Articulos) it.next();
+            sql="update articulos set idequivalencia=0 where id="+articulo.numeroId;
+            tra.guardarRegistro(sql);
+        }
+    }
+
+    @Override
+    public DefaultTableModel mostrarListadoParaSeleccionDeProveedor(ArrayList listado, Integer idRubro) {
+        MiModeloTablaContacto modelo=new MiModeloTablaContacto();
+        Iterator it=listado.listIterator();
+        Articulos articulo=new Articulos();
+        modelo.addColumn("Seleccion");
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Descripcion");
+        modelo.addColumn("Costo");
+        modelo.addColumn("Precio");
+        modelo.addColumn("Moneda");
+        Object [] fila=new Object[6];
+        while(it.hasNext()){
+            articulo=(Articulos)it.next();
+            if(articulo.getIdEquivalencia()==idRubro){
+                fila[0]=true;
+            }else{
+                fila[0]=false;
+            }
+            fila[1]=String.valueOf(articulo.getCodigoDeBarra());
+            fila[2]=articulo.getDescripcionArticulo();
+            fila[3]=articulo.getSimboloEquivalencia()+" "+articulo.getEquivalenciaCosto();
+            fila[4]=articulo.getSimboloEquivalencia()+" "+articulo.getEquivalencia();
+            fila[5]=articulo.getDescripcionEquivalencia();
+            //modelo.addElement(articulo.getDescripcionArticulo()+" $"+Numeros.ConvertirNumero(articulo.getPrecioUnitarioNeto()));
+            modelo.addRow(fila);
+        }
+        return modelo;
+    }
+
+    @Override
+    public void asignarMasivoMonedas(ArrayList listado, Integer idRubro,Double nuevaCotizacion) {
+        String sql;
+        
+        Articulos articulo;
+        Iterator it=listado.listIterator();
+        while(it.hasNext()){
+            articulo=(Articulos) it.next();
+            //if(articulo.equivalencia==0.00){
+                sql="update articulos set idequivalencia="+idRubro+",equivalencia=round(precio/"+nuevaCotizacion+",2),equivalenciacosto=round(costo/"+nuevaCotizacion+",2) where id="+articulo.numeroId;
+           System.out.println(sql);
+                /*}else{
+                sql="update articulos set idequivalencia="+idRubro+" where id="+articulo.numeroId;
+            }*/
+            tra.guardarRegistro(sql);
+        }
+    }
+
+    @Override
+    public ArrayList listadoPorMonedas(Integer idR) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void desAsignarMasivoMonedas(ArrayList listado) {
+        String sql;
+        Articulos articulo;
+        Iterator it=listado.listIterator();
+        while(it.hasNext()){
+            articulo=(Articulos) it.next();
+            sql="update articulos set idequivalencia=0,equivalencia=1 where id="+articulo.numeroId;
+            tra.guardarRegistro(sql);
+        }
+    }
+
+    @Override
+    public Integer actualizarPreciosPorMoneda(Integer idMoneda,Double nuevo) {
+        Integer cantidad=0;
+        String sql="select id from articulos where idequivalencia="+idMoneda;
+        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        try {
+            while(rs.next()){
+                cantidad++;
+            }
+            rs.close();
+            sql="update articulos set precio=round(equivalencia * "+nuevo+",2),costo=round(equivalenciacosto * "+nuevo+",2) where idequivalencia="+idMoneda;
+            tra.guardarRegistro(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(Articulos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cantidad;
     }
     
     
