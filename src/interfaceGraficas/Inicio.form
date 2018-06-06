@@ -23,6 +23,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+L"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagen/List.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Listas de Precios"/>
               </Properties>
               <Events>
@@ -31,6 +34,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem16">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagen/notepad-1.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Listado de Cheques"/>
               </Properties>
               <Events>
@@ -39,6 +45,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem19">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagen/tractorunitblack.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Listado de Transportes"/>
               </Properties>
               <Events>
@@ -47,6 +56,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem20">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagen/currency_black_dollar.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Administraci&#xf3;n de Impuestos"/>
               </Properties>
               <Events>
@@ -55,6 +67,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem10">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagen/Account.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Sucursales"/>
               </Properties>
               <Events>
@@ -66,6 +81,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Alt+C"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagen/cash_register.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cajas"/>
               </Properties>
               <Events>
@@ -74,6 +92,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem21">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagen/excel_v2.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Informes"/>
               </Properties>
               <Events>
@@ -91,6 +112,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem26">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/imagen/Currency- Dollar.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Administrar Monedas/Equivalencias"/>
               </Properties>
               <Events>

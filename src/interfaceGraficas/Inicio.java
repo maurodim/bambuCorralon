@@ -225,6 +225,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/List.png"))); // NOI18N
         jMenuItem9.setText("Listas de Precios");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,6 +234,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem9);
 
+        jMenuItem16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/notepad-1.png"))); // NOI18N
         jMenuItem16.setText("Listado de Cheques");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,6 +243,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem16);
 
+        jMenuItem19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/tractorunitblack.png"))); // NOI18N
         jMenuItem19.setText("Listado de Transportes");
         jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -249,6 +252,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem19);
 
+        jMenuItem20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/currency_black_dollar.png"))); // NOI18N
         jMenuItem20.setText("Administración de Impuestos");
         jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -257,6 +261,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem20);
 
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Account.png"))); // NOI18N
         jMenuItem10.setText("Sucursales");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,6 +271,7 @@ public class Inicio extends javax.swing.JFrame {
         jMenu1.add(jMenuItem10);
 
         jMenuItem14.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/cash_register.png"))); // NOI18N
         jMenuItem14.setText("Cajas");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -274,6 +280,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem14);
 
+        jMenuItem21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/excel_v2.png"))); // NOI18N
         jMenuItem21.setText("Informes");
         jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,6 +298,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem24);
 
+        jMenuItem26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Currency- Dollar.png"))); // NOI18N
         jMenuItem26.setText("Administrar Monedas/Equivalencias");
         jMenuItem26.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
