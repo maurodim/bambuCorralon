@@ -103,7 +103,7 @@ public class ArticulosMod extends javax.swing.JInternalFrame {
             rengl++;
         }
         System.out.println("posicion "+posicion+"cantidad "+lstSubRubros.size()+" seleccionado "+artI);
-        this.jComboBox3.setSelectedIndex(posicion);
+        if(posicion > 0)this.jComboBox3.setSelectedIndex(posicion);
         this.jTextField1.setText(arti.getDescripcionArticulo());
         
         //this.jTextField2.setText(String.valueOf(totalActual));
