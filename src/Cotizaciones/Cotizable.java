@@ -30,5 +30,6 @@ public interface Cotizable {
     public void transformarEnPedido(Object coti,ArrayList detalle);
     public void transformarEnFactura(Object coti,ArrayList detalle);
     public ArrayList convertirAArticulos(ArrayList listado);
+    public Object ActualizarCotizacion(Object cotiza);
     
 }

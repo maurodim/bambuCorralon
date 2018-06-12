@@ -7,9 +7,11 @@ package Cotizaciones;
 
 import Configuracion.Propiedades;
 import Conversores.Numeros;
+import com.itextpdf.text.BaseColor;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -24,6 +26,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeFactory;
+import net.sourceforge.barbecue.BarcodeImageHandler;
 
 /**
  *
@@ -47,14 +52,31 @@ public class pdfsJavaGenerador {
     public void run(){
         Document documento=new Document();
         int i=1;
-        String arch=doc.getIdCliente()+"_"+doc.getId()+"_Cotizacion.pdf";
+        Barcode barcode=null;
+        String codigoDeBarra;
+        String direccionImagen;
+        String arch="Cotizaciones/"+doc.getIdCliente()+"_"+doc.getId()+"_Cotizacion.pdf";
         
         
         File fich=new File(arch);
         while(fich.exists()){
             i++;
-            arch=doc.getIdCliente()+"_"+doc.getId()+i+"_Cotizacion.pdf";
+            arch="Cotizaciones/"+doc.getIdCliente()+"_"+doc.getId()+i+"_Cotizacion.pdf";
             fich=new File(arch);
+        }
+        codigoDeBarra="00"+doc.getIdCliente()+"0100000"+doc.getId();
+        direccionImagen="Codigos/"+codigoDeBarra+".png";
+        try{
+            barcode=BarcodeFactory.createCode39(codigoDeBarra, true);
+            barcode.setDrawingText(false);
+            
+            barcode.setBarWidth(1);
+            barcode.setBarHeight(15);
+            FileOutputStream fos=new FileOutputStream(direccionImagen);
+            BarcodeImageHandler.writePNG(barcode, fos);
+            
+        }catch(Exception ex){
+            System.err.println(ex);
         }
         FileOutputStream fichero;
         try {
@@ -274,6 +296,14 @@ public class pdfsJavaGenerador {
             renglon=renglon - 60;
             cb.setTextMatrix(40,renglon);
             cb.showText(vencimiento);
+            renglon=renglon - 30;
+            Image imagen=Image.getInstance(direccionImagen);
+            
+            imagen.setAbsolutePosition(40, renglon);
+            cb.addImage(imagen);
+            renglon=renglon - 10;
+            cb.setTextMatrix(50,renglon);
+            cb.showText(codigoDeBarra);
             cb.endText();
             documento.close();
             

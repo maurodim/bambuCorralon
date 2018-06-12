@@ -403,6 +403,17 @@ public class Cotizacion implements Cotizable{
     public ArrayList convertirAArticulos(ArrayList listado) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Object ActualizarCotizacion(Object cotiza) {
+        Cotizacion cotizacion=(Cotizacion) cotiza;
+        Cotizable cotib=new DetalleCotizacion();
+        cotizacion=(Cotizacion) cotib.ActualizarCotizacion(cotizacion);
+        String sql="update cotizaciones set total="+cotizacion.getTotal()+",subtotal="+cotizacion.getSubTotal()+",descuento="+cotizacion.getDescuento()+" where id="+cotizacion.getId();
+        Transaccionable tra=new Conecciones();
+        tra.guardarRegistro(sql);
+        return cotizacion;
+    }
     
     
 }

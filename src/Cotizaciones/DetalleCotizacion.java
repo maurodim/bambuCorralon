@@ -262,6 +262,61 @@ public class DetalleCotizacion implements Cotizable{
         
         return listadoA;
     }
+
+    @Override
+    public Object ActualizarCotizacion(Object cotiza) {
+        Cotizacion cotizac=(Cotizacion) cotiza;
+        
+        String sql="select *,articulos.PRECIO as PRECIO from detallecotizaciones left join articulos on articulos.id=detallecotizaciones.idArticulo where idcotizacion="+cotizac.getId();
+        Transaccionable tra=new Conecciones();
+        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        DetalleCotizacion cotizacionD;
+        ArrayList listado=new ArrayList();
+        try {
+            while(rs.next()){
+                cotizacionD=new DetalleCotizacion();
+                cotizacionD.setId(rs.getInt("id"));
+                cotizacionD.setIdArticulo(rs.getInt("idArticulo"));
+                cotizacionD.setDescripcionArticulo(rs.getString("descripcionarticulo"));
+                cotizacionD.setCantidad(rs.getDouble("cantidad"));
+                cotizacionD.setIdCliente(rs.getInt("idcliente"));
+                cotizacionD.setIdCotizacion(rs.getInt("idcotizacion"));
+                cotizacionD.setPrecioUnitario(rs.getDouble("PRECIO"));
+                cotizacionD.setDescuento(rs.getInt("descuento"));
+                cotizacionD.setMontoDescuento(rs.getDouble("montoDescuento"));
+                listado.add(cotizacionD);
+            }
+            rs.close();
+            Iterator it=listado.listIterator();
+            Double total=0.00;
+            Double items=0.00;
+            Double subTotal=0.00;
+            Double descuento=0.00;
+            while(it.hasNext()){
+                cotizacionD=(DetalleCotizacion) it.next();
+                sql="update detallecotizaciones set preciounitario="+cotizacionD.getPrecioUnitario()+" where id="+cotizacionD.getId();
+                tra.guardarRegistro(sql);
+                items=cotizacionD.getPrecioUnitario() * cotizacionD.getCantidad();
+                total=total + items;
+            }
+            total=total * 1.21;
+            if(cotizac.getPorcentajeDescuento() > 0){
+                descuento=total * cotizac.getPorcentajeDescuento();
+                subTotal=total;
+                total=total - descuento;
+                //cotizac.setDescuento(descuento);
+                
+            }else{
+                subTotal=total;
+            }
+            cotizac.setSubTotal(subTotal);
+            cotizac.setTotal(total);
+            cotizac.setDescuento(descuento);
+        } catch (SQLException ex) {
+            Logger.getLogger(DetalleCotizacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cotizac;
+    }
     
     
 }

@@ -44,9 +44,9 @@ public class BbsGestion {
         }
         Ventana ventana=new Ventana();
         ventana.setVisible(true);
-        File folder=new File("C:\\GestionRyR");
-        File archivos=new File("C:\\Informes");
-        File bases=new File("C:\\GestionRyR\\DB");
+        File folder=new File("Cotizaciones");
+        File archivos=new File("Informes");
+        File bases=new File("Codigos");
         File configuracion=new File("Configuracion");
         //File imagenes=new File("C:\\Gestion\\imagenes\\saynomore.jpg");
         File bk;
@@ -57,7 +57,7 @@ public class BbsGestion {
         FileReader fr=null;
         BufferedReader br=null;
         if(!bases.isDirectory()){
-            JOptionPane.showMessageDialog(null,"INICIANDO CONFIGURACION Y CREACION DE LA BASE DE DATOS");
+            //JOptionPane.showMessageDialog(null,"INICIANDO CONFIGURACION Y CREACION DE LA BASE DE DATOS");
             bases.mkdirs();
             //ConeccionLocal.CrearDb();
             

@@ -1065,10 +1065,10 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
          */
             
             
-            sql="select *,articulosMov.cantidad as sst,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left JOIN articulosmov ON articulosmov.idArticulo=articulos.ID JOIN equivalencias ON equivalencias.id=articulos.idequivalencia where INHABILITADO=0 and id="+id;
+            sql="select *,articulosMov.cantidad as sst,equivalencias.descripcion as descripcionE,equivalencias.simbolo as simboloE,equivalencias.coeficiente as coeficienteE,equivalencias.id as idE from articulos left JOIN articulosmov ON articulosmov.idArticulo=articulos.ID JOIN equivalencias ON equivalencias.id=articulos.idequivalencia where articulos.INHABILITADO=0 and articulos.id="+id;
             
         //}
-        
+        System.out.println(sql);
         tra=new Conecciones();
         ResultSet rr=tra.leerConjuntoDeRegistros(sql);
         String codA="";

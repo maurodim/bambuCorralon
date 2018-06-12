@@ -1237,7 +1237,19 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        // TODO add your handling code here:
+        Cotizable cotizable=new Cotizacion();
+        Cotizacion cotizacion=new Cotizacion();
+        cotizacion=(Cotizacion)listadoCot.get(this.jTable1.getSelectedRow());
+        cotizacion=(Cotizacion) cotizable.ActualizarCotizacion(cotizacion);
+        ModificacionDeCotizacion modificar=new ModificacionDeCotizacion(cliTa,cotizacion);
+        Inicio.jDesktopPane1.add(modificar);
+        try {
+            modificar.setMaximum(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(NuevoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        modificar.setVisible(true);
+        modificar.toFront();
     }//GEN-LAST:event_jButton22ActionPerformed
     private void ControlaInstancia(JInternalFrame inter){
         /*
