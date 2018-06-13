@@ -55,13 +55,13 @@ public class pdfsJavaGenerador {
         Barcode barcode=null;
         String codigoDeBarra;
         String direccionImagen;
-        String arch="Cotizaciones//"+doc.getIdCliente()+"_"+doc.getId()+"_Cotizacion.pdf";
+        String arch="Cotizaciones\\"+doc.getIdCliente()+"_"+doc.getId()+"_Cotizacion.pdf";
         
         
         File fich=new File(arch);
         while(fich.exists()){
             i++;
-            arch="Cotizaciones//"+doc.getIdCliente()+"_"+doc.getId()+i+"_Cotizacion.pdf";
+            arch="Cotizaciones\\"+doc.getIdCliente()+"_"+doc.getId()+i+"_Cotizacion.pdf";
             fich=new File(arch);
         }
         codigoDeBarra="00"+doc.getIdCliente()+"0100000"+doc.getId();
