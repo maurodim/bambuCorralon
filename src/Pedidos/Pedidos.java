@@ -364,6 +364,17 @@ public class Pedidos implements Pedable{
     public ArrayList convertirAArticulos(ArrayList detalle) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Object ActualizarPedido(Object ped) {
+        Pedidos pedido=(Pedidos) ped;
+        Pedable peda=new DetallePedidos();
+        pedido=(Pedidos) peda.ActualizarPedido(pedido);
+        String sql="update pedidos set total="+pedido.getTotal()+",subtotal="+pedido.getSubTotal()+",descuento="+pedido.getDescuento()+" where id="+pedido.getId();
+        Transaccionable tra=new Conecciones();
+        tra.guardarRegistro(sql);
+        return pedido;
+    }
     
     
 }

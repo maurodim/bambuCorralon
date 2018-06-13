@@ -249,6 +249,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         jButton18 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
+        jButton23 = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -582,8 +583,11 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
             }
         });
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/List.png"))); // NOI18N
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Document 2.png"))); // NOI18N
         jButton6.setText("Factura");
+        jButton6.setMaximumSize(new java.awt.Dimension(121, 41));
+        jButton6.setMinimumSize(new java.awt.Dimension(121, 41));
+        jButton6.setPreferredSize(new java.awt.Dimension(121, 41));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -677,11 +681,19 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
             }
         });
 
-        jButton22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/pdf.png"))); // NOI18N
+        jButton22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Repeat.png"))); // NOI18N
         jButton22.setText("Actualizar");
         jButton22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton22ActionPerformed(evt);
+            }
+        });
+
+        jButton23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Repeat.png"))); // NOI18N
+        jButton23.setText("Actualizar");
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton23ActionPerformed(evt);
             }
         });
 
@@ -706,10 +718,12 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(12, 12, 12)
+                        .addComponent(jButton23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -738,7 +752,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
                         .addComponent(jButton3)
                         .addGap(18, 18, 18)
                         .addComponent(jButton16)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -754,16 +768,20 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(jButton4)
+                            .addComponent(jButton5)
+                            .addComponent(jButton7)
+                            .addComponent(jButton8))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(jButton4)
-                        .addComponent(jButton5)
-                        .addComponent(jButton7)
-                        .addComponent(jButton8))
-                    .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -774,7 +792,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
                     .addComponent(jButton15)
                     .addComponent(jButton18))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1168,16 +1186,16 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         }
         this.jTable1.setModel(modelo);
         columnaNumero=this.jTable1.getColumn("Numero");
-        columnaNumero.setPreferredWidth(40);
-        columnaNumero.setMaxWidth(40);
+        columnaNumero.setPreferredWidth(60);
+        columnaNumero.setMaxWidth(60);
         Pedable pedable=new Pedidos();
         Pedidos pedidos=new Pedidos();
         listadoPed=pedable.listarPorEstado(cliTa.getCodigoId(),0);
         modelo1=pedable.mostrarListado(listadoPed);
         this.jTable2.setModel(modelo1);
         columnaNumero=this.jTable2.getColumn("Numero");
-        columnaNumero.setPreferredWidth(40);
-        columnaNumero.setMaxWidth(40);
+        columnaNumero.setPreferredWidth(60);
+        columnaNumero.setMaxWidth(60);
         Facturable ff=new MovimientoProveedores();
         MovimientoProveedores factura=new MovimientoProveedores();
         
@@ -1185,12 +1203,12 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         modelo2=ff.mostrarListado(listadoFac);
         this.jTable3.setModel(modelo2);
         columnaNumero=this.jTable3.getColumn("Recibo");
-        columnaNumero.setPreferredWidth(40);
-        columnaNumero.setMaxWidth(40);
-        columnaNumero=this.jTable3.getColumn("Monto");
-        columnaNumero.setPreferredWidth(60);
-        columnaNumero.setMaxWidth(60);
-        
+        columnaNumero.setPreferredWidth(80);
+        columnaNumero.setMaxWidth(80);
+        /*columnaNumero=this.jTable3.getColumn("Monto");
+        columnaNumero.setPreferredWidth(80);
+        columnaNumero.setMaxWidth(80);
+        */
         
         Componable comp=new Transportes();
         Personalizable perT=new Transportes();
@@ -1251,6 +1269,23 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         modificar.setVisible(true);
         modificar.toFront();
     }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
+        Pedidos pedido=new Pedidos();
+        pedido=(Pedidos)listadoPed.get(this.jTable2.getSelectedRow());
+        Pedable pedab=new Pedidos();
+        pedido=(Pedidos) pedab.ActualizarPedido(pedido);
+        
+        ModificacionDePedidos modificar=new ModificacionDePedidos(pedido);
+        Inicio.jDesktopPane1.add(modificar);
+        try {
+            modificar.setMaximum(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(NuevoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        modificar.setVisible(true);
+        modificar.toFront();
+    }//GEN-LAST:event_jButton23ActionPerformed
     private void ControlaInstancia(JInternalFrame inter){
         /*
         boolean mostrar=true;
@@ -1279,6 +1314,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
+    private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

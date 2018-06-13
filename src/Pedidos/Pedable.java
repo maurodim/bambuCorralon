@@ -27,4 +27,5 @@ public interface Pedable {
     public void transformarEnCotizacion(Object ped,ArrayList detalle);
     public void transformarEnRemito(Object ped,ArrayList detalle);
     public ArrayList convertirAArticulos(ArrayList detalle);
+    public Object ActualizarPedido(Object ped);
 }
