@@ -33,55 +33,7 @@ import objetos.Conecciones;
 public class Actualiza extends Thread{
     @Override
     public void run(){
-        Timer timer=new Timer(850000,new ActionListener(){ 
-            @Override
-    public void actionPerformed(ActionEvent e) 
-    { 
-        
-        //System.err.println("COMIENZO DEL CICLO DE RELOJ *******************************");
-        //ActOt at=new ActOt();
-        //at.start();
-        
-            //Inicio.coneccionRemota=true;
-            //VerificarErrores();
-        
-            //carga la lista remota
-            //Proveedores.cargarListadoProv1();
-        Inicio.actualizable=1;
-        if(Inicio.actualizable==1){
-        //Usuarios.BackapearUsuarios();
-        //Sucursales.BackapearSucursales();
-            //Articulos.RecargarMap();
-        
-        //Proveedores.BackapearProveedores();
-        //Clientes.BackapearClientes();
-        //ListasDePrecios.BackapearListasDePrecios();
-        //Cajas.BackapearCajas();
-        //Cajas.LeerCajaAdministradora();
-        //Articulos.BackapearMap();
-        //Depositos.BackapearDepositos();
-        
-        
-        
-        Proveedores.cargarListadoProv();
-        Clientes.cargarMap();
-        ListasDePrecios.cargarMap();
-        Inicio.actualizable=0;
-        }
-        //BkDeConeccion bk=new BkDeConeccion();
-        //bk.procesosDeCierre();
-        
-        /*
-         * Usuarios
-         * Sucursales
-         * Depositos
-         * Comprobante
-         * ACTUALIZAR EL NUMERO DE CAJA ADMINISTRADORA
-         */
-      
-     } 
-        }); 
-        timer.start();
+       
         
         
         
