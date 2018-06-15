@@ -370,6 +370,11 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         jButton12.setText("VER REMITOS");
 
         jButton13.setText("DETALLE DE SALDO");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         jButton20.setText("Nueva Localidad");
         jButton20.addActionListener(new java.awt.event.ActionListener() {
@@ -1286,6 +1291,10 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         modificar.setVisible(true);
         modificar.toFront();
     }//GEN-LAST:event_jButton23ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        as
+    }//GEN-LAST:event_jButton13ActionPerformed
     private void ControlaInstancia(JInternalFrame inter){
         /*
         boolean mostrar=true;
