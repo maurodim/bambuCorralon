@@ -5,6 +5,7 @@
 package interfaceGraficas;
 
 import Articulos.Rubrable;
+import Clientes.Pantallas.AbmSaldosClientes;
 import Conversores.Numeros;
 import Cotizaciones.Cotizable;
 import Cotizaciones.Cotizacion;
@@ -1293,7 +1294,10 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        as
+        AbmSaldosClientes abm=new AbmSaldosClientes(cliTa);
+        Inicio.jDesktopPane1.add(abm);
+        abm.setVisible(true);
+        abm.toFront();
     }//GEN-LAST:event_jButton13ActionPerformed
     private void ControlaInstancia(JInternalFrame inter){
         /*

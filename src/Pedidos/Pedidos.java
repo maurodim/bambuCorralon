@@ -6,6 +6,8 @@
 package Pedidos;
 
 import Conversores.Numeros;
+import facturacion.clientes.MovimientosClientes;
+import interfaces.Editables;
 import interfaces.Transaccionable;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -14,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import objetos.Conecciones;
 
@@ -39,6 +40,16 @@ public class Pedidos implements Pedable{
     private Double subTotal;
     private Double descuento;
     private Double porcentajeDescuento;
+    private int pagado;
+
+    public int getPagado() {
+        return pagado;
+    }
+
+    public void setPagado(int pagado) {
+        this.pagado = pagado;
+    }
+    
 
     public Double getSubTotal() {
         return subTotal;
@@ -163,6 +174,20 @@ public class Pedidos implements Pedable{
         } catch (SQLException ex) {
             Logger.getLogger(Pedidos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        MovimientosClientes movimiento=new MovimientosClientes();
+        movimiento.setIdCliente(pedido.getIdCliente());
+        movimiento.setMonto(pedido.getTotal());
+        movimiento.setPagado(pedido.getPagado());
+        movimiento.setNumeroComprobante(verif);
+        movimiento.setIdRemito(pedido.getIdRemito());
+        movimiento.setIdUsuario(1);
+        movimiento.setIdCaja(1);
+        movimiento.setTipoComprobante(5);
+        movimiento.setIdSucursal(1);
+        movimiento.setEstado(0);
+        movimiento.setIdPedido(verif);
+        Editables edita=new MovimientosClientes();
+        edita.AltaObjeto(movimiento);
         return verif;
     }
 
