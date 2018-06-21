@@ -6,7 +6,7 @@ package Pedidos;
 
 
 import Conversores.Numeros;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaceGraficas.NuevoCliente;
 import facturacion.pantallas.SeleccionDeClientes;
 

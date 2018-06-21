@@ -14,7 +14,7 @@ import Proveedores.objetos.OrdenDePago;
 import Recibos.Formable;
 import Recibos.FormasDePago;
 import Recibos.Recidable;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;

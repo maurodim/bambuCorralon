@@ -9,7 +9,7 @@ import Proveedores.Proveedores;
 import Conversores.Numeros;
 import Impresiones.Impresora;
 import Sucursales.Cajas;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaces.Adeudable;
 import interfaces.Personalizable;
 import interfacesPrograma.Busquedas;

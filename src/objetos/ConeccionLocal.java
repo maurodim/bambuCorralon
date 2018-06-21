@@ -12,7 +12,7 @@ import Sucursales.ListasDePrecios;
 import Sucursales.Sucursales;
 import Sucursales.Usuarios;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;
 import java.io.FileWriter;

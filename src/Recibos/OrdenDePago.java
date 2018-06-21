@@ -5,6 +5,8 @@
  */
 package Recibos;
 
+import Clientes.Objectos.MovimientosClientes;
+import interfaces.Editables;
 import interfaces.Transaccionable;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -14,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import objetos.Conecciones;
+import interfaceGraficas.Inicio;
 
 /**
  *
@@ -69,6 +72,22 @@ public class OrdenDePago implements Recidable{
         while(rs.next()){
             numero=rs.getInt(1);
         }
+        MovimientosClientes movimiento=new MovimientosClientes();
+        movimiento.setIdCliente(recibo.getIdCliente());
+        Double total=recibo.getMonto() * (-1);
+        movimiento.setMonto(total);
+        movimiento.setPagado(0);
+        movimiento.setNumeroComprobante(numero);
+        movimiento.setIdRemito(0);
+        movimiento.setIdUsuario(Inicio.usuario.getNumeroId());
+        movimiento.setIdCaja(Inicio.caja.getNumero());
+        movimiento.setTipoComprobante(8);
+        movimiento.setIdSucursal(1);
+        movimiento.setEstado(0);
+        movimiento.setIdPedido(0);
+        Editables edita=new MovimientosClientes();
+        edita.AltaObjeto(movimiento);
+        
         }catch(SQLException ex){
             System.err.println("error "+ex);
         }

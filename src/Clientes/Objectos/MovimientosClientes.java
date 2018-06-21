@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package facturacion.clientes;
+package Clientes.Objectos;
 
 import Clientes.Interfaces.Movible;
 import Conversores.Numeros;
@@ -199,7 +199,7 @@ public class MovimientosClientes implements Movible,Editables{
     public ArrayList ListarMovimientos(Integer id) {
         ArrayList listado=new ArrayList();
         tra=new Conecciones();
-        String sql="select *,(select clientes.RAZON_SOCI from clientes where clientes.id=movimientosclientes.numeroproveedor)as nombreC,(select tipomovimientos.descripcion from tipomovimientos where tipomovimientos.id=movimientosclientes.tipocomprobante)as descripcionC from movimientosclientes where numeroProveedor="+id+" and pagado=0";
+        String sql="select *,(select clientes.RAZON_SOCI from clientes where clientes.id=movimientosclientes.numeroproveedor)as nombreC,(select tipocomprobantes.sigla from tipocomprobantes where tipocomprobantes.id=movimientosclientes.tipocomprobante)as descripcionC from movimientosclientes where numeroProveedor="+id+" and pagado=0";
         System.out.println(sql);
         MovimientosClientes mov;
         rs=tra.leerConjuntoDeRegistros(sql);
@@ -255,7 +255,7 @@ public class MovimientosClientes implements Movible,Editables{
         while(it.hasNext()){
             movi=(MovimientosClientes) it.next();
             fila[0]=Numeros.ConvertirFecha(movi.getFecha());
-            fila[1]=movi.getDescripcionTipoComprobante();
+            fila[1]=movi.getDescripcionTipoComprobante()+" N° "+movi.getNumeroComprobante();
             fila[2]=String.valueOf(movi.getMonto());
             modelo.addRow(fila);
         }
@@ -283,6 +283,8 @@ public class MovimientosClientes implements Movible,Editables{
         String sql=null;
         if(movi.getIdFactura() !=null)sql="insert into movimientosclientes (numeroProveedor,monto,pagado,numeroComprobante,idUsuario,idCaja,tipoComprobante,idSucursal,idpedido,idfactura) values ("+movi.getIdCliente()+","+movi.getMonto()+","+movi.getPagado()+",'"+movi.getNumeroComprobante()+"',"+movi.getIdUsuario()+","+movi.getIdCaja()+","+movi.getTipoComprobante()+","+movi.getIdSucursal()+","+movi.getIdPedido()+","+movi.getIdFactura()+")";
         if(movi.getIdPedido() > 0)sql="insert into movimientosclientes (numeroProveedor,monto,pagado,numeroComprobante,idUsuario,idCaja,tipoComprobante,idSucursal,idpedido) values ("+movi.getIdCliente()+","+movi.getMonto()+","+movi.getPagado()+",'"+movi.getNumeroComprobante()+"',"+movi.getIdUsuario()+","+movi.getIdCaja()+","+movi.getTipoComprobante()+","+movi.getIdSucursal()+","+movi.getIdPedido()+")";
+        if(movi.getTipoComprobante()==8)sql="insert into movimientosclientes (numeroProveedor,monto,pagado,numeroComprobante,idUsuario,idCaja,tipoComprobante,idSucursal,idpedido) values ("+movi.getIdCliente()+","+movi.getMonto()+","+movi.getPagado()+",'"+movi.getNumeroComprobante()+"',"+movi.getIdUsuario()+","+movi.getIdCaja()+","+movi.getTipoComprobante()+","+movi.getIdSucursal()+","+movi.getIdPedido()+")";
+        if(movi.getTipoComprobante()==13)sql="insert into movimientosclientes (numeroProveedor,monto,pagado,numeroComprobante,idUsuario,idCaja,tipoComprobante,idSucursal) values ("+movi.getIdCliente()+","+movi.getMonto()+","+movi.getPagado()+",'"+movi.getNumeroComprobante()+"',"+movi.getIdUsuario()+","+movi.getIdCaja()+","+movi.getTipoComprobante()+","+movi.getIdSucursal()+")";
 //String sql="insert into movimientosclientes (numeroProveedor,monto,pagado,numeroComprobante,idUsuario,idCaja,tipoComprobante,idSucursal) values ("+movi.getIdCliente()+","+movi.getMonto()+","+movi.getPagado()+",'"+movi.getNumeroComprobante()+"',"+movi.getIdUsuario()+","+movi.getIdCaja()+","+movi.getTipoComprobante()+","+movi.getIdSucursal()+")";
         System.out.println(sql);
         tra.guardarRegistro(sql);

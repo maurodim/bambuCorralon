@@ -5,25 +5,17 @@
 package interfaceGraficas;
 
 import Articulos.Rubrable;
-import Conversores.Numeros;
-import Cotizaciones.IngresoDeCotizacion;
 import Excel.InformesClientes;
-import Excel.LeerExcelClientes;
-import facturacion.clientes.Clientes;
-import facturacion.pantallas.IngresoDeFacturas;
-import Pedidos.IngresoDePedidos;
+import Clientes.Objectos.Clientes;
 import interfaces.Adeudable;
 import interfaces.Personalizable;
 import interfacesPrograma.Busquedas;
-import interfacesPrograma.Facturar;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
-import java.io.File;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -203,7 +195,7 @@ public class AbmClientes extends javax.swing.JInternalFrame {
         );
 
         MiModeloTablaArticulos miTabla=new MiModeloTablaArticulos();
-        Busquedas bus=new facturacion.clientes.Clientes();
+        Busquedas bus=new Clientes();
         listadoClientes=bus.listar("");
         Iterator listC=listadoClientes.listIterator();
         miTabla.addColumn("COD CLIENTE");
@@ -216,9 +208,9 @@ public class AbmClientes extends javax.swing.JInternalFrame {
         miTabla.addColumn("ID IVA");
         miTabla.addColumn("COND IVA");
         Object[] fila=new Object[9];
-        facturacion.clientes.Clientes cliente=new facturacion.clientes.Clientes();
+        Clientes cliente=new Clientes();
         while(listC.hasNext()){
-            cliente=(facturacion.clientes.Clientes)listC.next();
+            cliente=(Clientes)listC.next();
             fila[0]=cliente.getCodigoId();
             fila[1]=cliente.getRazonSocial();
             fila[2]=cliente.getDireccion();
@@ -376,8 +368,8 @@ miTabla.addColumn("RAZON SOCIAL");
 miTabla.addColumn("DIRECCION");
 miTabla.addColumn("TELEFONO");
 miTabla.addColumn("LOCALIDAD");
-miTabla.addColumn("CONTACTO");
-miTabla.addColumn("NOM. FANTASIA");
+miTabla.addColumn("CUPO DE CREDITO");
+miTabla.addColumn("SALDO");
 miTabla.addColumn("CELULAR");
 miTabla.addColumn("COND IVA");
 
@@ -390,8 +382,12 @@ fila[1]=cliente.getRazonSocial();
 fila[2]=cliente.getDireccion();
 fila[3]=cliente.getTelefono();
 fila[4]=cliente.getLocalidad();
-fila[5]=cliente.getResponsable();
-fila[6]=cliente.getFantasia();
+fila[5]=cliente.getCupoDeCredito();
+if(cliente.getSaldo() != null){
+    fila[6]=cliente.getSaldo();
+}else{
+    fila[6]="0.00";
+}
 fila[7]=cliente.getCelular();
 fila[8]=cliente.getCondicionIva();
 miTabla.addRow(fila);

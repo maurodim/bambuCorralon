@@ -11,7 +11,7 @@ package Remitos;
 import Conversores.Numeros;
 import Depositos.RemitosInternos;
 import Sucursales.Cajas;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaceGraficas.Inicio;
 import interfacesPrograma.Facturar;
 import java.awt.Color;

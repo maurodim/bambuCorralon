@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package facturacion.clientes;
+package Clientes.Objectos;
 
 
 import Conversores.Numeros;
@@ -598,7 +598,7 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
         ArrayList ped=new ArrayList();
             Clientes cli=null;
             
-            String sql="select id,observaciones,idtransporte,clientes.fax,dentrega,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal from clientes where razon_soci like '%"+cliente+"%' or responsable like '%"+cliente+"%' or fantasia like '%"+cliente+"%' order by razon_soci";
+            String sql="select id,observaciones,idtransporte,clientes.fax,dentrega,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal,(SELECT sum(movimientosclientes.monto) from movimientosclientes where movimientosclientes.numeroProveedor=clientes.id)as saldoA from clientes where razon_soci like '%"+cliente+"%' or responsable like '%"+cliente+"%' or fantasia like '%"+cliente+"%' order by razon_soci";
             rs=tra.leerConjuntoDeRegistros(sql);
             try {
                 while(rs.next()){
@@ -631,6 +631,7 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                 cli.setCodigoPostal(rs.getString("postal"));
                 cli.setIdTransporte(rs.getInt("idtransporte"));
                 cli.setObservaciones(rs.getString("observaciones"));
+                cli.setSaldo(rs.getDouble("saldoA"));
                // if(Inicio.usuario.getNivelDeAutorizacion()==1){
                 System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes); 
                 ped.add(cli);
@@ -646,7 +647,7 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
         ArrayList ped=new ArrayList();
             Clientes cli=null;
             
-            String sql="select id,observaciones,idtransporte,clientes.fax,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable from clientes where responsable like '%"+cliente+"%' order by razon_soci";
+            String sql="select id,observaciones,idtransporte,clientes.fax,dentrega,clientes.direccionfantasia,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,clientes.email,clientes.celular,clientes.COD_CLIENT,clientes.fantasia,clientes.RAZON_SOCI,clientes.DOMICILIO,clientes.COND_VTA,(clientes.LISTADEPRECIO)as NRO_LISTA,(select coeficienteslistas.coeficiente from coeficienteslistas where coeficienteslistas.id=clientes.listadeprecio)as descuento,(clientes.NUMERODECUIT)as IDENTIFTRI,clientes.empresa,clientes.TELEFONO_1,clientes.coeficiente,(clientes.CUPODECREDITO) AS CUPO_CREDI,clientes.saldo,clientes.TIPO_IVA,(select condicionesiva.descripcion from condicionesiva where id=clientes.tipo_iva)as tipo_iva2,(select localidades.localidad from localidades where id=clientes.localidad)as localidad1,clientes.responsable,(select localidades.codigo_postal from localidades where id=clientes.localidad)as postal,(SELECT sum(movimientosclientes.monto) from movimientosclientes where movimientosclientes.numeroProveedor=clientes.id)as saldo from clientes where responsable like '%"+cliente+"%' order by razon_soci";
             rs=tra.leerConjuntoDeRegistros(sql);
             try {
                 while(rs.next()){
@@ -677,6 +678,7 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                 cli.setTipoComprobante(rs.getInt("tipocomprobante"));
                 cli.setIdTransporte(rs.getInt("idtransporte"));
                 cli.setObservaciones(rs.getString("observaciones"));
+                cli.setSaldo(rs.getDouble("saldo"));
                // if(Inicio.usuario.getNivelDeAutorizacion()==1){
                 System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes); 
                 ped.add(cli);

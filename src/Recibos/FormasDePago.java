@@ -5,7 +5,7 @@
  */
 package Recibos;
 
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import facturacion.clientes.Facturable;
 import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;

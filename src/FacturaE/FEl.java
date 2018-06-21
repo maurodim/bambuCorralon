@@ -3,7 +3,7 @@ package FacturaE;
 import Configuracion.Propiedades;
 import Conversores.Numeros;
 import Objetos.FacturaElectronica;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import facturacion.clientes.Facturable;
 import facturacion.clientes.MovimientoProveedores;
 import interfaces.Transaccionable;

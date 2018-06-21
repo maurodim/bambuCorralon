@@ -19,4 +19,5 @@ public interface Movible {
     public DefaultTableModel MostrarListaDePrecios(ArrayList listado);
     public ArrayList ListarPreciosCliente(Object cliente);
     public ArrayList ListarMovimientosPorFechas(Integer id,String desde,String hasta);
+   
 }

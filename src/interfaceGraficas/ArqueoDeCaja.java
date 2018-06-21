@@ -313,7 +313,6 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
         jLabel15.setText("monto a retirar :");
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextField1.setText("0");
         jFormattedTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jFormattedTextField1FocusLost(evt);
@@ -574,7 +573,8 @@ public class ArqueoDeCaja extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextField10KeyPressed
 
     private void jFormattedTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFormattedTextField1FocusLost
-        Double ent=Numeros.ConvertirStringADouble(this.jFormattedTextField1.getText());
+        //Double ent=Numeros.ConvertirStringADouble(this.jFormattedTextField1.getText());
+        Double ent=Double.parseDouble(this.jFormattedTextField1.getText());
         Double saldoEnCaja=totalB - ent;
         this.jLabel13.setVisible(true);
         this.jLabel13.setText("Deja en Caja :"+saldoEnCaja);

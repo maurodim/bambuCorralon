@@ -22,7 +22,7 @@ import Recibos.AbmRecibos;
 import Recibos.DetalleRecibo;
 import Recibos.Recidable;
 import Remitos.IngresoDeRemitos;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import facturacion.clientes.Facturable;
 import facturacion.clientes.MovimientoProveedores;
 import facturacion.clientes.ImprimirFactura;
@@ -1023,20 +1023,20 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         ArrayList listadoParaRecibo=new ArrayList();
-        int cantidad=this.jTable3.getRowCount();
+        int cantidad=this.jTable2.getRowCount();
         Double montt=0.00;
-        MovimientoProveedores factura;
+        Pedidos factura;
         for(int a=0;a < cantidad;a++){
-            if(Numeros.ConvertirStringADouble((String)this.jTable3.getValueAt(a, 4)) > 0){
-                factura=new MovimientoProveedores();
-                factura=(MovimientoProveedores)listadoFac.get(a);
+            if(Numeros.ConvertirStringADouble((String)this.jTable2.getValueAt(a, 4)) > 0){
+                factura=new Pedidos();
+                factura=(Pedidos)listadoPed.get(a);
                 listadoParaRecibo.add(factura);
                 montt=montt + factura.getTotal();
             }
         }
         System.out.println("cantidad a recibir "+listadoParaRecibo.size()+" monto total: "+montt);
         Recidable reci=new DetalleRecibo();
-        AbmRecibos abm=new AbmRecibos(listadoParaRecibo,montt,cliTa);
+        AbmRecibos abm=new AbmRecibos(null,true,listadoParaRecibo,montt,cliTa);
         //abm.jTable1.setModel(reci.mostrarARecibir(listadoParaRecibo));
         //AbmRecibos.listadoFc=listadoParaRecibo;
         //AbmRecibos.montoTotal=montt;

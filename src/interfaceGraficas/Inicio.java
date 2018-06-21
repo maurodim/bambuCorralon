@@ -16,7 +16,7 @@ import Sucursales.Cajas;
 import Sucursales.ListasDePrecios;
 import Sucursales.Sucursales;
 import Sucursales.Usuarios;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import Cotizaciones.IngresoDeCotizacion;
 import facturacion.pantallas.IngresoDeFacturas;
 import Pedidos.IngresoDePedidos;

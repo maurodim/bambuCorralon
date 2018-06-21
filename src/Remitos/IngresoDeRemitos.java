@@ -6,7 +6,7 @@ package Remitos;
 
 import Pedidos.IngresoDePedidos;
 import Conversores.Numeros;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaceGraficas.NuevoCliente;
 import facturacion.pantallas.SeleccionDeClientes;
 

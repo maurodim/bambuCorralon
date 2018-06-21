@@ -6,7 +6,8 @@
 package Pedidos;
 
 import Conversores.Numeros;
-import facturacion.clientes.MovimientosClientes;
+import Clientes.Objectos.MovimientosClientes;
+import interfaceGraficas.Inicio;
 import interfaces.Editables;
 import interfaces.Transaccionable;
 import java.sql.Date;
@@ -180,8 +181,8 @@ public class Pedidos implements Pedable{
         movimiento.setPagado(pedido.getPagado());
         movimiento.setNumeroComprobante(verif);
         movimiento.setIdRemito(pedido.getIdRemito());
-        movimiento.setIdUsuario(1);
-        movimiento.setIdCaja(1);
+        movimiento.setIdUsuario(Inicio.usuario.getNumeroId());
+        movimiento.setIdCaja(Inicio.caja.getNumero());
         movimiento.setTipoComprobante(5);
         movimiento.setIdSucursal(1);
         movimiento.setEstado(0);

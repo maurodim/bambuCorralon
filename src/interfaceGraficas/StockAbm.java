@@ -13,7 +13,7 @@ import Articulos.SubRubros;
 import Conversores.Numeros;
 import ListasDePrecios.Articulable;
 import ListasDePrecios.ArticulosAsignados;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import static facturacion.pantallas.IngresoDeFacturas.cliT;
 import static facturacion.pantallas.IngresoDeFacturas.jTextField1;
 import interfacesPrograma.Facturar;

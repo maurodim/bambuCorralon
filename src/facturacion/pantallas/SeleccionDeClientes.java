@@ -6,7 +6,7 @@ package facturacion.pantallas;
 
 import Cotizaciones.IngresoDeCotizacion;
 import Pedidos.IngresoDePedidos;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaceGraficas.Inicio;
 import interfacesPrograma.Busquedas;
 import java.awt.event.KeyEvent;

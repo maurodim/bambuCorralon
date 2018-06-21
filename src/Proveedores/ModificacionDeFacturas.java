@@ -8,7 +8,7 @@ import facturacion.pantallas.*;
 import interfaceGraficas.NuevoCliente;
 import Pedidos.IngresoDePedidos;
 import Conversores.Numeros;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 
 import interfaceGraficas.Inicio;
 import interfacesPrograma.Facturar;

@@ -16,7 +16,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import java.io.File;
 
 import java.io.FileNotFoundException;

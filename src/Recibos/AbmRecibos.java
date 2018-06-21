@@ -6,8 +6,9 @@
 package Recibos;
 
 import Conversores.Numeros;
+import Pedidos.Pedidos;
 import Proveedores.Proveedores;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import facturacion.clientes.MovimientoProveedores;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -50,7 +51,8 @@ public class AbmRecibos extends javax.swing.JDialog {
         this.jLabel9.setText("Saldo: $"+saldo);
     }
 
-    public AbmRecibos(ArrayList listado,Double monto,Clientes cliente) {
+    public AbmRecibos(java.awt.Frame parent, boolean modal,ArrayList listado,Double monto,Clientes cliente) {
+        super(parent, modal);
         initComponents();
         cli=(Clientes)cliente;
         Recidable reci=new DetalleRecibo();
@@ -123,7 +125,7 @@ public class AbmRecibos extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel10.setText("<html>F1 para eliminar de la lista la factura<br>F2 para que calcule el valor total</html>");
+        jLabel10.setText("<html>F1 para eliminar de la lista los ítems desmarcados<br>F2 para que calcule el valor total</html>");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -152,7 +154,7 @@ public class AbmRecibos extends javax.swing.JDialog {
 
         jLabel3.setText("Medio de Pago:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Efectivo", "Cheque", "Transferencia Bancaria" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Efectivo", "Débito", "Crédito", "Cheque", "Transferencia Bancaria" }));
 
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -222,7 +224,7 @@ public class AbmRecibos extends javax.swing.JDialog {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 49, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,9 +323,81 @@ public class AbmRecibos extends javax.swing.JDialog {
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             pago=new FormasDePago();
+            
             Double monto=0.00;
             monto=Numeros.ConvertirStringADouble(this.jTextField1.getText());
             pago.setMonto(monto);
+            int fPago=this.jComboBox1.getSelectedIndex();
+            switch(fPago){
+                case 0:
+                    //EFECTIVO
+                    
+                    pago.setDescripcion("Efectivo");
+                pago.setMonto(monto);
+                detallePagos.add(pago);
+                modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
+                this.jList1.setModel(modeloL);
+                saldo=saldo - pago.getMonto();
+                this.jLabel9.setText("Saldo: "+saldo);
+                this.jTextField1.setText("");
+                this.jComboBox1.requestFocus();
+                    break;
+                case 1:
+                    //DEBITO
+                     pago.setDescripcion("Débito");
+                pago.setMonto(monto);
+                detallePagos.add(pago);
+                modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
+                this.jList1.setModel(modeloL);
+                saldo=saldo - pago.getMonto();
+                this.jLabel9.setText("Saldo: "+saldo);
+                this.jTextField1.setText("");
+                this.jComboBox1.requestFocus();
+                    break;
+                case 2:
+                    //CREDITO
+                     pago.setDescripcion("Crédito");
+                pago.setMonto(monto);
+                detallePagos.add(pago);
+                modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
+                this.jList1.setModel(modeloL);
+                saldo=saldo - pago.getMonto();
+                this.jLabel9.setText("Saldo: "+saldo);
+                this.jTextField1.setText("");
+                this.jComboBox1.requestFocus();
+                    break;
+                case 3:
+                    //CHEQUE
+                    pago.setDescripcion("Cheque");
+                this.jTextField2.selectAll();
+                this.jTextField2.requestFocus();
+                    break;
+                case 4:
+                    //TRANSFERENCIA
+                     pago.setDescripcion("Transferencia");
+                pago.setMonto(monto);
+                detallePagos.add(pago);
+                modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
+                this.jList1.setModel(modeloL);
+                saldo=saldo - pago.getMonto();
+                this.jLabel9.setText("Saldo: "+saldo);
+                this.jTextField1.setText("");
+                this.jComboBox1.requestFocus();
+                    break;
+                default:
+                     pago.setDescripcion("Efectivo");
+                pago.setMonto(monto);
+                detallePagos.add(pago);
+                modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
+                this.jList1.setModel(modeloL);
+                saldo=saldo - pago.getMonto();
+                this.jLabel9.setText("Saldo: "+saldo);
+                this.jTextField1.setText("");
+                this.jComboBox1.requestFocus();
+                    break;
+            }
+            
+            /*
             if(this.jComboBox1.getSelectedIndex()==1){
                 pago.setDescripcion("Cheque");
                 this.jTextField2.selectAll();
@@ -340,6 +414,7 @@ public class AbmRecibos extends javax.swing.JDialog {
                 this.jTextField1.setText("");
                 this.jComboBox1.requestFocus();
             }
+            */
         }
     }//GEN-LAST:event_jTextField1KeyPressed
 
@@ -403,12 +478,12 @@ public class AbmRecibos extends javax.swing.JDialog {
         Iterator itF=listadoFc.listIterator();
         //int cantRecibos=listadoFc.size();
         ArrayList listadoDet=new ArrayList();
-        MovimientoProveedores factura;
+        Pedidos factura;
         int contador=0;
         Double saldoAImputar=montoTotal - saldo;
         while(itF.hasNext()){
             
-            factura=(MovimientoProveedores)itF.next();
+            factura=(Pedidos)itF.next();
             if((Boolean)this.jTable1.getValueAt(contador,0)){
             detalle=new DetalleRecibo();
             detalle.setIdCliente(cli.getCodigoId());
@@ -424,15 +499,13 @@ public class AbmRecibos extends javax.swing.JDialog {
             }
             saldoAImputar=saldoAImputar - factura.getTotal();
             detalle.setFecha(factura.getFecha());
-            if(factura.getNumeroFiscal()!=null){
-            detalle.setNumeroFc(factura.getNumeroFactura());
+            if(factura.getIdFactura()!=null){
+            detalle.setNumeroFc(factura.getIdFactura());
             }else{
-                if(factura.getNumeroFiscal()!=null){
-                    detalle.setNumeroFc(Integer.parseInt(factura.getNumeroFiscal()));
-                }else{
+                
                     
                     detalle.setNumeroFc(factura.getId());
-                }
+                
             }
             detalle.setMontoFcatura(Numeros.ConvertirNumero(factura.getTotal()));
             det.nuevo(detalle);
@@ -476,13 +549,13 @@ public class AbmRecibos extends javax.swing.JDialog {
             int cantidad=this.jTable1.getRowCount();
         Double total=0.00;
         Double parte=0.00;
-        MovimientoProveedores factu;
+        Pedidos factu;
         Recidable reci=new DetalleRecibo();
         ArrayList aEliminar=new ArrayList();
         for(int a=0;a < cantidad;a++){
             if((Boolean)this.jTable1.getValueAt(a, 0)){
                 parte=Numeros.ConvertirStringADouble((String) this.jTable1.getValueAt(a, 4));
-                factu=(MovimientoProveedores)listadoFc.get(a);
+                factu=(Pedidos)listadoFc.get(a);
                 //factu.setEstado(1);
                 factu.setTotal(parte);
                 total=total + parte;
@@ -507,13 +580,13 @@ public class AbmRecibos extends javax.swing.JDialog {
             int cantidad=this.jTable1.getRowCount();
         Double total=0.00;
         Double parte=0.00;
-        MovimientoProveedores factu;
+        Pedidos factu;
         Recidable reci=new DetalleRecibo();
         ArrayList aEliminar=new ArrayList();
         for(int a=0;a < cantidad;a++){
             if((Boolean)this.jTable1.getValueAt(a, 0)){
                 parte=Numeros.ConvertirStringADouble((String) this.jTable1.getValueAt(a, 4));
-                factu=(MovimientoProveedores)listadoFc.get(a);
+                factu=(Pedidos)listadoFc.get(a);
                 //factu.setEstado(1);
                 factu.setTotal(parte);
                 total=total + parte;

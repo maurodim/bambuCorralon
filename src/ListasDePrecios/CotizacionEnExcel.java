@@ -8,7 +8,7 @@ package ListasDePrecios;
 import Articulos.Articulos;
 import Excel.InformeMensual;
 import ListasDePrecios.ArticulosAsignados;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaceGraficas.Inicio;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

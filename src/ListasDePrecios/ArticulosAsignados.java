@@ -6,7 +6,7 @@ import Articulos.Rubros;
 import Articulos.SubRubros;
 import Conversores.Numeros;
 import Proveedores.Proveedores;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import facturacion.clientes.Facturable;
 import facturacion.clientes.ListasDePrecios;
 import interfaceGraficas.BarraDeProgreso;

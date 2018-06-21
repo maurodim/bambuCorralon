@@ -6,7 +6,7 @@ package Clientes.Pantallas;
 
 import Conversores.Numeros;
 import Excel.InformesClientes;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaceGraficas.Inicio;
 import interfacesPrograma.Busquedas;
 import interfacesPrograma.Facturar;

@@ -100,7 +100,7 @@
         </Container>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;F1 para eliminar de la lista la factura&lt;br&gt;F2 para que calcule el valor total&lt;/html&gt;"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;F1 para eliminar de la lista los &#xed;tems desmarcados&lt;br&gt;F2 para que calcule el valor total&lt;/html&gt;"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -123,7 +123,7 @@
                                   <Component id="jLabel9" min="-2" pref="220" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="0" pref="49" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
@@ -228,10 +228,12 @@
         <Component class="javax.swing.JComboBox" name="jComboBox1">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
+              <StringArray count="5">
                 <StringItem index="0" value="Efectivo"/>
-                <StringItem index="1" value="Cheque"/>
-                <StringItem index="2" value="Transferencia Bancaria"/>
+                <StringItem index="1" value="D&#xe9;bito"/>
+                <StringItem index="2" value="Cr&#xe9;dito"/>
+                <StringItem index="3" value="Cheque"/>
+                <StringItem index="4" value="Transferencia Bancaria"/>
               </StringArray>
             </Property>
           </Properties>

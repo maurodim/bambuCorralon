@@ -7,7 +7,7 @@ package facturacion.pantallas;
 import interfaceGraficas.NuevoCliente;
 import Pedidos.IngresoDePedidos;
 import Conversores.Numeros;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import FacturaE.FEl;
 import interfaceGraficas.Inicio;
 import interfacesPrograma.Facturar;

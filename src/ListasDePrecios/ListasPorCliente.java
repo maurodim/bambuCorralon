@@ -10,7 +10,7 @@ import Articulos.Rubros;
 import Articulos.SubRubros;
 import Conversores.Numeros;
 import Sucursales.ListasDePrecios;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaces.Personalizable;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;

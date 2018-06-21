@@ -5,7 +5,7 @@
 package objetos;
 
 import Articulos.Articulos;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import facturacion.clientes.DetalleFacturas;
 import facturacion.clientes.Facturable;
 import facturacion.clientes.MovimientoProveedores;

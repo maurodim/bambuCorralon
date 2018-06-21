@@ -5,6 +5,7 @@
  */
 package Recibos;
 
+import Pedidos.Pedidos;
 import facturacion.clientes.MovimientoProveedores;
 import interfaces.Transaccionable;
 
@@ -146,23 +147,28 @@ public class DetalleRecibo implements Recidable{
     @Override
     public DefaultTableModel mostrarARecibir(ArrayList listado) {
         MiModeloTablaContacto listado1=new MiModeloTablaContacto();
-        MovimientoProveedores cotizacion;
+        Pedidos cotizacion;
         Iterator iL=listado.listIterator();
         listado1.addColumn("Recibo");
         listado1.addColumn("Fecha");
         listado1.addColumn("Numero");
         listado1.addColumn("Monto");
         listado1.addColumn("Saldo");
-        
+        String nComp;
         Object[] fila=new Object[5];
         while(iL.hasNext()){
             
-            cotizacion=(MovimientoProveedores)iL.next();
+            cotizacion=(Pedidos)iL.next();
             fila[0]=false;
             
             fila[1]=String.valueOf(cotizacion.getFecha());
-            fila[2]=String.valueOf(cotizacion.getNumeroFactura());
-            fila[3]=String.valueOf(cotizacion.getMontoOriginal());
+            if(cotizacion.getIdFactura() !=null){
+                nComp="FC "+cotizacion.getIdFactura();
+            }else{
+                nComp="PED "+cotizacion.getId();
+            }
+            fila[2]=nComp;
+            fila[3]=String.valueOf(cotizacion.getTotal());
             fila[4]=String.valueOf(cotizacion.getTotal());
             listado1.addRow(fila);
         }

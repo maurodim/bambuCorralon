@@ -14,7 +14,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import facturacion.clientes.DetalleFacturas;
 import facturacion.clientes.Facturable;
 import facturacion.clientes.MovimientoProveedores;

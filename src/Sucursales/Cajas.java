@@ -6,7 +6,7 @@ package Sucursales;
 
 import Actualizaciones.BkDeConeccion;
 import Conversores.Numeros;
-import facturacion.clientes.Clientes;
+import Clientes.Objectos.Clientes;
 import interfaceGraficas.Inicio;
 import interfaceGraficas.ListadoDeArticulos;
 import interfaces.Transaccionable;
