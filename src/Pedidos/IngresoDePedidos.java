@@ -18,7 +18,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,7 +25,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import Articulos.Articulos;
 import Articulos.Modificable;
@@ -36,12 +34,13 @@ import Articulos.SubRubros;
 import ListasDePrecios.Articulable;
 import ListasDePrecios.ArticulosAsignados;
 import Sucursales.ListasDePrecios;
+import Vendedores.Vendable;
+import Vendedores.Vendedores;
+import interfaceGraficas.LstVendedores;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import objetos.Comprobantes;
-import objetos.Conecciones;
-import tablas.MiModeloTablaBuscarCliente;
 import tablas.MiModeloTablaFacturacion;
 
 
@@ -72,6 +71,8 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
     private Double porcentajeDescuento;
     private Double subTotal;
     private String rub;
+    private Vendedores vendedor;
+    private ArrayList listadoVendedores;
     
     public IngresoDePedidos() {
         //Articulos.CargarMap();
@@ -82,6 +83,16 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         //cliT=(ClientesTango)oob;
         //comp.setCliente(cliT);
         initComponents();
+        vendedor=new Vendedores();
+        listadoVendedores=new ArrayList();
+        Vendable vende=new Vendedores();
+        LstVendedores lVen=new LstVendedores(null,true);
+        listadoVendedores=vende.listar();
+        
+        lVen.jComboBox1.setModel(vende.mostrarEnCombo(listadoVendedores));
+        lVen.setVisible(true);
+        vendedor=(Vendedores) listadoVendedores.get(lVen.jComboBox1.getSelectedIndex());
+        
         rub="";
         porcentajeDescuento=0.00;
         subTotal=0.00;
@@ -103,6 +114,16 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
 //cliT=(ClientesTango)oob;
         //comp.setCliente(cliT);
         initComponents();
+        vendedor=new Vendedores();
+        listadoVendedores=new ArrayList();
+        Vendable vende=new Vendedores();
+        LstVendedores lVen=new LstVendedores(null,true);
+        listadoVendedores=vende.listar();
+        
+        lVen.jComboBox1.setModel(vende.mostrarEnCombo(listadoVendedores));
+        lVen.setVisible(true);
+        vendedor=(Vendedores) listadoVendedores.get(lVen.jComboBox1.getSelectedIndex());
+        
         rub="";
         porcentajeDescuento=0.00;
         subTotal=0.00;
@@ -719,7 +740,7 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         comprobante1.setIdCliente(cliT.getCodigoId());
         comprobante1.setFecha(Date.valueOf(fecha2));
         comprobante1.setIdCotizacion(0);
-        comprobante1.setIdUsuario(Inicio.usuario.getNumero());//ACA DEBO ELEGIR VENDEDOR
+        comprobante1.setIdUsuario(vendedor.getId());//ACA DEBO ELEGIR VENDEDOR
         
         subTotal=montoTotal;
         Double ivv=subTotal * 0.21;
