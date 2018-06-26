@@ -1198,20 +1198,26 @@ private void agregarRenglonTabla(){
             //precioUnitario=precioUnitario * cliT.getCoeficienteListaDeprecios();
             //fila[2]=cant;
             
-            fila[5]=val;
+            Double iva=0.00;
+            Double pFinal=0.00;
+            precioUnitario=precioUnitario / 1.21;
+            pFinal=valor /1.21;
+            iva=valor - pFinal;
+            
+            fila[5]=Numeros.ConvertirNumero(pFinal);
             fila[3]=Numeros.ConvertirNumero(precioUnitario);
             fila[2]=Numeros.ConvertirNumero(pedidos.getPrecioDeCosto());
-            Double iva=valor * 0.21;
+            //Double iva=valor * 0.21;
             fila[6]=Numeros.ConvertirNumero(iva);
             fila[4]=cant;
-            Double pFinal=valor + iva;
-            fila[7]=Numeros.ConvertirNumero(pFinal);
+            //Double pFinal=valor + iva;
+            fila[7]=Numeros.ConvertirNumero(valor);
             busC.addRow(fila);
         }
-        subTotal=montoTotal;
+        subTotal=montoTotal / 1.21;
         Double ivv=subTotal *0.21;
-        Double sub=subTotal + ivv;
-        Double tot=montoTotal + ivv;
+        Double sub=subTotal;
+        Double tot=subTotal + ivv;
         if(porcentajeDescuento > 0.00){
             sub = sub * porcentajeDescuento;
             sub= tot - sub;
@@ -1223,8 +1229,8 @@ private void agregarRenglonTabla(){
         fila[4]="";
         fila[5]="";
         fila[6]="";
-        fila[7]="<html><strong>"+Numeros.ConvertirNumero(tot)+"</strong></html>";
-        Double descuen=tot - sub;
+        fila[7]="<html><strong>"+Numeros.ConvertirNumero(sub)+"</strong></html>";
+        Double descuen=tot - (sub + ivv);
         busC.addRow(fila);
         fila[0]="";
         fila[1]="<html><strong>DESCUENTO </strong></html>";
@@ -1233,7 +1239,7 @@ private void agregarRenglonTabla(){
         fila[4]="";
         fila[5]="";
         fila[6]="";
-        fila[7]="<html><strong> - "+Numeros.ConvertirNumero(descuen)+"</strong></html>";
+        fila[7]="<html><strong>"+Numeros.ConvertirNumero(descuen)+"</strong></html>";
         busC.addRow(fila);
         fila[0]="";
         fila[1]="<html><strong>TOTAL</strong></html>";
@@ -1242,7 +1248,7 @@ private void agregarRenglonTabla(){
         fila[4]="";
         fila[5]="";
         fila[6]="";
-        fila[7]="<html><strong>"+Numeros.ConvertirNumero(sub)+"</strong></html>";
+        fila[7]="<html><strong>"+Numeros.ConvertirNumero(tot)+"</strong></html>";
         busC.addRow(fila);
         columnaCodigo=this.jTable1.getColumn("CODIGO");
         columnaCodigo.setPreferredWidth(40);
@@ -1254,7 +1260,7 @@ private void agregarRenglonTabla(){
         columnaCodigo=this.jTable1.getColumn("CANTIDAD");
         columnaCodigo.setPreferredWidth(80);
         columnaCodigo.setMaxWidth(80);
-        montoTotal=montoTotal * 1.21;
+        //montoTotal=montoTotal * 1.21;
         String total=String.valueOf(montoTotal);
         this.jLabel1.setText("TOTAL COTIZACION:  "+total);
         listadoDeBusqueda.clear();
@@ -1272,8 +1278,8 @@ private void montrarMonto(){
     String total1=Numeros.ConvertirNumero(montoTotal);
     String total="";
     if(cliT.getTipoIva()==1){
-        String bruto=Numeros.ConvertirNumero( montoTotal /1.21);
-        String iva=Numeros.ConvertirNumero(montoTotal * 0.21);
+        String bruto=Numeros.ConvertirNumero( subTotal);
+        String iva=Numeros.ConvertirNumero(montoTotal - subTotal);
         total="<html>Bruto :"+bruto+" <br>IVA 21% "+iva+" <br>Neto "+total1+"</html>";
     }else{
         total="<html>Neto "+total1+"</html>";

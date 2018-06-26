@@ -170,7 +170,7 @@ public class pdfsJavaGenerador {
                 //vencimiento=saldo.getVencimientoString();
                 
                 descripcion="Numero Resumen de cta ";
-                montoCIva=saldo.getPrecioUnitario() * 1.21;
+                montoCIva=saldo.getPrecioUnitario();
                 monto=Numeros.ConvertirNumero(montoCIva);
                 recargo="10%";
                 total="nada";
