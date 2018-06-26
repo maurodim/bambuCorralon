@@ -224,8 +224,11 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         });
         jPanel6.add(jButton2);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/printer32.png"))); // NOI18N
-        jButton1.setText("Orden de Trabajo");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosNuevos/Floopy.png"))); // NOI18N
+        jButton1.setText("Guardar");
+        jButton1.setMaximumSize(new java.awt.Dimension(145, 41));
+        jButton1.setMinimumSize(new java.awt.Dimension(145, 41));
+        jButton1.setPreferredSize(new java.awt.Dimension(171, 41));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -716,7 +719,7 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         comprobante1.setIdCliente(cliT.getCodigoId());
         comprobante1.setFecha(Date.valueOf(fecha2));
         comprobante1.setIdCotizacion(0);
-        comprobante1.setIdUsuario(Inicio.usuario.getNumero());
+        comprobante1.setIdUsuario(Inicio.usuario.getNumero());//ACA DEBO ELEGIR VENDEDOR
         
         subTotal=montoTotal;
         Double ivv=subTotal * 0.21;
@@ -756,6 +759,7 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
             det.nuevoPedido(detalle);
             
         }
+        
         // A PARTIR DE ACA DEBO CARGAR LA IMPRESION LO ANTERIOR ES PARA GUARDAR EL MOVIMIENTO
         
         int comprobanteTipo=4;
@@ -777,18 +781,11 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         
         comprobante.setMontoTotal(montoTotal);
         int noFacturar=0;
-        ImprimirPedido imprimirOt=new ImprimirPedido();
-        try {
-            imprimirOt.ImprimirOrdenDeTrabajo(nuevaCotizacion);
-            /*
-            pdfsJavaGenerador pdf=new pdfsJavaGenerador();
-            pdf.setDoc(comprobante1);
-            pdf.setCliente(cliT);
-            pdf.run();
-            */
-        } catch (IOException ex) {
-            Logger.getLogger(IngresoDePedidos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //ACA VEO SI SE IMPRIME Y DESCUENTA MERCADERIA O PASA A REPARTO O ACOPIO
+        SelectorReparto selector=new SelectorReparto(null,true,this.jCheckBox3.isSelected(),nuevaCotizacion);
+        selector.setVisible(true);
+        
+        
         
         /*
         Facturar fat=new Comprobantes();

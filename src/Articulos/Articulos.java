@@ -863,7 +863,7 @@ public class Articulos implements Facturar,Editables,Comparables,Modificable,Pro
     }
 
     @Override
-    public Boolean guardarNuevoCliente(Object cliente) {
+    public Integer guardarNuevoCliente(Object cliente) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

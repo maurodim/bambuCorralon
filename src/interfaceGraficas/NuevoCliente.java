@@ -29,8 +29,6 @@ import facturacion.clientes.ImprimirFactura;
 import facturacion.clientes.ListasDePrecios;
 import facturacion.pantallas.IngresoDeFacturas;
 import facturacion.pantallas.ModificacionDeFacturas;
-import interfaceGraficas.AbmClientes;
-import interfaceGraficas.Inicio;
 import interfaces.Componable;
 import interfaces.Personalizable;
 import interfacesPrograma.Busquedas;
@@ -869,15 +867,17 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
        cli.setIdTransporte(transp.getId());
        cli.setObservaciones(this.jTextArea1.getText());
        if(cli.getCupoDeCredito() > 0){
-               cli.setCondicionDeVenta(1);
-           }
+               cli.setCondicionDeVenta(2);
+           }else{
+            cli.setCondicionDeVenta(1);
+       }
        Facturar fact=new Clientes();
        if(modificacion==1){
           
         fact.modificarDatosDelCliente(cli); 
        }else{
             
-            fact.guardarNuevoCliente(cli);
+            cli.setCodigoId(fact.guardarNuevoCliente(cli));
             switch(pantallaOrigen){
             case 1:
         

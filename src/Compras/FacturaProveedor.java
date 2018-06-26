@@ -5,7 +5,6 @@
 package Compras;
 
 import Proveedores.Proveedores;
-import Administracion.TipoComprobante;
 import Conversores.Numeros;
 import interfaceGraficas.Inicio;
 import interfaces.Adeudable;
@@ -289,7 +288,7 @@ public class FacturaProveedor implements Comprobable,Facturar,Adeudable{
     }
 
     @Override
-    public Boolean guardarNuevoCliente(Object cliente) {
+    public Integer guardarNuevoCliente(Object cliente) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

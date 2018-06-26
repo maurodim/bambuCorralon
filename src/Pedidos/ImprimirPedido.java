@@ -7,10 +7,10 @@ package Pedidos;
 
 
 import Conversores.Numeros;
-import Impresiones.*;
-import Depositos.RemitosInternos;
-import Sucursales.Cajas;
 import Clientes.Objectos.Clientes;
+import Remitos.DetalleRemitosX;
+import Remitos.Remitable;
+import Remitos.RemitosX;
 import interfaceGraficas.Inicio;
 import interfacesPrograma.Facturar;
 import java.awt.Color;
@@ -19,17 +19,12 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.PrintJob;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
-import javax.imageio.ImageIO;
-import Articulos.Articulos;
 import interfaces.Personalizable;
-import javax.print.attribute.standard.Copies;
 import objetos.Transportes;
 
 
@@ -75,13 +70,13 @@ public class ImprimirPedido {
 
     
     public void ImprimirOrdenDeTrabajo(Integer idCotizacion) throws IOException{
-        Pedable cotizable=new Pedidos();
-        Pedidos cotizacion=new Pedidos();
-        cotizacion=(Pedidos)cotizable.cargarEncabezadoPedido(idCotizacion);
+        Remitable cotizable=new RemitosX();
+        RemitosX cotizacion=new RemitosX();
+        cotizacion=(RemitosX)cotizable.carga(idCotizacion);
         ArrayList listadoDetalle=new ArrayList();
-        DetallePedidos detalleDeCotizacion=new DetallePedidos();
-        Pedable cotiz=new DetallePedidos();
-        listadoDetalle=cotiz.cargarDetallePedido(cotizacion.getId());
+        DetalleRemitosX detalleDeCotizacion=new DetalleRemitosX();
+        Remitable cotiz=new DetalleRemitosX();
+        listadoDetalle=cotiz.cargarDetalle(cotizacion.getId());
         Clientes cliente;
         Facturar factu=new Clientes();
         cliente=(Clientes)factu.cargarPorCodigoAsignado(cotizacion.getIdCliente());
@@ -107,7 +102,7 @@ public class ImprimirPedido {
         //pagina.drawImage(imagen,63,20,174,93,null);
         pagina.setFont(fuente6);
         pagina.setColor(Color.black);
-        pagina.drawString("PEDIDO N° 00"+Inicio.sucursal.getNumero()+"-000"+cotizacion.getId(),20,20);
+        pagina.drawString("PEDIDO N° 00"+Inicio.sucursal.getNumero()+"-000"+cotizacion.getIdComprobante(),20,20);
         pagina.setFont(fuente);
         pagina.drawString("FECHA IMPRESION:"+fec, 20,30);
         //pagina.drawString(" :"+Inicio.sucursal.getDescripcion(),20,150);
@@ -134,7 +129,7 @@ public class ImprimirPedido {
         Iterator it=listadoDetalle.listIterator();
         String descripcionArt=null;
         while(it.hasNext()){
-            detalleDeCotizacion=(DetallePedidos)it.next();
+            detalleDeCotizacion=(DetalleRemitosX)it.next();
             pagina.drawString(String.valueOf(detalleDeCotizacion.getIdArticulo()),20,renglon);
             if(detalleDeCotizacion.getDescripcionArticulo().length() > 50){
             descripcionArt=detalleDeCotizacion.getDescripcionArticulo().substring(0, 50);
@@ -142,29 +137,22 @@ public class ImprimirPedido {
                 descripcionArt=detalleDeCotizacion.getDescripcionArticulo();
             }
             pagina.drawString(descripcionArt,60,renglon);
-            pagina.drawString(String.valueOf(detalleDeCotizacion.getCantidad()),470,renglon);
+            pagina.drawString(String.valueOf(detalleDeCotizacion.getCantidadRemitida()),470,renglon);
             renglon=renglon + 10;
         }
         //formulario derecho
         pagina.drawLine(20, renglon, 600,renglon);
         renglon=renglon + 30;
-        pagina.drawString("ENVIAR POR: "+transporte.getDescripcion(), 30,renglon);
-        pagina.drawString("ENCARGADO: "+transporte.getEncargado(),350,renglon);
-        renglon=renglon + 10;
-        pagina.drawString("DIRECCION: "+transporte.getDireccion()+"- ("+transporte.getCodigoPostal()+") "+transporte.getLocalidad(), 30, renglon);
-        renglon=renglon + 10;
-        pagina.drawString("TELEFONO: "+transporte.getTelefono(),30,renglon);
-        pagina.drawString("CUIT: "+transporte.getCuit(),350,renglon);
+        pagina.drawString("ENTREGADO POR: ____________________________________________________", 30,renglon);
         
         renglon=renglon + 10;
         pagina.drawLine(20, renglon, 600,renglon);
         renglon=renglon + 30;
         pagina.setFont(fuente11);
-        if(cliente.getDireccionDeEntrega()!=null){
-            pagina.drawString("ENTREGAR EN: "+cliente.getDireccionDeEntrega()+" - ("+cliente.getCodigoPostal()+") "+cliente.getLocalidad(), 30,renglon);
-        }else{
-            pagina.drawString("ENTREGAR EN: "+cliente.getDireccion()+" - ("+cliente.getCodigoPostal()+") "+cliente.getLocalidad(), 30,renglon);
-        }
+        
+            pagina.drawString("FIRMA CONFORME RECEPCION:__________________________________________________________ ", 30,renglon);
+       renglon=renglon + 20;
+            pagina.drawString("ACLARACION RECEPCION:__________________________________________________________ ", 30,renglon);
         //pagina.drawImage(imagen,363,20,174,93,null);
         
         

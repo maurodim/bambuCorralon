@@ -18,7 +18,7 @@ public interface Facturar {
     public Object leer(Object oob);
     public void imprimirComprobante(int tipoComprobante,Object oob);
     public ArrayList listadoBusqueda(String criterio);
-    public Boolean guardarNuevoCliente(Object cliente);
+    public Integer guardarNuevoCliente(Object cliente);
     public Boolean modificarDatosDelCliente(Object cliente);
     public ArrayList listarClientes(String nombre);
     public Object cargarPorCodigoDeBarra(String codigoDeBarra);

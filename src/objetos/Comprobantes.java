@@ -437,7 +437,7 @@ public class Comprobantes implements Facturar{
     }
 
     @Override
-    public Boolean guardarNuevoCliente(Object cliente) {
+    public Integer guardarNuevoCliente(Object cliente) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

@@ -129,7 +129,7 @@ public class DetallePedidos implements Pedable{
         DetallePedidos detalle=new DetallePedidos();
         detalle=(DetallePedidos)ped;
         Integer numero=0;
-        String sql="insert into detallepedidos (idpedido,idarticulo,descripcionarticulo,idcliente,cantidad,preciounitario,descuento) values ("+detalle.getIdPedido()+","+detalle.getIdArticulo()+",'"+detalle.getDescripcionArticulo()+"',"+detalle.getIdCliente()+","+detalle.getCantidad()+","+detalle.getPrecioUnitario()+","+detalle.getDescuento()+")";
+        String sql="insert into detallepedidos (idpedido,idarticulo,descripcionarticulo,idcliente,cantidad,preciounitario,descuento,cantidadpendiente) values ("+detalle.getIdPedido()+","+detalle.getIdArticulo()+",'"+detalle.getDescripcionArticulo()+"',"+detalle.getIdCliente()+","+detalle.getCantidad()+","+detalle.getPrecioUnitario()+","+detalle.getDescuento()+","+detalle.getCantidad()+")";
         Transaccionable tra=new Conecciones();
         tra.guardarRegistro(sql);
         
@@ -138,7 +138,7 @@ public class DetallePedidos implements Pedable{
 
     @Override
     public ArrayList cargarDetallePedido(Integer idPed) {
-        ArrayList listadoP=new ArrayList();
+        ArrayList <DetallePedidos> listadoP=new ArrayList();
         DetallePedidos detalle;
         String sql="select * from detallepedidos where idpedido="+idPed;
         Transaccionable tra=new Conecciones();
@@ -147,9 +147,9 @@ public class DetallePedidos implements Pedable{
             while(rs.next()){
                 detalle=new DetallePedidos();
                 detalle.setId(rs.getInt("id"));
-                detalle.setCantidad(rs.getDouble("cantidad"));
+                detalle.setCantidad(rs.getDouble("cantidadpendiente"));
                 detalle.setCantidadFacturada(0.00);
-                detalle.setCantidadRemitida(0.00);
+                detalle.setCantidadRemitida(rs.getDouble("cantidad") - rs.getDouble("cantidadpendiente"));
                 detalle.setDescripcionArticulo(rs.getString("descripcionarticulo"));
                 detalle.setDescuento(rs.getInt("descuento"));
                 detalle.setIdArticulo(rs.getInt("idarticulo"));
@@ -206,7 +206,21 @@ public class DetallePedidos implements Pedable{
 
     @Override
     public DefaultTableModel mostrarListado(ArrayList lista) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Iterator it=lista.listIterator();
+        DetallePedidos detalle=new DetallePedidos();
+        DefaultTableModel modelo=new DefaultTableModel();
+        modelo.addColumn("CODIGO");
+        modelo.addColumn("DESCRIPCION");
+        modelo.addColumn("CANTIDAD");
+        Object[] fila=new Object[3];
+        while(it.hasNext()){
+            detalle=(DetallePedidos) it.next();
+            fila[0]=detalle.getIdArticulo();
+            fila[1]=detalle.getDescripcionArticulo();
+            fila[2]=detalle.getCantidad();
+            modelo.addRow(fila);
+        }
+        return modelo;
     }
 
     @Override

@@ -151,7 +151,7 @@ public class ModificacionDePedidos extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        jCheckBox3 = new javax.swing.JCheckBox();
         jLabel9 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
@@ -337,7 +337,9 @@ public class ModificacionDePedidos extends javax.swing.JInternalFrame {
             }
         });
         jPanel2.add(jTextField1);
-        jPanel2.add(jLabel2);
+
+        jCheckBox3.setText("jCheckBox3");
+        jPanel2.add(jCheckBox3);
         jPanel2.add(jLabel9);
 
         jLabel4.setText("CANTIDAD :");
@@ -817,18 +819,9 @@ public class ModificacionDePedidos extends javax.swing.JInternalFrame {
         
         comprobante.setMontoTotal(montoTotal);
         int noFacturar=0;
-        ImprimirPedido imprimirOt=new ImprimirPedido();
-        try {
-            imprimirOt.ImprimirOrdenDeTrabajo(nuevaCotizacion);
-            /*
-            pdfsJavaGenerador pdf=new pdfsJavaGenerador();
-            pdf.setDoc(comprobante1);
-            pdf.setCliente(cliT);
-            pdf.run();
-            */
-        } catch (IOException ex) {
-            Logger.getLogger(ModificacionDePedidos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        SelectorReparto selector=new SelectorReparto(null,true,this.jCheckBox3.isSelected(),nuevaCotizacion);
+        selector.setVisible(true);
+        
         
         /*
         Facturar fat=new Comprobantes();
@@ -1180,11 +1173,11 @@ private void verificar(){
     private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     public static javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

@@ -528,7 +528,7 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
         
         String sql="insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,LOCALIDAD,TELEFONO_1,TIPO_IVA,IDENTIFTRI,COND_VTA,NRO_LISTA,empresa,dentrega,idtransporte,observaciones) values ('"+cli.getCodigoCliente()+"','"+cli.getRazonSocial()+"','"+cli.getDireccion()+"','SANTA FE','"+cli.getTelefono()+"',"+cli.getCondicionIva()+",'"+cli.getNumeroDeCuit()+"',1,1,'"+cli.getEmpresa()+"','"+cli.getDireccionDeEntrega()+"',"+cli.getIdTransporte()+",'"+cli.getObservaciones()+"')";
         if(tra.guardarRegistro(sql)){
-            
+            tra.guardarRegistro("update clientes set COD_CLIENTE=id");
         }else{
             
         }
@@ -801,15 +801,27 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
     }
 
     @Override
-    public Boolean guardarNuevoCliente(Object cliente) {
+    public Integer guardarNuevoCliente(Object cliente) {
         Clientes cli=(Clientes)cliente;
-        Boolean resultado=false;
+        Integer resultado=0;
         
         String sql="insert into clientes (COD_CLIENT,RAZON_SOCI,DOMICILIO,TELEFONO_1,TIPO_IVA,NUMERODECUIT,COND_VTA,LISTADEPRECIO,empresa,cupodecredito,coeficiente,responsable,fantasia,celular,localidad,fax,direccionfantasia,email,dentrega,idtransporte,observaciones) values ('"+cli.getCodigoCliente()+"','"+cli.getRazonSocial()+"','"+cli.getDireccion()+"','"+cli.getTelefono()+"','"+cli.getTipoIva()+"','"+cli.getNumeroDeCuit()+"',1,"+cli.getListaDePrecios()+",'"+cli.getEmpresa()+"',"+cli.getCupoDeCredito()+","+cli.getCoeficienteListaDeprecios()+",'"+cli.getResponsable()+"','"+cli.getFantasia()+"','"+cli.getCelular()+"','"+cli.getLocalidad()+"','"+cli.getFax()+"','"+cli.getDireccionFantasia()+"','"+cli.getEmail()+"','"+cli.getDireccionDeEntrega()+"',"+cli.getIdTransporte()+",'"+cli.getObservaciones()+"')";
         System.out.println(sql);
-        resultado=tra.guardarRegistro(sql);
-        //cargarMap();
-        return resultado;
+        tra.guardarRegistro(sql);
+        ResultSet rs=tra.leerConjuntoDeRegistros("select last_insert_id()");
+            try {
+                while(rs.next()){
+                    resultado=rs.getInt(1);
+                    //cargarMap();
+                    
+                }
+                
+                tra.guardarRegistro("update clientes set COD_CLIENT=id");
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return resultado;
     }
 
     @Override
