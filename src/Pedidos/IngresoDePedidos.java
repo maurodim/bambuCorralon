@@ -33,6 +33,7 @@ import Articulos.Rubros;
 import Articulos.SubRubros;
 import ListasDePrecios.Articulable;
 import ListasDePrecios.ArticulosAsignados;
+import Recibos.AbmRecibos;
 import Sucursales.ListasDePrecios;
 import Vendedores.Vendable;
 import Vendedores.Vendedores;
@@ -782,6 +783,26 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         }
         
         // A PARTIR DE ACA DEBO CARGAR LA IMPRESION LO ANTERIOR ES PARA GUARDAR EL MOVIMIENTO
+        Double resto=cliT.getCupoDeCredito() - cliT.getSaldo();
+        Facturar fac=new Clientes();
+        while(resto < comprobante1.getTotal()){
+            AbmRecibos abm=new AbmRecibos(null,true,cliT);
+            abm.setVisible(true);
+            
+            
+            cliT=(Clientes) fac.cargarPorCodigoAsignado(cliT.getCodigoId());
+            resto=cliT.getCupoDeCredito() - cliT.getSaldo();
+        }
+        /*
+        if(resto > comprobante1.getTotal()){
+            JOptionPane.showMessageDialog(null, "el saldo es "+resto);
+        }else{
+            //ACA AL VOLVER DE LA PANTALLA DE PAGO DEBERÍA VOLVER A CARGAR LOS VALORES DE SALDO DE CLIENTE Y CUPO DE CREDITO PARA COMPARAR
+            
+            as
+            resto=cliT.getCupoDeCredito() - cliT.getSaldo();
+        }
+        */
         
         int comprobanteTipo=4;
         
@@ -1145,7 +1166,9 @@ private void verificar(){
         //montoTotal=montoTotal + tot;
         //System.err.println("nimero "+ah+" decripcion "+descripcion+" limite "+cantidad);
     }
+    
 }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

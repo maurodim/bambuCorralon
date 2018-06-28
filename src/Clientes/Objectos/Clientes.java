@@ -874,10 +874,10 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
 
     @Override
     public Object cargarPorCodigoAsignado(Integer id) {
-        String sql="select *,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,(select localidades.localidad from localidades where localidades.id=clientes.localidad)as localidadD,(select localidades.codigo_postal from localidades where localidades.id=clientes.localidad)as postal,(select condicionesiva.descripcion from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocondicion from clientes where id="+id;
+        String sql="select *,(select condicionesiva.tipocomprobante from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocomprobante,(select localidades.localidad from localidades where localidades.id=clientes.localidad)as localidadD,(select localidades.codigo_postal from localidades where localidades.id=clientes.localidad)as postal,(select condicionesiva.descripcion from condicionesiva where condicionesiva.id=clientes.tipo_iva)as tipocondicion,(SELECT sum(movimientosclientes.monto) from movimientosclientes where movimientosclientes.numeroProveedor=clientes.id)as saldoA from clientes where id="+id;
         String sql1="";
         Clientes cli=new Clientes();
-        
+        Double saldoA=0.00;
         rs=tra.leerConjuntoDeRegistros(sql);
             try {
                 while(rs.next()){
@@ -907,6 +907,9 @@ public class Clientes implements Busquedas,Facturar,Adeudable{
                     cli.setTipoComprobante(rs.getInt("tipocomprobante"));
                     cli.setIdTransporte(rs.getInt("idtransporte"));
                     cli.setObservaciones(rs.getString("observaciones"));
+                    //saldoA=0.00;
+                    saldoA=Math.round(rs.getDouble("saldoA") * 100.0) /100.0;
+                    cli.setSaldo(saldoA);
                     // if(Inicio.usuario.getNivelDeAutorizacion()==1){
                     System.out.println("ACTUALIZACION :"+Inicio.actualizacionesClientes);
                     
