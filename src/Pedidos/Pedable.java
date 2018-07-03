@@ -28,4 +28,6 @@ public interface Pedable {
     public void transformarEnRemito(Object ped,ArrayList detalle);
     public ArrayList convertirAArticulos(ArrayList detalle);
     public Object ActualizarPedido(Object ped);
+    public Object AplicarRecargo(Double tasa);
+    
 }

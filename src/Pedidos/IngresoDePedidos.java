@@ -93,7 +93,8 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         lVen.jComboBox1.setModel(vende.mostrarEnCombo(listadoVendedores));
         lVen.setVisible(true);
         vendedor=(Vendedores) listadoVendedores.get(lVen.jComboBox1.getSelectedIndex());
-        
+        Inicio.usuario.setNumeroId(vendedor.getId());
+        Inicio.usuario.setNombre(vendedor.getNombre());
         rub="";
         porcentajeDescuento=0.00;
         subTotal=0.00;

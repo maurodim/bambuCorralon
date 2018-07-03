@@ -44,6 +44,9 @@ import Articulos.EquivalenciasGral;
 import Articulos.SubRubrosAbm;
 import FacturaE.AbmFacturaElectronica;
 import Recibos.ChequesAbm;
+import java.util.Iterator;
+import tarjetas.Tarjetable;
+import tarjetas.Tarjetas;
 
 /**
  *
@@ -122,7 +125,13 @@ public class Inicio extends javax.swing.JFrame {
         Image icon=new ImageIcon(getClass().getResource("/imagen/icono.png")).getImage();
         this.setIconImage(icon);
         
- 
+        Tarjetas tarjeta=new Tarjetas();
+        Tarjetable tar=new Tarjetas();
+        Iterator it=tar.ListarTodas().listIterator();
+        while(it.hasNext()){
+            tarjeta=(Tarjetas) it.next();
+            System.out.println(tarjeta.getDescripcion());
+        }
         //permisos(nivel);
     }
 

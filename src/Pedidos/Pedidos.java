@@ -401,6 +401,11 @@ public class Pedidos implements Pedable{
         tra.guardarRegistro(sql);
         return pedido;
     }
+
+    @Override
+    public Object AplicarRecargo(Double tasa) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

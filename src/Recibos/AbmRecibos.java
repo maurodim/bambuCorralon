@@ -11,6 +11,7 @@ import Proveedores.Proveedores;
 import Clientes.Objectos.Clientes;
 import Pedidos.Pedable;
 import facturacion.clientes.MovimientoProveedores;
+import interfaceGraficas.Inicio;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,6 +47,7 @@ public class AbmRecibos extends javax.swing.JDialog {
     public AbmRecibos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Ingresar Pago Operación - Vendedor Asignado: "+Inicio.usuario.getNombre());
         Recidable reci=new DetalleRecibo();
         modelo4=reci.mostrarARecibir(listadoFc);
         this.jTable1.setModel(modelo4);
@@ -55,6 +58,7 @@ public class AbmRecibos extends javax.swing.JDialog {
     public AbmRecibos(java.awt.Frame parent, boolean modal,Clientes cliente) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Ingresar Pago Operación - Vendedor Asignado: "+Inicio.usuario.getNombre());
         cli=(Clientes)cliente;
         Pedable pedable=new Pedidos();
         Pedidos pedidos=new Pedidos();
@@ -72,6 +76,7 @@ public class AbmRecibos extends javax.swing.JDialog {
     public AbmRecibos(java.awt.Frame parent, boolean modal,ArrayList listado,Double monto,Clientes cliente) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Ingresar Pago Operación - Vendedor Asignado: "+Inicio.usuario.getNombre());
         cli=(Clientes)cliente;
         Recidable reci=new DetalleRecibo();
         listadoFc=listado;
@@ -84,6 +89,7 @@ public class AbmRecibos extends javax.swing.JDialog {
     }
     public AbmRecibos(ArrayList listado,Double monto,Proveedores cliente) {
         initComponents();
+        this.setTitle("Ingresar Pago Operación - Vendedor Asignado: "+Inicio.usuario.getNombre());
         cliP=(Proveedores)cliente;
         Recidable reci=new DetalleRecibo();
         listadoFc=listado;
@@ -162,7 +168,7 @@ public class AbmRecibos extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -173,6 +179,11 @@ public class AbmRecibos extends javax.swing.JDialog {
         jLabel3.setText("Medio de Pago:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Efectivo", "Débito", "Crédito", "Cheque", "Transferencia Bancaria" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -341,6 +352,7 @@ public class AbmRecibos extends javax.swing.JDialog {
             monto=Numeros.ConvertirStringADouble(this.jTextField1.getText());
             pago.setMonto(monto);
             int fPago=this.jComboBox1.getSelectedIndex();
+            pago.setId(fPago);
             switch(fPago){
                 case 0:
                     //EFECTIVO
@@ -359,6 +371,7 @@ public class AbmRecibos extends javax.swing.JDialog {
                     //DEBITO
                      pago.setDescripcion("Débito");
                 pago.setMonto(monto);
+                pago.setDescripcion(JOptionPane.showInputDialog("Ingrese código de autorizacion. Gracias"));
                 detallePagos.add(pago);
                 modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
                 this.jList1.setModel(modeloL);
@@ -371,6 +384,7 @@ public class AbmRecibos extends javax.swing.JDialog {
                     //CREDITO
                      pago.setDescripcion("Crédito");
                 pago.setMonto(monto);
+                pago.setDescripcion(JOptionPane.showInputDialog("Ingrese código de autorizacion. Gracias"));
                 detallePagos.add(pago);
                 modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
                 this.jList1.setModel(modeloL);
@@ -479,6 +493,7 @@ public class AbmRecibos extends javax.swing.JDialog {
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
         OrdenDePago recibo=new OrdenDePago();
         DetalleRecibo detalle;
         Recidable det=new DetalleRecibo();
@@ -539,12 +554,24 @@ public class AbmRecibos extends javax.swing.JDialog {
             pago=(FormasDePago)itP.next();
             pago.setIdCliente(cli.getCodigoId());
             pago.setIdRecibo(recibo.getId());
+            pago.setIdUsuario(Inicio.usuario.getNumeroId());
             if(pago.getDescripcion().equals("Cheque")){
                // mando a formable
                 ff.guardarCheques(pago);
             }else{
                 // mando a movimientos caja
-                ff.guardarEfectivo(pago);
+                switch(pago.getId()){
+                    case 0:
+                        ff.guardarEfectivo(pago);
+                        break;
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        
+                        break;
+                }
+                
             }
             montt=montt + pago.getMonto();
         }
@@ -618,6 +645,34 @@ public class AbmRecibos extends javax.swing.JDialog {
         this.jComboBox1.requestFocus();
         }
     }//GEN-LAST:event_jTable1KeyPressed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        int posicion=this.jComboBox1.getSelectedIndex();
+        String mensaje;
+        Double tasa=1.00;
+        int cuotas=0;
+        switch(posicion){
+            case 1:
+                mensaje="Ingrese por favor recargo por Pago con Débito";
+                tasa=Numeros.ConvertirStringADouble(JOptionPane.showInputDialog(mensaje));
+                cuotas=1;
+                tasa=(tasa / 100) +1;
+                saldo=saldo * tasa;
+                break;
+            case 2:
+                mensaje="Ingrese por favor recargo por Pago con tarjeta de Crédito";
+                tasa=Numeros.ConvertirStringADouble(JOptionPane.showInputDialog(mensaje));
+                cuotas=Integer.parseInt(JOptionPane.showInputDialog("Cantidad de Cuotas?"));
+                tasa=(tasa / 100) +1;
+                saldo=saldo * tasa;
+                break;
+            default:
+                break;
+        }
+        
+        this.jTextField1.setText(String.valueOf(saldo));
+        this.jTextField1.requestFocus();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments

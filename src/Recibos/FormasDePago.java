@@ -6,10 +6,8 @@
 package Recibos;
 
 import Clientes.Objectos.Clientes;
-import facturacion.clientes.Facturable;
 import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;
-import interfacesPrograma.Busquedas;
 import interfacesPrograma.Facturar;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,6 +38,17 @@ public class FormasDePago implements Formable{
     private String sql;
     private Integer idTipoComprobante;
     private Integer idPago;
+    private Integer idUsuario;
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    
+    
 
     public Integer getIdTipoComprobante() {
         return idTipoComprobante;
@@ -138,7 +147,7 @@ public class FormasDePago implements Formable{
     public Boolean guardarEfectivo(Object listado) {
         FormasDePago forma=new FormasDePago();
         forma=(FormasDePago)listado;
-        sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numerocomprobante,tipocomprobante,monto,tipomovimiento,idcaja,cantidad,idcliente,tipocliente,pagado) values ("+Inicio.usuario.getNumeroId()+",1,"+forma.getIdRecibo()+",8,"+forma.getMonto()+",6,"+Inicio.caja.getNumero()+",0,"+forma.getIdCliente()+",1,1)";
+        sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numerocomprobante,tipocomprobante,monto,tipomovimiento,idcaja,cantidad,idcliente,tipocliente,pagado) values ("+forma.idUsuario+",1,"+forma.getIdRecibo()+",8,"+forma.getMonto()+",6,"+Inicio.caja.getNumero()+",0,"+forma.getIdCliente()+",1,1)";
         tra.guardarRegistro(sql);
         return true;
     }
@@ -250,6 +259,24 @@ public class FormasDePago implements Formable{
         FormasDePago forma=new FormasDePago();
         forma=(FormasDePago)pagos;
         sql="insert into detallepagos (idtipocomprobante,idcomprobante,idpago,descripcion,banco,monto,vencimiento,numero) values ("+forma.getIdTipoComprobante()+","+forma.getIdRecibo()+","+forma.getIdPago()+",'"+forma.getDescripcion()+"','"+forma.getBanco()+"',"+forma.getMonto()+",'"+forma.getVencimiento()+"',"+forma.getNumero()+")";
+        tra.guardarRegistro(sql);
+        return true;
+    }
+
+    @Override
+    public Boolean guardarDebito(Object listado) {
+        FormasDePago forma=new FormasDePago();
+        forma=(FormasDePago)listado;
+        sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numerocomprobante,tipocomprobante,monto,tipomovimiento,idcaja,cantidad,idcliente,tipocliente,pagado) values ("+forma.idUsuario+",1,"+forma.getIdRecibo()+",8,"+forma.getMonto()+",6,"+Inicio.caja.getNumero()+",0,"+forma.getIdCliente()+",1,1)";
+        tra.guardarRegistro(sql);
+        return true;
+    }
+
+    @Override
+    public Boolean guardarCredito(Object listado) {
+        FormasDePago forma=new FormasDePago();
+        forma=(FormasDePago)listado;
+        sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numerocomprobante,tipocomprobante,monto,tipomovimiento,idcaja,cantidad,idcliente,tipocliente,pagado) values ("+forma.idUsuario+",1,"+forma.getIdRecibo()+",8,"+forma.getMonto()+",6,"+Inicio.caja.getNumero()+",0,"+forma.getIdCliente()+",1,1)";
         tra.guardarRegistro(sql);
         return true;
     }

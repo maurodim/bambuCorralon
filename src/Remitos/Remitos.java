@@ -129,8 +129,8 @@ public class Remitos implements Remitable{
 
     @Override
     public Integer nuevo(Object remi) {
-        Remitos remito=new Remitos();
-        remito=(Remitos)remi;
+        RemitosX remito=new RemitosX();
+        remito=(RemitosX)remi;
         //System.out.println("es una prueba de carga :"+this.getIdCliente()+" observaciones: "+this.getObservaciones());
         
         sql="insert into remitos (idcliente,tipocomprobante,observaciones,numeroremito,idcomprobante,domicilio,localidad,cantidad,tipoBulto) values ("+remito.getIdCliente()+","+remito.getTipoComprobantte()+",'"+remito.getObservaciones()+"',(select tipocomprobantes.numeroActivo + 1 from tipocomprobantes where id=7),"+remito.getIdComprobante()+",'"+remito.getDomicilioDeEntrega()+"','"+remito.getLocalidad()+"',"+remito.getCantidadBultos()+","+remito.getTipoBulto()+")";
@@ -143,7 +143,7 @@ public class Remitos implements Remitable{
             numeroId=rs.getInt(1);
         }
         }catch(SQLException ex) {
-            Logger.getLogger(Remitos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RemitosX.class.getName()).log(Level.SEVERE, null, ex);
         }
         sql="update tipocomprobantes set numeroactivo=numeroactivo +1 where id=7";
         tra.guardarRegistro(sql);
@@ -188,7 +188,7 @@ public class Remitos implements Remitable{
 
     @Override
     public Object carga(Integer id) {
-        Remitos remito=new Remitos();
+        RemitosX remito=new RemitosX();
         sql="select * from remitos where id="+id;
         rs=tra.leerConjuntoDeRegistros(sql);
         try {
@@ -205,7 +205,7 @@ public class Remitos implements Remitable{
             
             }   
         } catch (SQLException ex) {
-            Logger.getLogger(Remitos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RemitosX.class.getName()).log(Level.SEVERE, null, ex);
         }
     return remito;
     

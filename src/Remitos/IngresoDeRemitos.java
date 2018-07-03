@@ -318,8 +318,8 @@ public class IngresoDeRemitos extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //verificar();
         //Impresora imp=new Impresora();  
-        Remitos remito=new Remitos();
-        Remitable remm=new Remitos();
+        RemitosX remito=new RemitosX();
+        Remitable remm=new RemitosX();
         DetalleRemitos detalleR=new DetalleRemitos();
         Remitable remD=new DetalleRemitos();
         

@@ -75,9 +75,9 @@ public class ImprimirRemitos {
 
     
     public void ImprimirRemito(Integer idCotizacion) throws IOException{
-        Remitable cotizable=new Remitos();
-        Remitos cotizacion=new Remitos();
-        cotizacion=(Remitos)cotizable.carga(idCotizacion);
+        Remitable cotizable=new RemitosX();
+        RemitosX cotizacion=new RemitosX();
+        cotizacion=(RemitosX)cotizable.carga(idCotizacion);
         ArrayList listadoDetalle=new ArrayList();
         DetalleRemitos detalleDeCotizacion=new DetalleRemitos();
         Remitable cotiz=new DetalleRemitos();

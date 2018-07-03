@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import Articulos.Articulos;
 import objetos.Conecciones;
@@ -318,6 +317,11 @@ public class DetallePedidos implements Pedable{
             Logger.getLogger(DetallePedidos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cotizac;
+    }
+
+    @Override
+    public Object AplicarRecargo(Double tasa) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
