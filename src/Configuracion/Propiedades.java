@@ -33,6 +33,18 @@ public class Propiedades {
     static String NOMBRE;
     static String DIRECCION;
     static String TELEFONO;
+    static String ARCHIVOBK;
+    static String DUMP;
+
+    public static String getDUMP() {
+        return DUMP;
+    }
+    
+
+    public static String getARCHIVOBK() {
+        return ARCHIVOBK;
+    }
+    
 
     public static String getNOMBRE() {
         return NOMBRE;
@@ -137,6 +149,8 @@ public class Propiedades {
                             NOMBRE=p.getProperty("NOMBRE");
                             DIRECCION=p.getProperty("DIRECCION");
                             TELEFONO=p.getProperty("TELEFONO");
+                            ARCHIVOBK=p.getProperty("ARCHIVOBK");
+                            DUMP=p.getProperty("DUMP");
                             
                             
                         

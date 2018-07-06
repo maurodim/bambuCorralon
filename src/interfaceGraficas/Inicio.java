@@ -43,6 +43,8 @@ import Articulos.Articulos;
 import Articulos.EquivalenciasGral;
 import Articulos.SubRubrosAbm;
 import FacturaE.AbmFacturaElectronica;
+import ObjetosBackUp.BackUp;
+import ObjetosBackUp.Backapear;
 import Recibos.ChequesAbm;
 import java.util.Iterator;
 import tarjetas.Tarjetable;
@@ -211,6 +213,14 @@ public class Inicio extends javax.swing.JFrame {
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -847,6 +857,15 @@ public class Inicio extends javax.swing.JFrame {
         equiva.pack();
         equiva.toFront();
     }//GEN-LAST:event_jMenuItem26ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        //
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+         Backapear bb=new BackUp();
+        System.out.println(bb.GenerarArchivos());
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

@@ -565,10 +565,10 @@ public class AbmRecibos extends javax.swing.JDialog {
                         ff.guardarEfectivo(pago);
                         break;
                     case 1:
-                        
+                        ff.guardarDebito(pago);
                         break;
                     case 2:
-                        
+                        ff.guardarCredito(pago);
                         break;
                 }
                 

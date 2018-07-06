@@ -268,7 +268,7 @@ public class FormasDePago implements Formable{
         FormasDePago forma=new FormasDePago();
         forma=(FormasDePago)listado;
         sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numerocomprobante,tipocomprobante,monto,tipomovimiento,idcaja,cantidad,idcliente,tipocliente,pagado) values ("+forma.idUsuario+",1,"+forma.getIdRecibo()+",8,"+forma.getMonto()+",6,"+Inicio.caja.getNumero()+",0,"+forma.getIdCliente()+",1,1)";
-        tra.guardarRegistro(sql);
+        //tra.guardarRegistro(sql);
         return true;
     }
 
@@ -277,7 +277,7 @@ public class FormasDePago implements Formable{
         FormasDePago forma=new FormasDePago();
         forma=(FormasDePago)listado;
         sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numerocomprobante,tipocomprobante,monto,tipomovimiento,idcaja,cantidad,idcliente,tipocliente,pagado) values ("+forma.idUsuario+",1,"+forma.getIdRecibo()+",8,"+forma.getMonto()+",6,"+Inicio.caja.getNumero()+",0,"+forma.getIdCliente()+",1,1)";
-        tra.guardarRegistro(sql);
+        //tra.guardarRegistro(sql);
         return true;
     }
     
