@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
+import pantalla.Ventana;
 
 /**
  *
@@ -39,8 +40,8 @@ public class BbsGestion {
         }catch(Exception e){
             e.printStackTrace();
         }
-        //Ventana ventana=new Ventana();
-        //ventana.setVisible(true);
+        Ventana ventana=new Ventana();
+        ventana.setVisible(true);
         File folder=new File("Cotizaciones");
         File archivos=new File("Informes");
         File bases=new File("Codigos");
@@ -170,6 +171,7 @@ public class BbsGestion {
             Logger.getLogger(BbsGestion.class.getName()).log(Level.SEVERE, null, ex);
         }
         LoguinBbsGestion lBb=new LoguinBbsGestion();
+        lBb.setTitle("ACCESO AL SISTEMA DE "+Propiedades.getNOMBRE().toUpperCase());
         lBb.setVisible(true);
         lBb.pack();
     }
