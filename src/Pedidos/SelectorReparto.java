@@ -5,11 +5,14 @@
  */
 package Pedidos;
 
+import Clientes.Objectos.Clientes;
+import Recibos.AbmRecibos;
 import Remitos.DetalleRemitosX;
 import Remitos.Remitable;
 import Remitos.RemitosX;
 import com.sun.glass.events.KeyEvent;
 import interfaceGraficas.Inicio;
+import interfacesPrograma.Facturar;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,6 +30,7 @@ public class SelectorReparto extends javax.swing.JDialog {
     private Pedidos pedido;
     private DetallePedidos detalle;
     private ArrayList detalleP;
+    private Clientes cliTa;
     /**
      * Creates new form SelectorReparto
      */
@@ -34,9 +38,10 @@ public class SelectorReparto extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    public SelectorReparto(java.awt.Frame parent, boolean modal,Boolean reparto,Integer nPedido) {
+    public SelectorReparto(java.awt.Frame parent, boolean modal,Boolean reparto,Integer nPedido,Clientes cli) {
         super(parent, modal);
         initComponents();
+        cliTa=cli;
         pedido=new Pedidos();
         detalle=new DetallePedidos();
         detalleP=new ArrayList();
@@ -68,6 +73,7 @@ public class SelectorReparto extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -118,7 +124,7 @@ public class SelectorReparto extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -153,6 +159,9 @@ public class SelectorReparto extends javax.swing.JDialog {
             }
         });
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/tractorunitblack.png"))); // NOI18N
+        jButton4.setText("A Reparto");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -163,6 +172,8 @@ public class SelectorReparto extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -170,11 +181,15 @@ public class SelectorReparto extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -206,6 +221,17 @@ public class SelectorReparto extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        Double resto=cliTa.getCupoDeCredito() - cliTa.getSaldo();
+            Facturar fac=new Clientes();
+            while(resto < pedido.getTotal()){
+                AbmRecibos abm=new AbmRecibos(null,true,cliTa);
+                abm.setVisible(true);
+
+
+                cliTa=(Clientes) fac.cargarPorCodigoAsignado(cliTa.getCodigoId());
+                resto=cliTa.getCupoDeCredito() - cliTa.getSaldo();
+            }
         
         
         RemitosX remito=new RemitosX();
@@ -329,6 +355,7 @@ public class SelectorReparto extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

@@ -280,6 +280,12 @@ public class FormasDePago implements Formable{
         //tra.guardarRegistro(sql);
         return true;
     }
+
+    @Override
+    public Boolean guardarPagoEnReparto(Object listado) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
+    }
     
     
 }

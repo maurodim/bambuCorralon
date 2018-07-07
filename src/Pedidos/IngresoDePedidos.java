@@ -93,6 +93,7 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         lVen.jComboBox1.setModel(vende.mostrarEnCombo(listadoVendedores));
         lVen.setVisible(true);
         vendedor=(Vendedores) listadoVendedores.get(lVen.jComboBox1.getSelectedIndex());
+        this.setTitle("Ingreso de Pedidos - Vendedor "+vendedor.getNombre());
         Inicio.usuario.setNumeroId(vendedor.getId());
         Inicio.usuario.setNombre(vendedor.getNombre());
         rub="";
@@ -784,16 +785,21 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         }
         
         // A PARTIR DE ACA DEBO CARGAR LA IMPRESION LO ANTERIOR ES PARA GUARDAR EL MOVIMIENTO
-        Double resto=cliT.getCupoDeCredito() - cliT.getSaldo();
-        Facturar fac=new Clientes();
-        while(resto < comprobante1.getTotal()){
-            AbmRecibos abm=new AbmRecibos(null,true,cliT);
-            abm.setVisible(true);
-            
-            
-            cliT=(Clientes) fac.cargarPorCodigoAsignado(cliT.getCodigoId());
-            resto=cliT.getCupoDeCredito() - cliT.getSaldo();
+        
+        /*
+        if(cliT.getCupoDeCredito() > 0){
+            Double resto=cliT.getCupoDeCredito() - cliT.getSaldo();
+            Facturar fac=new Clientes();
+            while(resto < comprobante1.getTotal()){
+                AbmRecibos abm=new AbmRecibos(null,true,cliT);
+                abm.setVisible(true);
+
+
+                cliT=(Clientes) fac.cargarPorCodigoAsignado(cliT.getCodigoId());
+                resto=cliT.getCupoDeCredito() - cliT.getSaldo();
+            }
         }
+        */
         /*
         if(resto > comprobante1.getTotal()){
             JOptionPane.showMessageDialog(null, "el saldo es "+resto);
@@ -825,7 +831,7 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         comprobante.setMontoTotal(montoTotal);
         int noFacturar=0;
         //ACA VEO SI SE IMPRIME Y DESCUENTA MERCADERIA O PASA A REPARTO O ACOPIO
-        SelectorReparto selector=new SelectorReparto(null,true,this.jCheckBox3.isSelected(),nuevaCotizacion);
+        SelectorReparto selector=new SelectorReparto(null,true,this.jCheckBox3.isSelected(),nuevaCotizacion,cliT);
         selector.setVisible(true);
         
         

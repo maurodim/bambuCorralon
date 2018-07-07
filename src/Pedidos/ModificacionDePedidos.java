@@ -819,7 +819,7 @@ public class ModificacionDePedidos extends javax.swing.JInternalFrame {
         
         comprobante.setMontoTotal(montoTotal);
         int noFacturar=0;
-        SelectorReparto selector=new SelectorReparto(null,true,this.jCheckBox3.isSelected(),nuevaCotizacion);
+        SelectorReparto selector=new SelectorReparto(null,true,this.jCheckBox3.isSelected(),nuevaCotizacion,cliT);
         selector.setVisible(true);
         
         

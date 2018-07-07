@@ -30,4 +30,5 @@ public interface Pedable {
     public Object ActualizarPedido(Object ped);
     public Object AplicarRecargo(Double tasa);
     
+    
 }

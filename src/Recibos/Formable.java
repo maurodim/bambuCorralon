@@ -18,6 +18,7 @@ public interface Formable {
     public Boolean guardarEfectivo(Object listado);
     public Boolean guardarDebito(Object listado);
     public Boolean guardarCredito(Object listado);
+    public Boolean guardarPagoEnReparto(Object listado);
     public ArrayList listarCheques();
     public ArrayList listarChequesPorCliente(Integer idCliente);
     public ArrayList listarChequesPorEstado(Integer idEstado);
