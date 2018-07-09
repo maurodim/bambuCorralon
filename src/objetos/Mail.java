@@ -4,6 +4,7 @@
  */
 package objetos;
 
+import Configuracion.Propiedades;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -22,12 +23,18 @@ import javax.mail.internet.MimeMultipart;
  * @author Administrador
  */
 public class Mail {
-    private final Properties propiedades=new Properties();
-    private String password="sayNoMore001";
+    private final Properties propiedades;
+    private String password;
     private Session sesion;
     private String direccionFile;
     private String detalleListado;
     private String asunto;
+    private String correoSaliente;
+
+    public void setCorreoSaliente(String correoSaliente) {
+        this.correoSaliente = correoSaliente;
+    }
+    
 
     public void setAsunto(String asunto) {
         this.asunto = asunto;
@@ -42,13 +49,19 @@ public class Mail {
     public void setDireccionFile(String direccionFile) {
         this.direccionFile = direccionFile;
     }
+    public Mail() {
+        propiedades=new Properties();
+        password=Propiedades.getPASS();
+        correoSaliente=Propiedades.getCORREOSALIENTE();
+        
+    }
     
     private void init(){
-        propiedades.put("mail.smtp.host","mail.kioscosaynomore.com.ar");
+        propiedades.put("mail.smtp.host","mail.bambusoft.com.ar");
         propiedades.put("mail.smtp.starttls.enable","false");
         propiedades.put("mail.smtp.port",587);
-        propiedades.put("mail.smtp.mail.sender","say2@kioscosaynomore.com.ar");
-        propiedades.put("mail.smtp.user","say2@kioscosaynomore.com.ar");
+        propiedades.put("mail.smtp.mail.sender",correoSaliente);
+        propiedades.put("mail.smtp.user",correoSaliente);
         propiedades.put("mail.smtp.auth","true");
         sesion=Session.getDefaultInstance(propiedades);
         
@@ -58,8 +71,9 @@ public class Mail {
         try{
             MimeMessage mensaje=new MimeMessage(sesion);
             mensaje.setFrom(new InternetAddress((String)propiedades.get("mail.smtp.mail.sender")));
-            mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress("administracion@kioscosaynomore.com.ar"));
-            mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress("damian.simon@kioscosaynomore.com.ar"));
+            mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress(Propiedades.getMAIL()));
+            mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("mauro@bambusoft.com.ar"));
+            System.out.println("DATOS DEL CORREO SALIENTE "+correoSaliente+" // "+password);
             mensaje.setSubject(asunto);
             BodyPart texto=new MimeBodyPart();
             texto.setText("INFORME GENERADO POR CIERRE DE CAJA   \n Saludos");

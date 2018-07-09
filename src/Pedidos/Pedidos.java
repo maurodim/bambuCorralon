@@ -7,6 +7,8 @@ package Pedidos;
 
 import Conversores.Numeros;
 import Clientes.Objectos.MovimientosClientes;
+import Recibos.DetalleRecibo;
+import Recibos.Recidable;
 import interfaceGraficas.Inicio;
 import interfaces.Editables;
 import interfaces.Transaccionable;
@@ -24,7 +26,7 @@ import objetos.Conecciones;
  *
  * @author mauro di
  */
-public class Pedidos implements Pedable{
+public class Pedidos implements Pedable,Recidable{
     private Integer id;
     private Integer idCliente;
     private Date fecha;
@@ -42,6 +44,16 @@ public class Pedidos implements Pedable{
     private Double descuento;
     private Double porcentajeDescuento;
     private int pagado;
+    private Double saldo;
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
+    }
+    
 
     public int getPagado() {
         return pagado;
@@ -156,13 +168,22 @@ public class Pedidos implements Pedable{
     public void setEstado(int estado) {
         this.estado = estado;
     }
-
+    private void ImpactarPago(DetalleRecibo det){
+        DetalleRecibo detalle=det;
+        Double montoP=Numeros.ConvertirStringADouble(det.getMontoFcatura());
+        if(det.getMonto() < montoP){
+            sql="update pedidos set saldo=round(total - "+det.getMonto()+",2) where id="+det.getIdFactura();
+        }else{
+            sql="update pedidos set saldo=round(total - "+det.getMonto()+",2),pagado=1 where id="+det.getIdFactura();
+        }
+        tra.guardarRegistro(sql);
+    }
     @Override
     public Integer nuevoPedido(Object ped) {
         Pedidos pedido=new Pedidos();
         pedido=(Pedidos)ped;
         Integer verif=0;
-        sql="insert into pedidos (idcliente,fecha,total,idusuario,idcotizacion,estado,subtotal,descuento,porcentajed) values ("+pedido.getIdCliente()+",'"+pedido.getFecha()+"',"+pedido.getTotal()+","+pedido.getIdUsuario()+","+pedido.getIdCotizacion()+",0,round("+pedido.getSubTotal()+",4),round("+pedido.getDescuento()+",4),"+pedido.getPorcentajeDescuento()+")";
+        sql="insert into pedidos (idcliente,fecha,total,idusuario,idcotizacion,estado,subtotal,descuento,porcentajed,saldo) values ("+pedido.getIdCliente()+",'"+pedido.getFecha()+"',round("+pedido.getTotal()+",2),"+pedido.getIdUsuario()+","+pedido.getIdCotizacion()+",0,round("+pedido.getSubTotal()+",2),round("+pedido.getDescuento()+",2),"+pedido.getPorcentajeDescuento()+",round("+pedido.getTotal()+",2))";
         //Transaccionable tra=new Conecciones();
         tra.guardarRegistro(sql);
         sql="select LAST_INSERT_ID()";
@@ -219,6 +240,7 @@ public class Pedidos implements Pedable{
                 pedido.setSubTotal(rs.getDouble("subtotal"));
                 pedido.setDescuento(rs.getDouble("descuento"));
                 pedido.setPorcentajeDescuento(rs.getDouble("porcentajed"));
+                pedido.setSaldo(rs.getDouble("saldo"));
                 //listado.add(pedido);
             }
         } catch (SQLException ex) {
@@ -250,6 +272,7 @@ public class Pedidos implements Pedable{
                 pedido.setSubTotal(rs.getDouble("subtotal"));
                 pedido.setDescuento(rs.getDouble("descuento"));
                 pedido.setPorcentajeDescuento(rs.getDouble("porcentajed"));
+                pedido.setSaldo(rs.getDouble("saldo"));
                 listado.add(pedido);
             }
         } catch (SQLException ex) {
@@ -281,6 +304,7 @@ public class Pedidos implements Pedable{
                 pedido.setSubTotal(rs.getDouble("subtotal"));
                 pedido.setDescuento(rs.getDouble("descuento"));
                 pedido.setPorcentajeDescuento(rs.getDouble("porcentajed"));
+                pedido.setSaldo(rs.getDouble("saldo"));
                 listado.add(pedido);
             }
         } catch (SQLException ex) {
@@ -294,7 +318,7 @@ public class Pedidos implements Pedable{
     public ArrayList listarPorEstado(Integer idClient, int estado) {
         Pedidos pedido;
         ArrayList listado=new ArrayList();
-        String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 order by id desc";
+        String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 and pagado=0 order by id desc";
         
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
         try {
@@ -312,6 +336,7 @@ public class Pedidos implements Pedable{
                 pedido.setSubTotal(rs.getDouble("subtotal"));
                 pedido.setDescuento(rs.getDouble("descuento"));
                 pedido.setPorcentajeDescuento(rs.getDouble("porcentajed"));
+                pedido.setSaldo(rs.getDouble("saldo"));
                 listado.add(pedido);
             }
         } catch (SQLException ex) {
@@ -326,7 +351,7 @@ public class Pedidos implements Pedable{
         Boolean verif=true;
         Pedidos pedido=new Pedidos();
         pedido=(Pedidos)ped;
-        String sql="update pedidos set total=round("+pedido.getTotal()+",4),subtotal=round("+pedido.getSubTotal()+",4),descuento=round("+pedido.getDescuento()+",4),porcentajed="+pedido.getPorcentajeDescuento()+",idcotizacion="+pedido.getIdCotizacion()+",idfactura="+pedido.getIdFactura()+",idremito="+pedido.getIdRemito()+",idremito="+pedido.getIdRemito()+",estado="+pedido.getEstado()+" where id="+pedido.getId();
+        String sql="update pedidos set total=round("+pedido.getTotal()+",2),subtotal=round("+pedido.getSubTotal()+",2),saldo=round("+pedido.getSaldo()+",2),descuento=round("+pedido.getDescuento()+",2),porcentajed="+pedido.getPorcentajeDescuento()+",idcotizacion="+pedido.getIdCotizacion()+",idfactura="+pedido.getIdFactura()+",idremito="+pedido.getIdRemito()+",idremito="+pedido.getIdRemito()+",estado="+pedido.getEstado()+" where id="+pedido.getId();
         Transaccionable tra=new Conecciones();
         tra.guardarRegistro(sql);
         
@@ -348,7 +373,7 @@ public class Pedidos implements Pedable{
         listado1.addColumn("Factura");
         listado1.addColumn("Remito");
         listado1.addColumn("Monto");
-        listado1.addColumn("Estado");
+        listado1.addColumn("Saldo");
         Object[] fila=new Object[6];
         while(iL.hasNext()){
             cotizacion=(Pedidos)iL.next();
@@ -357,11 +382,7 @@ public class Pedidos implements Pedable{
             fila[2]=String.valueOf(cotizacion.getIdFactura());
             fila[3]=String.valueOf(cotizacion.getIdRemito());
             fila[4]=Numeros.ConvertirNumero(cotizacion.getTotal());
-            if(cotizacion.getEstado()==0){
-                fila[5]="Pendiente";
-            }else{
-                fila[5]="Finalizada";
-            }
+            fila[5]=Numeros.ConvertirNumero(cotizacion.getSaldo());
             listado1.addRow(fila);
         }
         
@@ -395,15 +416,52 @@ public class Pedidos implements Pedable{
     public Object ActualizarPedido(Object ped) {
         Pedidos pedido=(Pedidos) ped;
         Pedable peda=new DetallePedidos();
-        pedido=(Pedidos) peda.ActualizarPedido(pedido);
-        String sql="update pedidos set total="+pedido.getTotal()+",subtotal="+pedido.getSubTotal()+",descuento="+pedido.getDescuento()+" where id="+pedido.getId();
+        //pedido=(Pedidos) peda.ActualizarPedido(pedido);
+        String sql="update pedidos set total=round("+pedido.getTotal()+",2),subtotal=round("+pedido.getSubTotal()+",2),saldo=round("+pedido.getTotal()+",2),descuento="+pedido.getDescuento()+" where id="+pedido.getId();
         Transaccionable tra=new Conecciones();
         tra.guardarRegistro(sql);
         return pedido;
     }
 
     @Override
-    public Object AplicarRecargo(Double tasa) {
+    public Object AplicarRecargo(Double tasa,Object ped) {
+       Pedidos pedido=(Pedidos) ped;
+        Pedable peda=new DetallePedidos();
+        //pedido=(Pedidos) peda.ActualizarPedido(pedido);
+        String sql="update pedidos set total=round(total * "+tasa+",2),subtotal=round(subtotal * "+tasa+",2),saldo=round(saldo * "+tasa+",2),descuento=round(descuento * "+tasa+",2) where id="+pedido.getId();
+        Transaccionable tra=new Conecciones();
+        tra.guardarRegistro(sql);
+        return pedido;
+    }
+
+    @Override
+    public Integer nuevo(Object rec) {
+        this.ImpactarPago((DetalleRecibo) rec);
+        return 0;
+    }
+
+    @Override
+    public ArrayList listar(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Double imputarAFactura(Object rec) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel mostrarARecibir(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DefaultTableModel mostrarARecibirSuma(ArrayList listado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object cargar(Integer id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -153,4 +153,26 @@ public class Operaciones {
             tt.guardarRegistro(sql);
         }
     }
+    public static Object CargarOperacion(int posicion){
+        Transaccionable tra=new Conecciones();
+        String sql="select * from tipomovimientos where id="+posicion;
+        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        Operaciones operaciones = null;
+        try {
+            //listOp.clear();
+            while(rs.next()){
+                operaciones=new Operaciones();
+                operaciones.setId(rs.getInt("id"));
+                operaciones.setDescripcion(rs.getString("descripcion"));
+                operaciones.setDestino(rs.getInt("destinoOperacion"));
+                operaciones.setValor(rs.getInt("multiploOp"));
+                //System.err.println(" LISTADO OPERACIONES "+operaciones.getDescripcion());
+                //listOp.add(operaciones);
+                
+            }   
+        } catch (SQLException ex) {
+            Logger.getLogger(Operaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return operaciones;
+    }
 }

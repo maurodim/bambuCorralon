@@ -126,6 +126,8 @@ public class DetalleRecibo implements Recidable{
         detalle=(DetalleRecibo)rec;
         sql="insert into detallerecibos (idrecibo,idcliente,monto,idfactura) values ("+detalle.getIdRecibo()+","+detalle.getIdCliente()+","+detalle.getMonto()+","+detalle.getIdFactura()+")";
         tra.guardarRegistro(sql);
+        Recidable reci=new Pedidos();
+        reci.nuevo(detalle);
         return 0;
     }
 
@@ -162,7 +164,7 @@ public class DetalleRecibo implements Recidable{
             fila[0]=false;
             
             fila[1]=String.valueOf(cotizacion.getFecha());
-            if(cotizacion.getIdFactura() !=null){
+            if(cotizacion.getIdFactura() > 0){
                 nComp="FC "+cotizacion.getIdFactura();
             }else{
                 nComp="PED "+cotizacion.getId();

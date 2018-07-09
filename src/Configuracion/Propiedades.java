@@ -35,6 +35,23 @@ public class Propiedades {
     static String TELEFONO;
     static String ARCHIVOBK;
     static String DUMP;
+    static String MAIL;
+    static String CORREOSALIENTE;
+    static String PASS;
+
+    public static String getCORREOSALIENTE() {
+        return CORREOSALIENTE;
+    }
+
+    public static String getPASS() {
+        return PASS;
+    }
+    
+
+    public static String getMAIL() {
+        return MAIL;
+    }
+    
 
     public static String getDUMP() {
         return DUMP;
@@ -136,7 +153,8 @@ public class Propiedades {
                     
                             CREADA=p.getProperty("CREADA");
                         
-                            
+                            CORREOSALIENTE="bambusuite@bambusoft.com.ar";
+                            PASS="bambuSoft001";
                             
                             CUIT=p.getProperty("CUIT");
                             SERVER=p.getProperty("SERVER");
@@ -151,6 +169,7 @@ public class Propiedades {
                             TELEFONO=p.getProperty("TELEFONO");
                             ARCHIVOBK=p.getProperty("ARCHIVOBK");
                             DUMP=p.getProperty("DUMP");
+                            MAIL=p.getProperty("MAIL");
                             
                             
                         

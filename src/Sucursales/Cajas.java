@@ -710,8 +710,9 @@ public class Cajas extends Sucursales implements Cajeables{
                 cajass.setMontoMovimiento(rs.getDouble("monto"));
                 saldoFinal= saldoFinal + rs.getDouble("monto");
                 cajass.setTipoDeComprobante(rs.getInt("tipoComprobante"));
-                int pos=cajass.getTipoMovimiento() -1;
-                Operaciones operacion=(Operaciones)listOperaciones.get(pos);
+                int pos=cajass.getTipoMovimiento();
+                System.out.println("Posicion Operacion de caja "+pos);
+                Operaciones operacion=(Operaciones)Operaciones.CargarOperacion(pos);
                  String desc=operacion.getDescripcion();
                 cajass.setDescripcionMovimiento(desc);
                 listadoCajas.add(cajass);

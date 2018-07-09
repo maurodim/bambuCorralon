@@ -6,6 +6,7 @@
 
 package Excel;
 
+import Configuracion.Propiedades;
 import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;
 import java.io.FileNotFoundException;
@@ -145,7 +146,7 @@ public class InformeDiarioStock {
             // hoja 2
             
         form=null;
-        sql="SELECT cantidad,preciodecosto,preciodeventa,precioservicio,fecha,numerocomprobante,(select clientes.RAZON_SOCI from clientes where clientes.id=movimientosarticulos.numeroCliente)as nombreC,(select articulos.NOMBRE from articulos where articulos.ID=movimientosarticulos.idArticulo)as descA,(select usuarios.nombre from usuarios where usuarios.numero=movimientosarticulos.numeroUsuario) as nombreU FROM movimientosarticulos where tipoMovimiento =1 and idcaja="+Inicio.caja.getNumero();
+        sql="SELECT cantidad,preciodecosto,preciodeventa,precioservicio,fecha,numerocomprobante,(select clientes.RAZON_SOCI from clientes where clientes.id=movimientosarticulos.numeroCliente)as nombreC,(select articulos.NOMBRE from articulos where articulos.ID=movimientosarticulos.idArticulo)as descA,(select vendedores.nombre from vendedores where vendedores.id=movimientosarticulos.numeroUsuario) as nombreU FROM movimientosarticulos where tipoMovimiento =6 and idcaja="+Inicio.caja.getNumero();
         //System.out.println(sql);
         //tra=new Conecciones();
         rs=tra.leerConjuntoDeRegistros(sql);
@@ -253,7 +254,7 @@ public class InformeDiarioStock {
                 Mail mail=new Mail();
                 mail.setDetalleListado(nombree);
                 mail.setDireccionFile(ruta);
-                mail.setAsunto("Informe de cierre de caja "+Inicio.fechaDia);
+                 mail.setAsunto("Informe de cierre de caja "+Inicio.fechaDia+" Sucursal: "+Propiedades.getNOMBRE());
                 mail.enviarMailRepartoCargaCompleta();
             } catch (IOException ex) {
                 Logger.getLogger(InformeMensual.class.getName()).log(Level.SEVERE, null, ex);

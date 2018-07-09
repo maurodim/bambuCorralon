@@ -1079,6 +1079,19 @@ private void agregarRenglonTabla(){
             fila[7]=Numeros.ConvertirNumero(valor);
             busC.addRow(fila);
         }
+        if(cliT.getCupoDeCredito() > 0){
+            Double resto=cliT.getCupoDeCredito() - cliT.getSaldo();
+            if(resto < montoTotal){
+                this.jTextField1.setEnabled(false);
+                this.jTextField2.setEnabled(false);
+                this.jButton1.setEnabled(false);
+                JOptionPane.showMessageDialog(this,"Se excede Límite de Compra Asignado a la Cta Cte del Cliente!!!!");
+            }else{
+                this.jTextField1.setEnabled(true);
+                this.jTextField2.setEnabled(true);
+                this.jButton1.setEnabled(true);
+            }
+        }
         subTotal=montoTotal / 1.21;
         Double ivv=subTotal *0.21;
         Double sub=subTotal;

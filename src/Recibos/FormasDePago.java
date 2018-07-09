@@ -133,23 +133,35 @@ public class FormasDePago implements Formable{
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    @Override
-    public Boolean guardarCheques(Object listado) {
+    private Boolean Pagar(Object listado){
+        FormasDePago forma=new FormasDePago();
+        forma=(FormasDePago)listado;
+        sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numerocomprobante,tipocomprobante,monto,tipomovimiento,idcaja,cantidad,idcliente,tipocliente,pagado) values ("+forma.idUsuario+",1,"+forma.getIdRecibo()+",8,"+forma.getMonto()+",6,"+Inicio.caja.getNumero()+",0,"+forma.getIdCliente()+",1,1)";
+        tra.guardarRegistro(sql);
+        
+        return true;
+    }
+    private void PagarEnRaparto(){
+        
+    }
+    private void CtaCte(){
+        
+    }
+    private Boolean GuardarCheque(Object listado){
         FormasDePago forma=new FormasDePago();
         forma=(FormasDePago)listado;
         sql="insert into cheques (banco,idcliente,monto,vencimiento,numero,idrecibo) values ('"+forma.getBanco()+"',"+forma.getIdCliente()+","+forma.getMonto()+",'"+forma.getVencimiento()+"',"+forma.getNumero()+","+forma.getIdRecibo()+")";
         tra.guardarRegistro(sql);
         return true;
     }
+    @Override
+    public Boolean guardarCheques(Object listado) {
+        return this.GuardarCheque(listado);
+    }
 
     @Override
     public Boolean guardarEfectivo(Object listado) {
-        FormasDePago forma=new FormasDePago();
-        forma=(FormasDePago)listado;
-        sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numerocomprobante,tipocomprobante,monto,tipomovimiento,idcaja,cantidad,idcliente,tipocliente,pagado) values ("+forma.idUsuario+",1,"+forma.getIdRecibo()+",8,"+forma.getMonto()+",6,"+Inicio.caja.getNumero()+",0,"+forma.getIdCliente()+",1,1)";
-        tra.guardarRegistro(sql);
-        return true;
+        return this.Pagar(listado);
     }
 
     @Override

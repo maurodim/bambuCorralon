@@ -320,7 +320,7 @@ public class DetallePedidos implements Pedable{
     }
 
     @Override
-    public Object AplicarRecargo(Double tasa) {
+    public Object AplicarRecargo(Double tasa,Object ped) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

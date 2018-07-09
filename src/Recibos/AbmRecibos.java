@@ -516,6 +516,7 @@ public class AbmRecibos extends javax.swing.JDialog {
             detalle=new DetalleRecibo();
             detalle.setIdCliente(cli.getCodigoId());
             detalle.setIdFactura(factura.getId());
+            
             detalle.setIdRecibo(recibo.getId());
             
             if(factura.getTotal() < saldoAImputar){
@@ -555,6 +556,7 @@ public class AbmRecibos extends javax.swing.JDialog {
             pago.setIdCliente(cli.getCodigoId());
             pago.setIdRecibo(recibo.getId());
             pago.setIdUsuario(Inicio.usuario.getNumeroId());
+            //pago.setNumero(banco);
             if(pago.getDescripcion().equals("Cheque")){
                // mando a formable
                 ff.guardarCheques(pago);
