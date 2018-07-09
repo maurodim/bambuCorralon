@@ -10,7 +10,6 @@ import Pedidos.Pedidos;
 import Proveedores.Proveedores;
 import Clientes.Objectos.Clientes;
 import Pedidos.Pedable;
-import facturacion.clientes.MovimientoProveedores;
 import interfaceGraficas.Inicio;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -39,6 +38,7 @@ public class AbmRecibos extends javax.swing.JDialog {
     private Clientes cli;
     private Proveedores cliP;
     private int tipoFc;//para saber si son pedidos=1
+    public int pagado;
 
     
     /**
@@ -54,6 +54,29 @@ public class AbmRecibos extends javax.swing.JDialog {
         this.jLabel2.setText(" $"+montoTotal);
         saldo=montoTotal;
         this.jLabel9.setText("Saldo: $"+saldo);
+        int cantidad=this.jTable1.getRowCount();
+        Double total=0.00;
+        Double parte=0.00;
+        Pedidos factu;
+        reci=new DetalleRecibo();
+        ArrayList aEliminar=new ArrayList();
+        for(int a=0;a < cantidad;a++){
+            if((Boolean)this.jTable1.getValueAt(a, 0)){
+                parte=Numeros.ConvertirStringADouble((String) this.jTable1.getValueAt(a, 4));
+                factu=(Pedidos)listadoFc.get(a);
+                //factu.setEstado(1);
+                factu.setTotal(parte);
+                total=total + parte;
+            }
+            
+        }
+        montoTotal=total;
+        saldo=montoTotal;
+        jLabel2.setText(" $"+total);
+        jLabel9.setText("Saldo: "+saldo);
+        this.jTextField1.setText(String.valueOf(total));
+        this.jTextField1.requestFocus();
+        pagado=0;
     }
     public AbmRecibos(java.awt.Frame parent, boolean modal,Clientes cliente) {
         super(parent, modal);
@@ -71,6 +94,29 @@ public class AbmRecibos extends javax.swing.JDialog {
         this.jLabel2.setText(" $"+montoTotal);
         saldo=montoTotal;
         this.jLabel9.setText("Saldo: $"+saldo);
+        int cantidad=this.jTable1.getRowCount();
+        Double total=0.00;
+        Double parte=0.00;
+        Pedidos factu;
+        reci=new DetalleRecibo();
+        ArrayList aEliminar=new ArrayList();
+        for(int a=0;a < cantidad;a++){
+            if((Boolean)this.jTable1.getValueAt(a, 0)){
+                parte=Numeros.ConvertirStringADouble((String) this.jTable1.getValueAt(a, 4));
+                factu=(Pedidos)listadoFc.get(a);
+                //factu.setEstado(1);
+                factu.setTotal(parte);
+                total=total + parte;
+            }
+            
+        }
+        montoTotal=total;
+        saldo=montoTotal;
+        jLabel2.setText(" $"+total);
+        jLabel9.setText("Saldo: "+saldo);
+        this.jTextField1.setText(String.valueOf(total));
+        this.jTextField1.requestFocus();
+        pagado=0;
     }
 
     public AbmRecibos(java.awt.Frame parent, boolean modal,ArrayList listado,Double monto,Clientes cliente) {
@@ -586,7 +632,10 @@ public class AbmRecibos extends javax.swing.JDialog {
             imprimir.ImprimirOrdenDeTrabajo(recibo, listadoDet, detallePagos);
         } catch (IOException ex) {
             Logger.getLogger(AbmRecibos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (java.lang.NullPointerException ee){
+            System.out.println(ee);
         }
+        pagado=1;
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

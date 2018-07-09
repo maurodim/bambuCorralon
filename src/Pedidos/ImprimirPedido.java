@@ -239,8 +239,8 @@ public class ImprimirPedido {
             
             pagina.drawString(descripcionArt,60,renglon);
             pagina.drawString(String.valueOf(detalleDeCotizacion.getCantidad()),420,renglon);
-            pagina.drawString(Numeros.ConvertirNumero(detalleDeCotizacion.getPrecioUnitario() * 1.21),470,renglon);
-            Double total=detalleDeCotizacion.getCantidad() * (detalleDeCotizacion.getPrecioUnitario() * 1.21);
+            pagina.drawString(Numeros.ConvertirNumero(detalleDeCotizacion.getPrecioUnitario()),470,renglon);
+            Double total=detalleDeCotizacion.getCantidad() * (detalleDeCotizacion.getPrecioUnitario());
             generalT=generalT + total;
             pagina.drawString(Numeros.ConvertirNumero(total),510,renglon);
             renglon=renglon + 10;

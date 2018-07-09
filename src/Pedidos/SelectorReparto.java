@@ -169,9 +169,19 @@ public class SelectorReparto extends javax.swing.JDialog {
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/tractorunitblack.png"))); // NOI18N
         jButton4.setText("A Reparto");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/applications_black.png"))); // NOI18N
         jButton5.setText("Convertir en Cotizacion");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosNuevos/Currency- Dollar.png"))); // NOI18N
         jButton6.setText("Ingresar Pago");
@@ -328,12 +338,21 @@ public class SelectorReparto extends javax.swing.JDialog {
         
                 AbmRecibos abm=new AbmRecibos(null,true,cliTa);
                 abm.setVisible(true);
-                this.jButton1.setVisible(true);
-                this.jButton2.setVisible(true);
-                this.jButton3.setVisible(true);
-                this.jButton5.setVisible(false);
-        
+                if(abm.pagado==1){
+                    this.jButton1.setVisible(true);
+                    this.jButton2.setVisible(true);
+                    this.jButton3.setVisible(true);
+                    this.jButton5.setVisible(false);
+                }
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

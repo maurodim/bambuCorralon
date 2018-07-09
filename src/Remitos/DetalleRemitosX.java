@@ -174,7 +174,7 @@ public class DetalleRemitosX implements Remitable{
         sql="update detallepedidos set cantidadpendiente=cantidad - "+detalle.getCantidadRemitida()+" where idpedido="+detalle.getIdPedido()+" and idarticulo="+detalle.getIdArticulo();
         //sql="update detallefacturas set cantidadremitida="+detalle.getCantidadRemitida()+" where idfactura="+detalle.getIdFactura()+" and idarticulo="+detalle.getIdArticulo();
         tra.guardarRegistro(sql);
-        sql="insert into movimientosarticulos (tipomovimiento,idarticulo,cantidad,numerodeposito,tipocomprobante,numerocomprobante,numerocliente,numerousuario,preciodecosto,preciodeventa,estado,idcaja,fechaComprobante) values (6,"+detalle.getIdArticulo()+","+detalle.getCantidadRemitida()+",1,14,"+detalle.getIdRemito()+","+detalle.getIdCliente()+","+detalle.getIdUsuario()+","+detalle.getPrecioDeCosto()+","+detalle.getPrecioDeVenta()+",1,"+detalle.getIdCaja()+",'"+Inicio.fechaDia+"')";
+        sql="insert into movimientosarticulos (tipomovimiento,idarticulo,cantidad,numerodeposito,tipocomprobante,numerocomprobante,numerocliente,numerousuario,preciodecosto,preciodeventa,estado,idcaja,fechaComprobante) values (6,"+detalle.getIdArticulo()+",round("+detalle.getCantidadRemitida()+" * -1,2),1,14,"+detalle.getIdRemito()+","+detalle.getIdCliente()+","+detalle.getIdUsuario()+","+detalle.getPrecioDeCosto()+","+detalle.getPrecioDeVenta()+",1,"+detalle.getIdCaja()+",'"+Inicio.fechaDia+"')";
         System.out.println(sql);
         tra.guardarRegistro(sql);
         return id;

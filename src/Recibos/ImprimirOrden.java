@@ -136,8 +136,11 @@ public class ImprimirOrden {
             renglon=renglon + 10;
         }
         //formulario derecho
-        
-        pagina.drawString("Saldo Total: $ "+cliente.getSaldoActual(),80,renglon);
+        if(cliente.getSaldoActual() != null){
+            pagina.drawString("Saldo Total: $ "+cliente.getSaldoActual(),80,renglon);
+        }else{
+            pagina.drawString("Saldo Total: $ 0.00",80,renglon);
+        }
         renglon=renglon +10;
         pagina.drawLine(20, renglon, 600, renglon);
         renglon=renglon + 20;

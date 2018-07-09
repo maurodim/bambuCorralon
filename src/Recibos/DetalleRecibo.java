@@ -161,7 +161,7 @@ public class DetalleRecibo implements Recidable{
         while(iL.hasNext()){
             
             cotizacion=(Pedidos)iL.next();
-            fila[0]=false;
+            fila[0]=true;
             
             fila[1]=String.valueOf(cotizacion.getFecha());
             if(cotizacion.getIdFactura() > 0){
