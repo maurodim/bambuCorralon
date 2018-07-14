@@ -321,7 +321,19 @@ public class DetallePedidos implements Pedable{
 
     @Override
     public Object AplicarRecargo(Double tasa,Object ped) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pedidos cotizac=(Pedidos) ped;
+        
+        String sql;
+        Transaccionable tra=new Conecciones();
+        //ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        DetallePedidos cotizacionD;
+        
+                cotizacionD=(DetallePedidos) ped;
+                sql="update detallepedidos set preciounitario=round(preciounitario * "+tasa+",2) where id="+cotizacionD.getId();
+                tra.guardarRegistro(sql);
+                
+            
+        return cotizac;
     }
     
     
