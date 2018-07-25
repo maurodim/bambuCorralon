@@ -844,9 +844,11 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
          
         //comp.setTipoComprobante(comprobanteTipo);
         //comp.setMontoTotal(montoTotal);
-        detalleDelPedido.clear();
-        agregarRenglonTabla();
-        this.dispose();
+        if(selector.btnSeleccionado==1){
+            detalleDelPedido.clear();
+            agregarRenglonTabla();
+            this.dispose();
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -954,16 +956,21 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         int cod=0;
         String descripcion=JOptionPane.showInputDialog("Ingrese aclaracion del articulo ","");
-        Articulos pedidos=new Articulos();
-        pedidos.setNumeroId(0);
-        pedidos.setCantidad(0.00);
-        pedidos.setPrecioUnitarioNeto(0.00);
-        pedidos.setPrecioDeCosto(0.00);
-        pedidos.setDescripcionArticulo(descripcion);
-        pedidos.setCodigoAsignado(String.valueOf(cod));
-        detalleDelPedido.add(pedidos);
-        agregarRenglonTabla();
-        montrarMonto();
+        descripcion=descripcion.trim();
+        if(descripcion.equals("")){
+            
+        }else{
+            Articulos pedidos=new Articulos();
+            pedidos.setNumeroId(0);
+            pedidos.setCantidad(0.00);
+            pedidos.setPrecioUnitarioNeto(0.00);
+            pedidos.setPrecioDeCosto(0.00);
+            pedidos.setDescripcionArticulo(descripcion);
+            pedidos.setCodigoAsignado(String.valueOf(cod));
+            detalleDelPedido.add(pedidos);
+            agregarRenglonTabla();
+            montrarMonto();
+        }
         //jTextField1.setText("");
         jTextField1.requestFocus();
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -1080,6 +1087,11 @@ private void agregarRenglonTabla(){
             busC.addRow(fila);
         }
         if(cliT.getCupoDeCredito() > 0){
+            if(cliT.getSaldo() != null){
+                
+            }else{
+                cliT.setSaldo(0.00);
+            }
             Double resto=cliT.getCupoDeCredito() - cliT.getSaldo();
             if(resto < montoTotal){
                 this.jTextField1.setEnabled(false);

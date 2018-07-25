@@ -249,6 +249,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         jButton19 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         jButton23 = new javax.swing.JButton();
+        jButton24 = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -460,7 +461,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
         });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Cart.png"))); // NOI18N
-        jButton3.setText("Pedido");
+        jButton3.setText("Pasar Pedido");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -469,6 +470,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Print.png"))); // NOI18N
         jButton4.setText("OTrabajo");
+        jButton4.setEnabled(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -597,6 +599,9 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
             }
         });
 
+        jButton24.setText("Eliminar Presup.");
+        jButton24.setEnabled(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -651,7 +656,9 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton16)))
+                        .addComponent(jButton16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton24)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -664,7 +671,8 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
                     .addComponent(jButton3)
                     .addComponent(jButton19)
                     .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton22))
+                    .addComponent(jButton22)
+                    .addComponent(jButton24))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1225,6 +1233,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
+    private javax.swing.JButton jButton24;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;

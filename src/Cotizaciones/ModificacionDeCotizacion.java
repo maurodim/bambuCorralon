@@ -17,7 +17,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,7 +24,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import Articulos.Articulos;
 import Articulos.Modificable;
@@ -39,8 +37,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import objetos.Comprobantes;
-import objetos.Conecciones;
-import tablas.MiModeloTablaBuscarCliente;
 import tablas.MiModeloTablaFacturacion;
 
 
@@ -967,16 +963,19 @@ Double descuento=pedidos.getPrecioUnitarioNeto() - precio;
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         int cod=0;
         String descripcion=JOptionPane.showInputDialog("Ingrese aclaracion del articulo ","");
-        Articulos pedidos=new Articulos();
-        pedidos.setNumeroId(0);
-        pedidos.setCantidad(0.00);
-        pedidos.setPrecioUnitarioNeto(0.00);
-        pedidos.setPrecioDeCosto(0.00);
-        pedidos.setDescripcionArticulo(descripcion);
-        pedidos.setCodigoAsignado(String.valueOf(cod));
-        detalleDelPedido.add(pedidos);
-        agregarRenglonTabla();
-        montrarMonto();
+        descripcion=descripcion.trim();
+        if(descripcion.equals("")){
+            Articulos pedidos=new Articulos();
+            pedidos.setNumeroId(0);
+            pedidos.setCantidad(0.00);
+            pedidos.setPrecioUnitarioNeto(0.00);
+            pedidos.setPrecioDeCosto(0.00);
+            pedidos.setDescripcionArticulo(descripcion);
+            pedidos.setCodigoAsignado(String.valueOf(cod));
+            detalleDelPedido.add(pedidos);
+            agregarRenglonTabla();
+            montrarMonto();
+        }
         jTextField1.setText("");
         jTextField1.requestFocus();
     }//GEN-LAST:event_jButton7ActionPerformed

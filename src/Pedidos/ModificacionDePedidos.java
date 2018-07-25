@@ -947,16 +947,23 @@ public class ModificacionDePedidos extends javax.swing.JInternalFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         int cod=0;
         String descripcion=JOptionPane.showInputDialog("Ingrese aclaracion del articulo ","");
-        Articulos pedidos=new Articulos();
-        pedidos.setNumeroId(0);
-        pedidos.setCantidad(0.00);
-        pedidos.setPrecioUnitarioNeto(0.00);
-        pedidos.setPrecioDeCosto(0.00);
-        pedidos.setDescripcionArticulo(descripcion);
-        pedidos.setCodigoAsignado(String.valueOf(cod));
-        detalleDelPedido.add(pedidos);
-        agregarRenglonTabla();
-        montrarMonto();
+        descripcion=descripcion.trim();
+        if(descripcion.equals("")){
+            
+        }else{
+            
+        
+            Articulos pedidos=new Articulos();
+            pedidos.setNumeroId(0);
+            pedidos.setCantidad(0.00);
+            pedidos.setPrecioUnitarioNeto(0.00);
+            pedidos.setPrecioDeCosto(0.00);
+            pedidos.setDescripcionArticulo(descripcion);
+            pedidos.setCodigoAsignado(String.valueOf(cod));
+            detalleDelPedido.add(pedidos);
+            agregarRenglonTabla();
+            montrarMonto();
+        }
         jTextField1.setText("");
         jTextField1.requestFocus();
     }//GEN-LAST:event_jButton7ActionPerformed

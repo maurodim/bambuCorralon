@@ -31,12 +31,14 @@ public class SelectorReparto extends javax.swing.JDialog {
     private DetallePedidos detalle;
     private ArrayList detalleP;
     private Clientes cliTa;
+    public int btnSeleccionado;
     /**
      * Creates new form SelectorReparto
      */
     public SelectorReparto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        btnSeleccionado=0;
     }
     public SelectorReparto(java.awt.Frame parent, boolean modal,Boolean reparto,Integer nPedido,Clientes cli) {
         super(parent, modal);
@@ -57,8 +59,9 @@ public class SelectorReparto extends javax.swing.JDialog {
             this.jButton2.setVisible(false);
             this.jButton3.setVisible(false);
         }
-        
+        btnSeleccionado=0;
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,7 +82,6 @@ public class SelectorReparto extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -175,14 +177,6 @@ public class SelectorReparto extends javax.swing.JDialog {
             }
         });
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/applications_black.png"))); // NOI18N
-        jButton5.setText("Convertir en Cotizacion");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosNuevos/Currency- Dollar.png"))); // NOI18N
         jButton6.setText("Ingresar Pago");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -203,12 +197,10 @@ public class SelectorReparto extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
                 .addComponent(jButton6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(220, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +208,6 @@ public class SelectorReparto extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton6)
@@ -302,16 +293,18 @@ public class SelectorReparto extends javax.swing.JDialog {
         } catch (IOException ex) {
             Logger.getLogger(SelectorReparto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        btnSeleccionado=1;
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        btnSeleccionado=1;
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ImprimirPedido imprimirOt=new ImprimirPedido();
+        btnSeleccionado=1;
         try {
             imprimirOt.ImprimirOrdenDetallada(pedido);
         } catch (IOException ex) {
@@ -342,17 +335,15 @@ public class SelectorReparto extends javax.swing.JDialog {
                     this.jButton1.setVisible(true);
                     this.jButton2.setVisible(true);
                     this.jButton3.setVisible(true);
-                    this.jButton5.setVisible(false);
+                    //this.jButton5.setVisible(false);
                 }
+                btnSeleccionado=1;
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        btnSeleccionado=1;
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        //
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -402,7 +393,6 @@ public class SelectorReparto extends javax.swing.JDialog {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

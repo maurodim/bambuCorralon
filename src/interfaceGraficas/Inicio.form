@@ -272,6 +272,7 @@
                   <Image iconType="3" name="/imagen/stuff_black.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Generar Remito"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem17ActionPerformed"/>

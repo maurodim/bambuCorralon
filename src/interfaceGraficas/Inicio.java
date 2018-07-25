@@ -428,6 +428,7 @@ public class Inicio extends javax.swing.JFrame {
         jMenuItem17.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/stuff_black.png"))); // NOI18N
         jMenuItem17.setText("Generar Remito");
+        jMenuItem17.setEnabled(false);
         jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem17ActionPerformed(evt);

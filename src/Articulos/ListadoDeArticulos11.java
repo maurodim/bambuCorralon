@@ -18,6 +18,7 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
     private Integer tipo;
     private int obb;
     private Double nuevaCotizacion;
+    private int todos;
     
     /**
      * Creates new form ListadoDeArticulos
@@ -25,6 +26,7 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
     public ListadoDeArticulos11(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        todos=0;
     }
 
     ListadoDeArticulos11(Integer idRubro,ArrayList lst,int tpo) {
@@ -36,6 +38,7 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
         if(tipo==1){
             this.jButton1.setText("Quitar Rubro");
         }
+        todos=0;
     }
 
     public ListadoDeArticulos11(Integer rubroId, ArrayList lstArticulos, Integer tipo, int obb,Double nueva) {
@@ -48,6 +51,7 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
         if(tipo==1){
             this.jButton1.setText("Quitar Proveedor");
         }
+        todos=0;
     }
     
     /**
@@ -63,6 +67,7 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listado de Articulos");
@@ -88,6 +93,13 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
             }
         });
 
+        jButton2.setText("Marcar/Desmarcar Todos");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -98,6 +110,8 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -107,7 +121,9 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14)
-                .addComponent(jButton1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -166,6 +182,23 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int cantidad=jTable1.getRowCount();
+        
+        for(int a=0;a < cantidad;a++){
+            if(todos==0){
+                jTable1.setValueAt(false, a, 0);
+            }else{
+                jTable1.setValueAt(true, a, 0);
+            }
+        }
+        if(todos==0){
+            todos=1;
+        }else{
+            todos=0;
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -212,6 +245,7 @@ public class ListadoDeArticulos11 extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTable jTable1;
