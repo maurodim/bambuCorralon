@@ -6,6 +6,8 @@ package objetos;
 
 import Articulos.Articulos;
 import Clientes.Objectos.Clientes;
+import Pedidos.DetallePedidos;
+import Pedidos.Pedable;
 import facturacion.clientes.DetalleFacturas;
 import facturacion.clientes.Facturable;
 import facturacion.clientes.MovimientoProveedores;
@@ -51,6 +53,16 @@ public class Comprobantes implements Facturar{
     private Double subTotal;
     private Double porcentajeDescuento;
     private Double descuento;
+    private Integer idPedido;
+
+    public Integer getIdPedido() {
+        return idPedido;
+    }
+
+    public void setIdPedido(Integer idPedido) {
+        this.idPedido = idPedido;
+    }
+    
 
     public Double getDescuento() {
         return descuento;
@@ -320,12 +332,14 @@ public class Comprobantes implements Facturar{
          * 
          */
         Comprobantes comp=(Comprobantes)oob;
-        Iterator iComp=comp.listadoDeArticulos.listIterator();
+        Pedable ppd=new DetallePedidos();
+        ArrayList listado=ppd.convertirAArticulos(comp.listadoDeArticulos);
+        Iterator iComp=listado.listIterator();
         numeroActual(comp.getTipoComprobante());
         if(comp.getFe()){
             numeroComprobante=0;
         }else{
-        numeroComprobante++;
+            numeroComprobante++;
         }
         comp.setNumero(numeroComprobante);
         Transaccionable tra=new Conecciones();
@@ -334,7 +348,7 @@ public class Comprobantes implements Facturar{
         MovimientoProveedores factura=new MovimientoProveedores();
         factura.setEstado(comp.getPagado());
         factura.setIdCliente(comp.getCliente().getCodigoId());
-        factura.setIdPedido(0);
+        factura.setIdPedido(comp.getIdPedido());
         factura.setIdRemito(0);
         factura.setSubTotal(comp.getSubTotal());
         factura.setDescuento(comp.getDescuento());
@@ -363,7 +377,7 @@ public class Comprobantes implements Facturar{
                     art=(Articulos)itC.next();
                     cantidad=cantidad * art.getCantidad();
                     sql="insert into movimientosarticulos (tipoMovimiento,idArticulo,cantidad,numeroDeposito,tipoComprobante,numeroComprobante,numeroCliente,fechaComprobante,numeroUsuario,precioDeVenta,precioServicio,preciodecosto,idcaja) values ("+comp.getTipoMovimiento()+","+art.getNumeroId()+","+cantidad+","+Inicio.deposito.getNumero()+","+comp.getTipoComprobante()+","+comp.getNumero()+","+comp.getCliente().getCodigoId()+",'"+comp.getFechaEmision()+"',"+comp.getUsuarioGenerador()+","+articulo.getPrecioUnitario()+","+articulo.getPrecioServicio()+","+articulo.getPrecioDeCosto()+","+Inicio.caja.getNumero()+")";
-                    verif=tra.guardarRegistro(sql);
+                    //verif=tra.guardarRegistro(sql);
                     // aca debe grabar en detalle de facturas
                 }
             }else{
@@ -384,14 +398,14 @@ public class Comprobantes implements Facturar{
             }
             ffD.nuevaFactura(detalle);
             sql="insert into movimientosarticulos (tipoMovimiento,idArticulo,cantidad,numeroDeposito,tipoComprobante,numeroComprobante,numeroCliente,fechaComprobante,numeroUsuario,precioDeVenta,precioServicio,preciodecosto,idcaja) values ("+comp.getTipoMovimiento()+","+articulo.getNumeroId()+","+cantidad+","+Inicio.deposito.getNumero()+","+comp.getTipoComprobante()+","+comp.getNumero()+","+comp.getCliente().getCodigoId()+",'"+comp.getFechaEmision()+"',"+comp.getUsuarioGenerador()+","+articulo.getPrecioUnitario()+","+articulo.getPrecioServicio()+","+articulo.getPrecioDeCosto()+","+Inicio.caja.getNumero()+")";
-            verif=tra.guardarRegistro(sql);
+            //verif=tra.guardarRegistro(sql);
             }
         }
         
             sql="insert into movimientoscaja (numeroUsuario,numeroSucursal,numeroComprobante,tipoComprobante,monto,tipoMovimiento,idCaja,idCliente,tipoCliente,pagado) values ("+comp.getUsuarioGenerador()+","+comp.getIdSucursal()+","+comp.getNumero()+","+comp.getTipoComprobante()+",round("+comp.getMontoTotal()+",4),"+comp.getTipoMovimiento()+","+Inicio.caja.getNumero()+","+comp.getCliente().getCodigoId()+",1,"+comp.getPagado()+")";
-            tra.guardarRegistro(sql);
+            //tra.guardarRegistro(sql);
             sql="insert into movimientosclientes (numeroProveedor,monto,pagado,numeroComprobante,idUsuario,idCaja,idSucursal,tipoComprobante) values ("+comp.getCliente().getCodigoId()+",round("+comp.getMontoTotal()+",4),"+comp.getPagado()+","+numeroComprobante+","+Inicio.usuario.getNumeroId()+","+Inicio.caja.getNumero()+","+Inicio.sucursal.getNumero()+","+comp.getTipoComprobante()+")";
-            tra.guardarRegistro(sql);
+            //tra.guardarRegistro(sql);
         
         System.out.println("SE RECEPCIONO BARBARO");
         sql="update tipocomprobantes set numeroActivo="+numeroComprobante+" where id="+idComp;

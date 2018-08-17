@@ -158,6 +158,7 @@ public class DetalleRemitosX implements Remitable{
     public void setIdPedido(Integer idPedido) {
         this.idPedido = idPedido;
     }
+    
 
     @Override
     public Integer nuevo(Object remi) {

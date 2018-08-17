@@ -15,6 +15,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import Articulos.Articulos;
+import Clientes.Objectos.Clientes;
+import Reparto.PedidosParaReparto;
+import Reparto.interfaces.ExportacionDePedidos;
+import interfaceGraficas.Inicio;
 import objetos.Conecciones;
 
 /**
@@ -122,7 +126,55 @@ public class DetallePedidos implements Pedable{
     public void setCantidadRemitida(Double cantidadRemitida) {
         this.cantidadRemitida = cantidadRemitida;
     }
-
+    private Boolean EnviarAReparto(String entrega,ArrayList listado){
+        DetallePedidos detalle;
+        Iterator it=listado.listIterator();
+        PedidosParaReparto pedido;
+        Boolean confirmado=false;
+        Clientes cliente;
+        Articulos articulo;
+        ArrayList enviados=new ArrayList();
+        Integer idPedido=0;
+        while(it.hasNext()){
+            detalle=(DetallePedidos) it.next();
+            pedido=new PedidosParaReparto();
+            cliente=new Clientes();
+            articulo=new Articulos();
+            articulo=(Articulos) articulo.cargarPorCodigoAsignado(detalle.getIdArticulo());
+            cliente=(Clientes) cliente.cargarPorCodigoAsignado(detalle.getIdCliente());
+            pedido.setCodigoTangoDePedido(String.valueOf(detalle.getIdPedido()));
+            pedido.setFechaPedidosTango(Inicio.fechaDia);
+            pedido.setCodigoCliente(String.valueOf(detalle.getIdCliente()));
+            pedido.setRazonSocial(cliente.getRazonSocial());
+            pedido.setCondicionDeVenta(cliente.getCondicionDeVenta());
+            pedido.setObservaciones(detalle.getObservaciones());
+            pedido.setObservaciones1("");
+            pedido.setObservaciones2("");
+            pedido.setCodigoArticulo(articulo.getCodigoDeBarra());
+            pedido.setDescripcionArticulo(detalle.getDescripcionArticulo());
+            pedido.setCantidadArticulo(detalle.getCantidad());
+            pedido.setCantidadArticuloPendiente(detalle.getCantidad());
+            pedido.setCantidadArticulosTotales(detalle.getCantidadRemitida());
+            pedido.setFechaEnvio(entrega);
+            pedido.setZonaAsignada(1);
+            pedido.setAlertaAsignada(0);
+            pedido.setNumeroVendedor(1);
+            idPedido=detalle.getIdPedido();
+            pedido.setIdPedidoEnTango(detalle.getIdPedido());
+            enviados.add(pedido);
+        }
+        Transaccionable tra=new Conecciones();
+        String sql="update pedidos set entrega='"+entrega+"' where id="+idPedido;
+        tra.guardarRegistro(sql);
+        if(enviados.size() > 0){
+            ExportacionDePedidos expor=new PedidosParaReparto();
+            expor.enviar(enviados);
+            confirmado=true;
+        }else{
+            confirmado=false;
+        }
+        return confirmado;
+    }
     @Override
     public Integer nuevoPedido(Object ped) {
         DetallePedidos detalle=new DetallePedidos();
@@ -223,7 +275,7 @@ public class DetallePedidos implements Pedable{
     }
 
     @Override
-    public void transformarEnFactura(Object ped, ArrayList detalle) {
+    public Integer transformarEnFactura(Object ped, ArrayList detalle) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -334,6 +386,11 @@ public class DetallePedidos implements Pedable{
                 
             
         return cotizac;
+    }
+
+    @Override
+    public Boolean EnviarReparto(String entrega, ArrayList lista) {
+        return this.EnviarAReparto(entrega, lista);
     }
     
     

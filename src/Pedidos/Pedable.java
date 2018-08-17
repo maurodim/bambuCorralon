@@ -23,12 +23,12 @@ public interface Pedable {
     public Boolean modificarPedido(Object ped);
     public void eliminarPedido(Integer idPed);
     public DefaultTableModel mostrarListado(ArrayList lista);
-    public void transformarEnFactura(Object ped,ArrayList detalle);
+    public Integer transformarEnFactura(Object ped,ArrayList detalle);
     public void transformarEnCotizacion(Object ped,ArrayList detalle);
     public void transformarEnRemito(Object ped,ArrayList detalle);
     public ArrayList convertirAArticulos(ArrayList detalle);
     public Object ActualizarPedido(Object ped);
     public Object AplicarRecargo(Double tasa,Object ped);
-    
+    public Boolean EnviarReparto(String entrega,ArrayList lista);
     
 }

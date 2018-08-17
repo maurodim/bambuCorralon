@@ -122,6 +122,7 @@ public class DetalleRemitos implements Remitable{
         tra.guardarRegistro(sql);
         sql="update detallefacturas set cantidadremitida="+detalle.getCantidadRemitida()+" where idfactura="+detalle.getIdFactura()+" and idarticulo="+detalle.getIdArticulo();
         tra.guardarRegistro(sql);
+        
         return id;
     }
 

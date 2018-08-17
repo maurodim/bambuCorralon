@@ -5,74 +5,195 @@
  */
 package Configuracion;
 
+import Conversores.Numeros;
+import interfaces.Transaccionable;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
+import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
  * @author mauro
  */
 public class Propiedades {
-    static String SERVER="localhost";
-    static String BD="bbgestion";
-    static String USUARIO="bambusoft";
-    static String CLAVE="Bghjiit889210}>";
+    static String SERVER;
+    static String BD;
+    static String USUARIO;
+    static String CLAVE;
     static String CREADA;
-    static String ARCHIVOBCRT;
-    static String ARCHIVOKEY;
-    static String PUNTODEVENTA;
-    static String CUIT;
-    static String NOMBRE;
+    static String ARCHIVOBK;
+    static String NOMBRECOMERCIO;
+    static String LOGO;
+    static String IMAGEN;
+    static String CORREOCIERREDECAJA;
+    static String CORREOCC;
+    static String CORREOCCC;
+    static String VERIF;
+    static String VALOR;
+    static String ID;
     static String DIRECCION;
     static String TELEFONO;
-    static String ARCHIVOBK;
+    static String KEY;
+    static String BK;
+    static String FISCAL;
+    static String ELECTRONICA;
+    static String CUIT;
+    static String INGBRUTOS;
+    static String INICIOACT;
+    static String PTO;
+    static String CONDICION;
+    static String SKEY;
+    static String RAZONSOCIAL;
+    static String MODULORUBROS;
     static String DUMP;
-    static String MAIL;
-    static String CORREOSALIENTE;
+    static String ARCHIVOKEY;
+    static String ARCHIVOCRT;
+    static String CONDICIONIVA;
+    static String PUNTODEVENTA;
+    static String TIPODEVENTA;
     static String PASS;
-
-    public static String getCORREOSALIENTE() {
-        return CORREOSALIENTE;
-    }
+    static String CORREOSALIENTE;
 
     public static String getPASS() {
         return PASS;
     }
+
+    public static String getCORREOSALIENTE() {
+        return CORREOSALIENTE;
+    }
     
 
-    public static String getMAIL() {
-        return MAIL;
+    public static String getCONDICIONIVA() {
+        return CONDICIONIVA;
+    }
+
+    public static String getPUNTODEVENTA() {
+        return PUNTODEVENTA;
+    }
+
+    public static String getTIPODEVENTA() {
+        return TIPODEVENTA;
+    } 
+
+    public static String getARCHIVOKEY() {
+        return ARCHIVOKEY;
+    }
+
+    public static String getARCHIVOCRT() {
+        return ARCHIVOCRT;
     }
     
 
     public static String getDUMP() {
         return DUMP;
     }
-    
 
-    public static String getARCHIVOBK() {
-        return ARCHIVOBK;
+    
+    public static String getMODULORUBROS() {
+        return MODULORUBROS;
+    }
+    
+    
+    public static String getRAZONSOCIAL() {
+        return RAZONSOCIAL;
     }
     
 
-    public static String getNOMBRE() {
-        return NOMBRE;
+    public static String getBK() {
+        return BK;
     }
 
+    public static String getFISCAL() {
+        return FISCAL;
+    }
+
+    public static String getELECTRONICA() {
+        return ELECTRONICA;
+    }
+
+    public static String getCUIT() {
+        return CUIT;
+    }
+
+    public static String getINGBRUTOS() {
+        return INGBRUTOS;
+    }
+
+    public static String getINICIOACT() {
+        return INICIOACT;
+    }
+
+    public static String getPTO() {
+        return PTO;
+    }
+
+    public static String getCONDICION() {
+        return CONDICION;
+    }
+
+    public static String getSKEY() {
+        return SKEY;
+    }
+    
+
+    public static String getKEY() {
+        return KEY;
+    }
+    
     public static String getDIRECCION() {
         return DIRECCION;
     }
 
+    public static void setDIRECCION(String DIRECCION) {
+        Propiedades.DIRECCION = DIRECCION;
+    }
+
     public static String getTELEFONO() {
         return TELEFONO;
+    }
+
+    public static void setTELEFONO(String TELEFONO) {
+        Propiedades.TELEFONO = TELEFONO;
+    }
+    
+
+    public static String getVERIF() {
+        return VERIF;
+    }
+
+    public static String getVALOR() {
+        return VALOR;
+    }
+
+    public static String getID() {
+        return ID;
+    }
+    
+    
+
+    public static String getCORREOCIERREDECAJA() {
+        return CORREOCIERREDECAJA;
+    }
+
+    public static String getCORREOCC() {
+        return CORREOCC;
+    }
+
+    public static String getCORREOCCC() {
+        return CORREOCCC;
     }
     
 
@@ -96,32 +217,28 @@ public class Propiedades {
         return CREADA;
     }
 
-    public static String getARCHIVOBCRT() {
-        return ARCHIVOBCRT;
+    public static String getARCHIVOBK() {
+        return ARCHIVOBK;
     }
 
-    public static String getARCHIVOKEY() {
-        return ARCHIVOKEY;
+    public static String getNOMBRECOMERCIO() {
+        return NOMBRECOMERCIO;
     }
 
-    public static String getPUNTODEVENTA() {
-        return PUNTODEVENTA;
+    public static String getLOGO() {
+        return LOGO;
     }
 
-    public static String getCUIT() {
-        return CUIT;
+    public static String getIMAGEN() {
+        return IMAGEN;
     }
     
     
-    
-
-    
-    
-    public static void CargarPropiedades1() throws ParseException, IOException{
+    public static void CargarPropiedades() throws ParseException{
         File archivo = new File ("Configuracion\\bbsGestion.properties");
         Properties p=new Properties();
          if(archivo.exists()){
-            try {
+         try {
                 //Process px=Runtime.getRuntime().exec("c:/xampp/xampp_start.exe");
                 sleep(2000);
             } catch (InterruptedException ex) {
@@ -130,7 +247,13 @@ public class Propiedades {
          
         int verificado=0;
         
-            p.load(new FileReader(archivo));
+            try {
+                p.load(new FileReader(archivo));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Propiedades.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Propiedades.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Enumeration<Object> keys = p.keys();
 
             while (keys.hasMoreElements()){
@@ -149,78 +272,114 @@ public class Propiedades {
                 //Transaccionable tra=new Conecciones();
                 //while((linea=br.readLine())!=null){
                     
-                    
-                    
+                             
+                    BD=p.getProperty("BD");
+                    SERVER=p.getProperty("SERVER");
+                    USUARIO=p.getProperty("USUARIO");
+                    CLAVE=p.getProperty("CLAVE");
                             CREADA=p.getProperty("CREADA");
                         
-                            CORREOSALIENTE="bambusuite@bambusoft.com.ar";
-                            PASS="bambuSoft001";
+                            ARCHIVOBK=p.getProperty("ARCHIVOBK");
+                        
+                            NOMBRECOMERCIO=p.getProperty("NOMBRECOMERCIO");
+                        
+                            LOGO=p.getProperty("LOGO");
+                        
+                            IMAGEN=p.getProperty("IMAGEN");
+                        
+                            VERIF=p.getProperty("VERIF");
+                       
+                            CORREOCIERREDECAJA=p.getProperty("MAIL");
+                        
+                            VALOR=p.getProperty("VALOR");
+                        
+                            ID=p.getProperty("ID");
+                        
+                            CORREOCC=p.getProperty("MAILCC");
+                            
+                            CORREOCCC=p.getProperty("MAILCCO");
+                            
+                            DIRECCION=p.getProperty("DIRECCION");
+                            
+                            TELEFONO=p.getProperty("TELEFONO");
+                        
+                            BK=p.getProperty("BK");
+                            FISCAL=p.getProperty("FISCAL");
+                            ELECTRONICA=p.getProperty("ELECTRONICA");
+                            KEY=p.getProperty("KEY");
                             
                             CUIT=p.getProperty("CUIT");
-                            SERVER=p.getProperty("SERVER");
-                            BD=p.getProperty("BD");
-                            USUARIO=p.getProperty("USUARIO");
-                            CLAVE=p.getProperty("CLAVE");
-                            ARCHIVOBCRT=p.getProperty("ARCHIVOBCRT");
-                            ARCHIVOKEY=p.getProperty("ARCHIVOKEY");
-                            PUNTODEVENTA=p.getProperty("PUNTODEVENTA");
-                            NOMBRE=p.getProperty("NOMBRE");
-                            DIRECCION=p.getProperty("DIRECCION");
-                            TELEFONO=p.getProperty("TELEFONO");
-                            ARCHIVOBK=p.getProperty("ARCHIVOBK");
+                            INGBRUTOS=p.getProperty("INGBRUTOS");
+                            INICIOACT=p.getProperty("INICIOACT");
+                            PTO=p.getProperty("PTO");
+                            //CONDICION=p.getProperty("CONDICION");
+                            CONDICION="2";
+                            SKEY=p.getProperty("SKEY");
+                            RAZONSOCIAL=p.getProperty("RAZONSOCIAL");
+                            MODULORUBROS=p.getProperty("MODULORUBROS");
                             DUMP=p.getProperty("DUMP");
-                            MAIL=p.getProperty("MAIL");
+                            ARCHIVOKEY=p.getProperty("ARCHIVOKEY");
+                            ARCHIVOCRT=p.getProperty("ARCHIVOCRT");
+                            CONDICIONIVA=p.getProperty("CONDICIONIVA");
+                            PUNTODEVENTA=p.getProperty("PUNTODEVENTA");
+                            TIPODEVENTA=p.getProperty("TIPODEVENTA");
+                            PASS=p.getProperty("PASS");
+                            CORREOSALIENTE=p.getProperty("CORREOSALIENTE");
                             
                             
                         
-            
-            
-            
+                    
+                    //System.out.println(renglon+" // "+linea);
+                    // if(tra.guardarRegistro(linea));
+                   
+                
+                    
+                    
+                    //JOptionPane.showMessageDialog(null,"NO SE HA PODIDO ESTABLECER CONEXION CON INTERNET, POR FAVOR VERIFIQUE DICHA CONEXION");
+                            
+                            Date fecha=Numeros.ConvertirStringEnDate(VERIF);
+                            DecimalFormat fr1=new DecimalFormat("00");
+                            Calendar c1=Calendar.getInstance();
+                            Calendar c2=new GregorianCalendar();
+                            String dia=Integer.toString(c2.get(Calendar.DAY_OF_MONTH));
+                            String mes=Integer.toString(c2.get(Calendar.MONTH));
+                            String ano=Integer.toString(c2.get(Calendar.YEAR));
+
+                            int da=Integer.parseInt(dia);
+                            int me=Integer.parseInt(mes);
+                            me++;
+                            dia=fr1.format(da);
+                            mes=fr1.format(me);
+                            String fechaDia=ano+"-"+mes+"-"+dia;
+                            //System.err.println(fechaDia);
+                            //fecha="23/12/2011";
+                            String fh=ano+"-"+mes+"-"+dia;
+                            SimpleDateFormat ff=new SimpleDateFormat("yyyy-MM-dd");
+                            Date fechaVal = null;    
+
+                                fechaVal = Numeros.ConvertirStringEnDate(fh);
+                                //fechaVal = ff.parse(fh);
+
+
+                           if(fechaVal.after(fecha)){
+            System.exit(0);
         }else{
-             
-             ListadoConfiguracion confi=new ListadoConfiguracion();
-             confi.setVisible(true);
-             confi.toFront();
-             CREADA="1";
-             CUIT=confi.jTextField8.getText();
-             SERVER=confi.jTextField1.getText();
-             BD=confi.jTextField2.getText();
-             USUARIO=confi.jTextField3.getText();
-             CLAVE=confi.jTextField4.getText();
-             ARCHIVOBCRT=confi.jTextField6.getText();
-             ARCHIVOKEY=confi.jTextField7.getText();
-             PUNTODEVENTA=confi.jTextField5.getText();
-             NOMBRE=confi.nombre.getText();
-             DIRECCION=confi.direccion.getText();
-             TELEFONO=confi.telefono.getText();
-             
-             
-             p.setProperty("CREADA",CREADA);
-             p.setProperty("CUIT",CUIT);
-             p.setProperty("SERVER",SERVER);
-             p.setProperty("BD",BD);
-                    
-             
-             p.setProperty("USUARIO",USUARIO);
-             p.setProperty("CLAVE",CLAVE);
-             p.setProperty("ARCHIVOBCRT",ARCHIVOBCRT);
-             p.setProperty("ARCHIVOKEY",ARCHIVOKEY);
-             p.setProperty("PUNTODEVENTA",PUNTODEVENTA);
-             p.setProperty("NOMBRE", NOMBRE);
-             p.setProperty("DIRECCION", DIRECCION);
-             p.setProperty("TELEFONO",TELEFONO);
-                        
-                    
-             
-             p.store(new FileWriter("Configuracion\\bbsGestion.properties"),"");
-             
-               
-            
-         }
+            //System.exit(0);
+        }
+        
+                
+            }
+        }
         //BD="siglox";
         
         
         
-    }
     
+    private void CrearBase(){
+        Boolean veridi=false;
+        //Transaccionable tra=new ConeccionInstalacion();
+        //tra.guardarRegistro("create database "+BD);
+        
+        //return veridi;
+    }
 }

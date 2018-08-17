@@ -93,7 +93,7 @@ public class pdfsJavaGenerador {
             cb.setFontAndSize(bf,16);
             cb.beginText();
             cb.setTextMatrix(100,750);
-            cb.showText(Propiedades.getNOMBRE());
+            cb.showText(Propiedades.getNOMBRECOMERCIO());
             //linea.drawLine(cb,100,750,100);
             cb.setFontAndSize(bf,10);
             cb.setTextMatrix(100, 740);
@@ -213,7 +213,7 @@ public class pdfsJavaGenerador {
             cb.setFontAndSize(bf,16);
             
             cb.setTextMatrix(100,750);
-            cb.showText(Propiedades.getNOMBRE());
+            cb.showText(Propiedades.getNOMBRECOMERCIO());
             
             cb.setFontAndSize(bf,10);
             cb.setTextMatrix(40, 740);

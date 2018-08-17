@@ -8,7 +8,6 @@ import interfaceGraficas.NuevoCliente;
 import Pedidos.IngresoDePedidos;
 import Conversores.Numeros;
 import Clientes.Objectos.Clientes;
-import FacturaE.FEl;
 import interfaceGraficas.Inicio;
 import interfacesPrograma.Facturar;
 import java.awt.event.KeyEvent;
@@ -16,7 +15,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,29 +22,22 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import Articulos.Articulos;
 import Articulos.Modificable;
 import Articulos.Rubrable;
 import Articulos.Rubros;
 import Articulos.SubRubros;
-import FacturaE.pdfsJavaGenerador;
 import ListasDePrecios.Articulable;
 import ListasDePrecios.ArticulosAsignados;
 import Sucursales.ListasDePrecios;
 import facturacion.clientes.ImprimirFactura;
 import interfaces.Comparables;
 import java.awt.event.KeyListener;
-import java.net.MalformedURLException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.xml.parsers.ParserConfigurationException;
 import objetos.Comprobantes;
-import objetos.Conecciones;
-import org.xml.sax.SAXException;
-import tablas.MiModeloTablaBuscarCliente;
 import tablas.MiModeloTablaFacturacion;
 
 
@@ -823,41 +814,10 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame implements Key
         if(noFacturar==0){
         Facturar fat=new Comprobantes();
         comprobante=(Comprobantes)fat.guardar(comprobante);
+        
         // aqui hago el envio a factura  electronica, si aprueba no imprime
         
-        FEl fe=new FEl();
-        try {
-            
-           fe=(FEl) fe.leer(comprobante);
-           if(fe.getRespuesta().equals("OK")){
-               //JOptionPane.showMessageDialog(this,"aprobada id: "+fe.getId());
-               pdfsJavaGenerador pdf=new pdfsJavaGenerador();
-               pdf.setDoc(fe);
-               pdf.setCliente(cliT);
-               pdf.run();
-              /*         
-        ImprimirFactura imprimir=new ImprimirFactura();
-            try {
-                imprimir.ImprimirFactura(comprobante.getNumero(),comprobante.getTipoComprobante());
-            } catch (IOException ex) {
-                Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            */
-            
-           }else{
-               if(fe.getRespuesta().equals("PARAMETROS"))JOptionPane.showMessageDialog(this,"Error en los parametros del cliente, modifiquelos en cae pendientes");
-                              JOptionPane.showMessageDialog(this,"error en la coneccion, intentelo mas tarde");
-           }
-        } catch (IOException ex) {
-            Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println(ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-                Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        
         /*
          * ACA DEBO LIMPIAR TODOS LOS CAMPOS Y VARIABLES DE LA PANTALLA
          * 

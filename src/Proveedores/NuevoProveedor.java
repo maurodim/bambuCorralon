@@ -7,7 +7,6 @@ package Proveedores;
 import Proveedores.Proveedores;
 import Cotizaciones.Cotizacion;
 import Cotizaciones.IngresoDeCotizacion;
-import FacturaE.FacturableE;
 import Proveedores.objetos.ImprimirOrdenDeTrabajo;
 import Proveedores.objetos.MovimientoProveedores;
 import Proveedores.objetos.OrdenDePago;
@@ -30,6 +29,7 @@ import javax.swing.event.InternalFrameListener;
 import javax.swing.table.DefaultTableModel;
 import objetos.CondicionesIva;
 import objetos.Localidades;
+import FacturaE.FacturableEx;
 
 /**
  *
@@ -599,7 +599,7 @@ public class NuevoProveedor extends javax.swing.JInternalFrame implements Intern
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
-        FacturableE factu=new MovimientoProveedores();
+        FacturableEx factu=new MovimientoProveedores();
         
         listadoCot=factu.listarPorEstado(cliTa.getNumero());
         this.jTable3.setModel(factu.mostrarListado(listadoCot));

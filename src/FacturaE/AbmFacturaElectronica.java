@@ -5,6 +5,7 @@
  */
 package FacturaE;
 
+import objetos.FacturaElectronica;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -16,19 +17,20 @@ import javax.swing.table.DefaultTableModel;
 public class AbmFacturaElectronica extends javax.swing.JInternalFrame {
     DefaultTableModel modelo;
     ArrayList listadoFe;
-    FEl faE;
+    FacturaElectronica faE;
     /**
      * Creates new form AbmFacturaElectronica
      */
     public AbmFacturaElectronica() {
         modelo=new DefaultTableModel();
         listadoFe=new ArrayList();
-        faE=new FEl();
-        FacturableE ff=new FEl();
-        listadoFe=ff.listarPorEstado(0);
+        /*
+        faE=new FacturaElectronica();
+        FacturableE ff=new FacturaElectronica();
+        listadoFe=ff.listarPorEstado(1);
         modelo=ff.mostrarListado(listadoFe);
         
-        
+        */
         initComponents();
         this.jTable1.setModel(modelo);
         
@@ -79,7 +81,7 @@ public class AbmFacturaElectronica extends javax.swing.JInternalFrame {
         jButton1.setText("Eliminar");
         jButton1.setEnabled(false);
 
-        jButton2.setText("Reintentar");
+        jButton2.setText("Recuperar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -87,7 +89,6 @@ public class AbmFacturaElectronica extends javax.swing.JInternalFrame {
         });
 
         jButton3.setText("Reimprimir");
-        jButton3.setEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -142,9 +143,19 @@ public class AbmFacturaElectronica extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        faE=(FEl) listadoFe.get(this.jTable1.getSelectedRow());
-        FacturableE ffE=new FEl();
-        faE=(FEl) ffE.reEnviar(faE);
+        String numero=JOptionPane.showInputDialog("Ingrese Numero a Consultar");
+        /*
+        faE=new FacturaElectronica();
+        faE.setAfipPlastId(numero);
+        //faE=(FacturaElectronica) listadoFe.get(this.jTable1.getSelectedRow());
+        EditarFactura editt=new EditarFactura(numero);
+        Inicio.jDesktopPane1.add(editt);
+        editt.setVisible(true);
+        editt.toFront();
+        */
+        /*
+        FacturableE ffE=new FacturaElectronica();
+        faE=(FacturaElectronica) ffE.reEnviar(faE);
         if(faE.getRespuesta().equals("OK")){
             ffE.reimprimir(faE);
         
@@ -158,15 +169,18 @@ public class AbmFacturaElectronica extends javax.swing.JInternalFrame {
         modelo=ffE.mostrarListado(listadoFe);
         this.jTable1.setModel(modelo);
         this.jTable1.requestFocus();
+        */
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        faE=(FEl) listadoFe.get(this.jTable1.getSelectedRow());
-        FacturableE ffE=new FEl();
+        /*
+        faE=(FacturaElectronica) listadoFe.get(this.jTable1.getSelectedRow());
+        FacturableE ffE=new FacturaElectronica();
         
         if(faE.getRespuesta().equals("OK")){
             ffE.reimprimir(faE);
         }
+*/
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

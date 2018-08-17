@@ -7,9 +7,11 @@ package bbsgestion;
 import Configuracion.Propiedades;
 import interfaceGraficas.LoguinBbsGestion;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -27,6 +29,8 @@ public class BbsGestion {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
+        
+        
         /*
         ArrayList usuariosList=new ArrayList();
         Usuarios usuarios=new Usuarios();
@@ -166,12 +170,12 @@ public class BbsGestion {
             }
             }
             */
-            Propiedades.CargarPropiedades1();
+            Propiedades.CargarPropiedades();
         } catch (ParseException ex) {
             Logger.getLogger(BbsGestion.class.getName()).log(Level.SEVERE, null, ex);
         }
         LoguinBbsGestion lBb=new LoguinBbsGestion();
-        lBb.setTitle("ACCESO AL SISTEMA DE "+Propiedades.getNOMBRE().toUpperCase());
+        lBb.setTitle("ACCESO AL SISTEMA DE "+Propiedades.getNOMBRECOMERCIO().toUpperCase());
         lBb.setVisible(true);
         lBb.pack();
     }

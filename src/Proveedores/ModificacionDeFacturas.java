@@ -30,8 +30,7 @@ import Articulos.Modificable;
 import Articulos.Rubrable;
 import Articulos.Rubros;
 import Articulos.SubRubros;
-import FacturaE.FEl;
-import FacturaE.pdfsJavaGenerador;
+
 import ListasDePrecios.Articulable;
 import ListasDePrecios.ArticulosAsignados;
 import Proveedores.objetos.Impuestos;
@@ -883,41 +882,7 @@ public class ModificacionDeFacturas extends javax.swing.JInternalFrame {
         comprobante=(Comprobantes)fat.guardar(comprobante);
         // aqui hago el envio a factura  electronica, si aprueba no imprime
         
-        FEl fe=new FEl();
-        try {
-            
-           fe=(FEl)fe.leer(comprobante);
-           if(fe.getRespuesta().equals("OK")){
-               //JOptionPane.showMessageDialog(this,"aprobada id: "+fe.getId());
-               
-               pdfsJavaGenerador pdf=new pdfsJavaGenerador();
-               pdf.setDoc(fe);
-               pdf.setCliente(cliT);
-               pdf.run();
-               
-              /*         
-        ImprimirFactura imprimir=new ImprimirFactura();
-            try {
-                imprimir.ImprimirFactura(comprobante.getNumero(),comprobante.getTipoComprobante());
-            } catch (IOException ex) {
-                Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            */
-            
-           }else{
-               if(fe.getRespuesta().equals("PARAMETROS"))JOptionPane.showMessageDialog(this,"Error en los parametros del cliente, modifiquelos en cae pendientes");
-                              JOptionPane.showMessageDialog(this,"error en la coneccion, intentelo mas tarde");
-           }
-        } catch (IOException ex) {
-            Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-            System.err.println(ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(IngresoDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-                Logger.getLogger(ModificacionDeFacturas.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        
         /*
          * ACA DEBO LIMPIAR TODOS LOS CAMPOS Y VARIABLES DE LA PANTALLA
          * 

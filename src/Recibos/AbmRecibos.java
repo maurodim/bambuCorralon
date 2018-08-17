@@ -10,8 +10,10 @@ import Pedidos.Pedidos;
 import Proveedores.Proveedores;
 import Clientes.Objectos.Clientes;
 import Pedidos.Pedable;
+import facturacion.pantallas.ModificacionDeFacturas;
 import interfaceGraficas.Inicio;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +41,10 @@ public class AbmRecibos extends javax.swing.JDialog {
     private Proveedores cliP;
     private int tipoFc;//para saber si son pedidos=1
     public int pagado;
+    private Double tasaAsignada;
+    private Double totalComprobantes;
+    private Boolean convertirEnFactura;
+    
 
     
     /**
@@ -48,10 +54,13 @@ public class AbmRecibos extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle("Ingresar Pago Operación - Vendedor Asignado: "+Inicio.usuario.getNombre());
+        convertirEnFactura=false;
         Recidable reci=new DetalleRecibo();
         modelo4=reci.mostrarARecibir(listadoFc);
         this.jTable1.setModel(modelo4);
         this.jLabel2.setText(" $"+montoTotal);
+        //totalComprobantes=montoTotal;
+        totalComprobantes=0.00;
         saldo=montoTotal;
         this.jLabel9.setText("Saldo: $"+saldo);
         int cantidad=this.jTable1.getRowCount();
@@ -82,6 +91,7 @@ public class AbmRecibos extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle("Ingresar Pago Operación - Vendedor Asignado: "+Inicio.usuario.getNombre());
+        convertirEnFactura=false;
         cli=(Clientes)cliente;
         Pedable pedable=new Pedidos();
         Pedidos pedidos=new Pedidos();
@@ -92,6 +102,7 @@ public class AbmRecibos extends javax.swing.JDialog {
         modelo4=reci.mostrarARecibir(listadoFc);
         this.jTable1.setModel(modelo4);
         this.jLabel2.setText(" $"+montoTotal);
+        
         saldo=montoTotal;
         this.jLabel9.setText("Saldo: $"+saldo);
         int cantidad=this.jTable1.getRowCount();
@@ -113,6 +124,7 @@ public class AbmRecibos extends javax.swing.JDialog {
         montoTotal=total;
         saldo=montoTotal;
         jLabel2.setText(" $"+total);
+        totalComprobantes=0.00;
         jLabel9.setText("Saldo: "+saldo);
         this.jTextField1.setText(String.valueOf(total));
         this.jTextField1.requestFocus();
@@ -123,6 +135,7 @@ public class AbmRecibos extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle("Ingresar Pago Operación - Vendedor Asignado: "+Inicio.usuario.getNombre());
+        convertirEnFactura=false;
         cli=(Clientes)cliente;
         Recidable reci=new DetalleRecibo();
         listadoFc=listado;
@@ -130,12 +143,14 @@ public class AbmRecibos extends javax.swing.JDialog {
         modelo4=reci.mostrarARecibir(listadoFc);
         this.jTable1.setModel(modelo4);
         this.jLabel2.setText(" $"+montoTotal);
+        totalComprobantes=0.00;
         saldo=montoTotal;
         this.jLabel9.setText("Saldo: $"+saldo);
     }
     public AbmRecibos(ArrayList listado,Double monto,Proveedores cliente) {
         initComponents();
         this.setTitle("Ingresar Pago Operación - Vendedor Asignado: "+Inicio.usuario.getNombre());
+        convertirEnFactura=false;
         cliP=(Proveedores)cliente;
         Recidable reci=new DetalleRecibo();
         listadoFc=listado;
@@ -143,6 +158,7 @@ public class AbmRecibos extends javax.swing.JDialog {
         modelo4=reci.mostrarARecibir(listadoFc);
         this.jTable1.setModel(modelo4);
         this.jLabel2.setText(" $"+montoTotal);
+        totalComprobantes=0.00;
         saldo=montoTotal;
         this.jLabel9.setText("Saldo: $"+saldo);
     }
@@ -250,6 +266,11 @@ public class AbmRecibos extends javax.swing.JDialog {
 
         jLabel5.setText("Monto: ");
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
@@ -397,8 +418,10 @@ public class AbmRecibos extends javax.swing.JDialog {
             Double monto=0.00;
             monto=Numeros.ConvertirStringADouble(this.jTextField1.getText());
             pago.setMonto(monto);
+            totalComprobantes=totalComprobantes + monto;
             int fPago=this.jComboBox1.getSelectedIndex();
             pago.setId(fPago);
+            Double saldoRecalculado=0.00;
             switch(fPago){
                 case 0:
                     //EFECTIVO
@@ -421,7 +444,15 @@ public class AbmRecibos extends javax.swing.JDialog {
                 detallePagos.add(pago);
                 modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
                 this.jList1.setModel(modeloL);
-                saldo=saldo - pago.getMonto();
+                if(monto==saldo){
+                    saldo=saldo - pago.getMonto();
+                }else{
+                    Double recargo=monto * tasaAsignada;
+                    recargo=recargo - monto;
+                    saldo=saldo + recargo;
+                    saldo=saldo - pago.getMonto();
+                }
+                convertirEnFactura=true;
                 this.jLabel9.setText("Saldo: "+saldo);
                 this.jTextField1.setText("");
                 this.jComboBox1.requestFocus();
@@ -429,15 +460,33 @@ public class AbmRecibos extends javax.swing.JDialog {
                 case 2:
                     //CREDITO
                      pago.setDescripcion("Crédito");
-                pago.setMonto(monto);
-                pago.setDescripcion(JOptionPane.showInputDialog("Ingrese código de autorizacion. Gracias"));
-                detallePagos.add(pago);
-                modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
-                this.jList1.setModel(modeloL);
-                saldo=saldo - pago.getMonto();
-                this.jLabel9.setText("Saldo: "+saldo);
-                this.jTextField1.setText("");
-                this.jComboBox1.requestFocus();
+                    pago.setMonto(monto);
+                    pago.setDescripcion(JOptionPane.showInputDialog("Ingrese código de autorizacion. Gracias"));
+
+                    detallePagos.add(pago);
+                    modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
+                    this.jList1.setModel(modeloL);
+                    //debo recalcular el saldo en base al monto agregado
+                    saldoRecalculado=Math.round((saldo * tasaAsignada) *100.0) / 100.0;
+
+
+                    if(monto >= saldoRecalculado){
+                        saldo=saldoRecalculado;
+                        saldo=saldo - pago.getMonto();
+                    }else{
+
+                            Double recargo=Math.round((monto * tasaAsignada) * 100.0) / 100.0;
+                            recargo=recargo - monto;
+                            saldo=saldo + recargo;
+                            saldo=saldo - pago.getMonto();
+
+
+                    }
+                    convertirEnFactura=true;
+                    this.jLabel9.setText("Saldo: "+saldo);
+
+                    this.jTextField1.setText("");
+                    this.jComboBox1.requestFocus();
                     break;
                 case 3:
                     //CHEQUE
@@ -448,6 +497,7 @@ public class AbmRecibos extends javax.swing.JDialog {
                 case 4:
                     //TRANSFERENCIA
                      pago.setDescripcion("Transferencia");
+                     convertirEnFactura=true;
                 pago.setMonto(monto);
                 detallePagos.add(pago);
                 modeloL.addElement(pago.getDescripcion()+" $"+pago.getMonto());
@@ -544,6 +594,15 @@ public class AbmRecibos extends javax.swing.JDialog {
         DetalleRecibo detalle;
         Recidable det=new DetalleRecibo();
         recibo.setIdCliente(cli.getCodigoId());
+        Double ajuste=0.00;
+        if(montoTotal != totalComprobantes){
+            
+            ajuste=totalComprobantes / montoTotal;
+            //ajuste=Math.round(ajuste *100.0) / 100.0;
+            System.out.println("total comprobantes "+totalComprobantes+"total actual "+montoTotal+" ajuste impactado "+ajuste);
+            montoTotal=montoTotal * ajuste;
+            montoTotal=Math.round(montoTotal *1000.0) / 1000.0;
+        }
         recibo.setMonto(montoTotal);
         Recidable recc=new OrdenDePago();
         int numero=0;
@@ -553,43 +612,57 @@ public class AbmRecibos extends javax.swing.JDialog {
         //int cantRecibos=listadoFc.size();
         ArrayList listadoDet=new ArrayList();
         Pedidos factura;
+        Pedable peda=new Pedidos();
         int contador=0;
         Double saldoAImputar=montoTotal - saldo;
         while(itF.hasNext()){
             
             factura=(Pedidos)itF.next();
             if((Boolean)this.jTable1.getValueAt(contador,0)){
-            detalle=new DetalleRecibo();
-            detalle.setIdCliente(cli.getCodigoId());
-            detalle.setIdFactura(factura.getId());
-            
-            detalle.setIdRecibo(recibo.getId());
-            
-            if(factura.getTotal() < saldoAImputar){
-                detalle.setMonto(factura.getTotal());
-            }else{
-                //factura.setTotal(saldoAImputar);
+                detalle=new DetalleRecibo();
                 
-                detalle.setMonto(saldoAImputar);
-            }
-            saldoAImputar=saldoAImputar - factura.getTotal();
-            detalle.setFecha(factura.getFecha());
-            if(factura.getIdFactura()!=null){
-            detalle.setNumeroFc(factura.getIdFactura());
-            }else{
                 
+                if(ajuste > 0)factura=(Pedidos) peda.AplicarRecargo(ajuste, factura);
+                detalle.setIdCliente(cli.getCodigoId());
+                detalle.setIdFactura(factura.getId());
+
+                detalle.setIdRecibo(recibo.getId());
+
+                if(factura.getTotal() < saldoAImputar){
+                    detalle.setMonto(factura.getTotal());
+                }else{
+                    //factura.setTotal(saldoAImputar);
+
+                    detalle.setMonto(saldoAImputar);
+                }
+                saldoAImputar=saldoAImputar - factura.getTotal();
+                detalle.setFecha(factura.getFecha());
+                if(factura.getIdFactura()!=null){
+                    detalle.setNumeroFc(factura.getIdFactura());
+                }else{
+
+
+                        detalle.setNumeroFc(factura.getId());
+
+                }
+                detalle.setMontoFcatura(Numeros.ConvertirNumero(factura.getTotal()));
+                det.nuevo(detalle);
+                //ACA DEBO SABER SI SE DEBE HACER FACTURA Y CONVERTIRLA
+                if(convertirEnFactura){
+                    Pedidos pedido=new Pedidos();
+                    pedido=(Pedidos)factura;
                     
-                    detalle.setNumeroFc(factura.getId());
+                    Pedable pedaP=new Pedidos();
+                    Integer nro=pedaP.transformarEnFactura(pedido, null);
+                    
+                }
                 
-            }
-            detalle.setMontoFcatura(Numeros.ConvertirNumero(factura.getTotal()));
-            det.nuevo(detalle);
-            if(tipoFc==1){
-                
-            }else{
-                det.imputarAFactura(factura);
-            }
-            listadoDet.add(detalle);
+                if(tipoFc==1){
+                    
+                }else{
+                    det.imputarAFactura(factura);
+                }
+                listadoDet.add(detalle);
             }
             contador++;
         }
@@ -691,6 +764,7 @@ public class AbmRecibos extends javax.swing.JDialog {
         montoTotal=total;
         saldo=montoTotal;
         jLabel2.setText(" $"+total);
+        //totalComprobantes=montoTotal;
         jLabel9.setText("Saldo: "+saldo);
         this.jTextField1.setText(String.valueOf(total));
         this.jComboBox1.requestFocus();
@@ -701,29 +775,40 @@ public class AbmRecibos extends javax.swing.JDialog {
         int posicion=this.jComboBox1.getSelectedIndex();
         String mensaje;
         Double tasa=1.00;
+        tasaAsignada=0.00;
         int cuotas=0;
+        Double montoTarjeta=saldo;
         switch(posicion){
             case 1:
                 mensaje="Ingrese por favor recargo por Pago con Débito";
                 tasa=Numeros.ConvertirStringADouble(JOptionPane.showInputDialog(mensaje));
                 cuotas=1;
                 tasa=(tasa / 100) +1;
-                saldo=saldo * tasa;
+                tasaAsignada=tasa;
+                montoTarjeta=Math.round((saldo * tasa) *100.0) /100.0;
+                
                 break;
             case 2:
                 mensaje="Ingrese por favor recargo por Pago con tarjeta de Crédito";
                 tasa=Numeros.ConvertirStringADouble(JOptionPane.showInputDialog(mensaje));
                 cuotas=Integer.parseInt(JOptionPane.showInputDialog("Cantidad de Cuotas?"));
                 tasa=(tasa / 100) +1;
-                saldo=saldo * tasa;
+                tasaAsignada=tasa;
+                montoTarjeta=Math.round((saldo * tasa) *100.0) /100.0;
                 break;
             default:
                 break;
         }
         
-        this.jTextField1.setText(String.valueOf(saldo));
+        this.jTextField1.setText(String.valueOf(montoTarjeta));
+        //this.jLabel2.setText("$ "+saldo);
+        this.jLabel9.setText("Saldo: $ "+saldo);
         this.jTextField1.requestFocus();
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments

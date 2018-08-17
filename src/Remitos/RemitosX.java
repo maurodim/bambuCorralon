@@ -133,7 +133,7 @@ public class RemitosX implements Remitable{
         remito=(RemitosX)remi;
         //System.out.println("es una prueba de carga :"+this.getIdCliente()+" observaciones: "+this.getObservaciones());
         
-        sql="insert into remx (idcliente,tipocomprobante,observaciones,numeroremito,idcomprobante,domicilio,localidad,cantidad,tipoBulto) values ("+remito.getIdCliente()+","+remito.getTipoComprobantte()+",'"+remito.getObservaciones()+"',(select tipocomprobantes.numeroActivo + 1 from tipocomprobantes where id=7),"+remito.getIdComprobante()+",'"+remito.getDomicilioDeEntrega()+"','"+remito.getLocalidad()+"',"+remito.getCantidadBultos()+","+remito.getTipoBulto()+")";
+        sql="insert into remx (idcliente,tipocomprobante,observaciones,numeroremito,idcomprobante,domicilio,localidad,cantidad,tipoBulto) values ("+remito.getIdCliente()+","+remito.getTipoComprobantte()+",'"+remito.getObservaciones()+"',(select tipocomprobantes.numeroActivo + 1 from tipocomprobantes where id=14),"+remito.getIdComprobante()+",'"+remito.getDomicilioDeEntrega()+"','"+remito.getLocalidad()+"',"+remito.getCantidadBultos()+","+remito.getTipoBulto()+")";
         tra.guardarRegistro(sql);
         sql="select LAST_INSERT_ID()";
         rs=tra.leerConjuntoDeRegistros(sql);
@@ -145,7 +145,7 @@ public class RemitosX implements Remitable{
         }catch(SQLException ex) {
             Logger.getLogger(RemitosX.class.getName()).log(Level.SEVERE, null, ex);
         }
-        sql="update tipocomprobantes set numeroactivo=numeroactivo +1 where id=14";
+        sql="update tipocomprobantes set numeroactivo="+numeroId+" where id=14";
         tra.guardarRegistro(sql);
         if(remito.getTipoComprobantte()==5){
             sql="update pedidos set estado=2, idremito="+numeroId+" where id="+remito.getIdComprobante();

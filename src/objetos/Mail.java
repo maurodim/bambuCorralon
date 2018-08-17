@@ -71,7 +71,7 @@ public class Mail {
         try{
             MimeMessage mensaje=new MimeMessage(sesion);
             mensaje.setFrom(new InternetAddress((String)propiedades.get("mail.smtp.mail.sender")));
-            mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress(Propiedades.getMAIL()));
+            mensaje.addRecipient(Message.RecipientType.TO,new InternetAddress(Propiedades.getCORREOCIERREDECAJA()));
             mensaje.addRecipient(Message.RecipientType.CC,new InternetAddress("mauro@bambusoft.com.ar"));
             System.out.println("DATOS DEL CORREO SALIENTE "+correoSaliente+" // "+password);
             mensaje.setSubject(asunto);

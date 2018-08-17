@@ -5,22 +5,34 @@
  */
 package Pedidos;
 
+import Articulos.Articulos;
+import Clientes.Objectos.Clientes;
 import Conversores.Numeros;
 import Clientes.Objectos.MovimientosClientes;
+import Configuracion.Propiedades;
+import objetos.FacturaElectronica;
 import Recibos.DetalleRecibo;
 import Recibos.Recidable;
 import interfaceGraficas.Inicio;
 import interfaces.Editables;
+import interfaces.FacturableE;
 import interfaces.Transaccionable;
+import interfacesPrograma.Facturar;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import objetos.Comprobantes;
 import objetos.Conecciones;
+import objetos.DetalleFacturas;
+import objetos.TiposIva;
 
 /**
  *
@@ -45,6 +57,16 @@ public class Pedidos implements Pedable,Recidable{
     private Double porcentajeDescuento;
     private int pagado;
     private Double saldo;
+    private String fechaEntrega;
+
+    public String getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(String fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+    
 
     public Double getSaldo() {
         return saldo;
@@ -178,6 +200,173 @@ public class Pedidos implements Pedable,Recidable{
         }
         tra.guardarRegistro(sql);
     }
+    private Integer ConvertirEnFacturaElectronica(Object ped){
+        Pedidos pedido=(Pedidos) ped;
+        Facturar fact=new Clientes();
+        Pedable peda=new Pedidos();
+        DetallePedidos detallePedido=new DetallePedidos();
+        Pedable detP=new DetallePedidos();
+        Clientes cliT=new Clientes();
+        
+        cliT=(Clientes)fact.cargarPorCodigoAsignado(pedido.getIdCliente());
+        //lista=new ListasDePrecios(cliT.getListaDePrecios());
+        ArrayList detalleDelPedido=detP.cargarDetallePedido(pedido.getId());
+        //detalleDelPedido=detP.convertirAArticulos(listadoPed);
+        //porcentajeDescuento=pedido.getPorcentajeDescuento();
+        //subTotal=0.00;
+        
+        
+        
+        String cadena=cliT.getCodigoCliente()+" - "+cliT.getRazonSocial()+"\n"+cliT.getDireccion();
+        //comp.setCliente(cliT);
+        //VisorDeHojaDeRuta
+
+        //comp.setVendedor(VisorDeHojaDeRuta.tG.getOperador());
+        
+
+        //comp.setArticulos(detalleDelPedido);
+        DecimalFormat fr=new DecimalFormat("00");
+        Calendar c1=Calendar.getInstance();
+        Calendar c2=new GregorianCalendar();
+        String dia=Integer.toString(c2.get(Calendar.DAY_OF_MONTH));
+        String mes=Integer.toString(c2.get(Calendar.MONTH));
+        String ano=Integer.toString(c2.get(Calendar.YEAR));
+
+        int da=Integer.parseInt(dia);
+        int me=Integer.parseInt(mes);
+        me++;
+        dia=fr.format(da);
+        mes=fr.format(me);
+        String fecha=dia+"/"+mes+"/"+ano;
+        String fecha2=ano+"-"+mes+"-"+dia;
+        //comp.setFechaComprobante(fecha2);
+        //comp.setFechaComprobante(fecha);
+        
+        int comprobanteTipo=1;
+        //cliT.setCondicionIva("1");
+        if(cliT.getCondicionIva().equals("1"))comprobanteTipo=1;
+        if(cliT.getCondicionIva().equals("2"))comprobanteTipo=2;
+        if(cliT.getCondicionIva().equals("3"))comprobanteTipo=3;
+        
+        Comprobantes comprobante=new Comprobantes();
+        comprobante.setFe(true);
+        comprobante.setCliente(cliT);
+        comprobante.setTipoMovimiento(1);
+        comprobante.setIdPedido(pedido.getId());
+        comprobante.setTipoComprobante(comprobanteTipo);
+        comprobante.setFechaEmision((Date.valueOf(fecha2)));
+        comprobante.setListadoDeArticulos(detalleDelPedido);
+        comprobante.setUsuarioGenerador(Inicio.usuario.getNumero());
+        comprobante.setIdSucursal(Inicio.sucursal.getNumero());
+        comprobante.setIdDeposito(Inicio.deposito.getNumero());
+        Integer numeroCaja=Inicio.caja.getNumero();
+        //System.out.println("EL NUMERO DE CAJA ESSSSSSSS "+numeroCaja);
+        comprobante.setIdCaja(numeroCaja);
+        /*
+           double montoTotal=Math.round(montoTotal * 100.0) / 100.0;
+            subTotal=montoTotal / 1.21;
+            //Double ivv=subTotal / 1.21;
+            subTotal=Math.round(subTotal * 100.0) / 100.0;
+            //Double ivv=Math.round(ivv * 100.0) / 100.0;
+            Double sub=0.00;
+            Double tot=montoTotal - subTotal;
+            tot=Math.round(tot * 100.0) /100.0;
+            porcentajeDescuento=0.00;
+            if(porcentajeDescuento > 0.00){
+                sub = subTotal * porcentajeDescuento;
+                sub= montoTotal - sub;
+            }else{
+                sub=montoTotal;
+            }
+            */
+        
+            comprobante.setMontoTotal(pedido.getTotal());
+            comprobante.setSubTotal(pedido.getSubTotal());
+            double iva=pedido.getTotal() - pedido.getSubTotal();
+            comprobante.setMontoIva(iva);
+            comprobante.setMontoBruto(pedido.getSubTotal());
+            Double descuen=pedido.getDescuento();
+            comprobante.setDescuento(descuen);
+            comprobante.setPorcentajeDescuento(pedido.getPorcentajeDescuento());
+
+            int noFacturar=0;
+            
+                comprobante.setPagado(1);
+            
+                //comprobante.setFiscal(1);
+                Facturar fat=new Comprobantes();
+                comprobante=(Comprobantes) fat.guardar(comprobante);
+                // aqui hago el envio a factura  electronica, si aprueba no imprime
+                
+                FacturaElectronica fe=new FacturaElectronica();
+                FacturableE factuE=new FacturaElectronica();
+                ArrayList listadoIva=new ArrayList();
+                Double montoIva=0.00;
+                Double total1=pedido.total;
+                Double subTotal1=pedido.subTotal;
+                if(Propiedades.getCONDICIONIVA().equals("2")){
+                    subTotal1=Math.round((total1 / 1.21) *100.0) / 100.0;
+                    Double iiv=Math.round((total1 - subTotal1) * 100.0) / 100.0;
+                    float subT=Float.parseFloat(String.valueOf(subTotal1));
+                    float totT=Float.parseFloat(String.valueOf(iiv));
+                    TiposIva iva1=new TiposIva(5,subT,totT,21);
+                    listadoIva.add(iva1);
+                    montoIva=iva;
+                }else{
+                    listadoIva=null;
+                }
+                ArrayList listadoTrib=null;
+                ArrayList <DetalleFacturas> listadoDetalle=new ArrayList();
+                Pedable ppd=new DetallePedidos();
+                ArrayList lst=ppd.convertirAArticulos(detalleDelPedido);
+                
+                Iterator itD=lst.listIterator();
+                Articulos artic;
+                DetalleFacturas detalle;
+                double precio=0.00;
+                while(itD.hasNext()){
+                    artic=(Articulos) itD.next();
+                    detalle=new DetalleFacturas();
+                    detalle.setCodigo(artic.getCodigoAsignado());
+                    detalle.setDescripcion(artic.getDescripcionArticulo());
+                    detalle.setCantidadS(String.valueOf(artic.getCantidad()));
+                    
+                    precio=Math.round(artic.getPrecioUnitarioNeto() * 100.0) / 100.0;
+                    detalle.setPrecioUnitarioS(String.valueOf(precio));
+                    listadoDetalle.add(detalle);
+                }
+                //montoIva=tot;
+                System.out.println(Propiedades.getARCHIVOCRT()+" // condicion iva "+Propiedades.getCONDICIONIVA()+" // punto de venta "+Propiedades.getPUNTODEVENTA()+" // tipo de venta "+Propiedades.getTIPODEVENTA());
+                int condicion=Integer.parseInt(Propiedades.getCONDICIONIVA());
+                int ptoVta=Integer.parseInt(Propiedades.getPUNTODEVENTA());
+                int tipoVta=Integer.parseInt(Propiedades.getTIPODEVENTA());
+                if(cliT.getNumeroDeCuit() != null){
+                    
+                }else{
+                    if(cliT.getNumeroDeCuit().length() == 1){
+                        if(cliT.getTipoIva()==4){
+                            cliT.setNumeroDeCuit("0");
+                        }else{
+                            cliT.setNumeroDeCuit("000");
+                        }
+                    }
+                }
+                Integer idPed=0;
+                if(pedido.getId() != null)idPed=pedido.getId();
+                Integer nro=factuE.generar(null, condicion, Propiedades.getARCHIVOKEY(),Propiedades.getARCHIVOCRT(),cliT.getCodigoId(), cliT.getNumeroDeCuit(), comprobante.getTipoComprobante(), total1, subTotal1, montoIva, ptoVta, Propiedades.getCUIT(), tipoVta, listadoIva, listadoTrib, cliT.getRazonSocial(), cliT.getDireccion(), cliT.getCondicionIva(), listadoDetalle,idPed);
+                System.out.println("COMPROBANTE FISCAL N° "+nro);
+                sql="update pedidos set idfactura="+comprobante.getIdFactura()+" where id="+pedido.getId();
+                tra.guardarRegistro(sql);
+                sql="update facturas set numerofactura="+nro+" where id="+comprobante.getIdFactura();
+                tra.guardarRegistro(sql);
+                return nro;
+                
+    }
+    private void EnviarAReparto(Object ped){
+        Pedidos pedido=(Pedidos) ped;
+        //ACA DEBO HACER UN UPDATE DE PEDIDOS ASIGNANDO LA FECHA DE ENTREGA Y ENVIAR LOS DATOS DEL PEDIDO A PEDIDOS_CARGA1 ASI LO VA A LEER EL MODULO DE REPARTO
+        
+    }
     @Override
     public Integer nuevoPedido(Object ped) {
         Pedidos pedido=new Pedidos();
@@ -241,6 +430,7 @@ public class Pedidos implements Pedable,Recidable{
                 pedido.setDescuento(rs.getDouble("descuento"));
                 pedido.setPorcentajeDescuento(rs.getDouble("porcentajed"));
                 pedido.setSaldo(rs.getDouble("saldo"));
+                pedido.setFechaEntrega(rs.getString("entrega"));
                 //listado.add(pedido);
             }
         } catch (SQLException ex) {
@@ -273,6 +463,7 @@ public class Pedidos implements Pedable,Recidable{
                 pedido.setDescuento(rs.getDouble("descuento"));
                 pedido.setPorcentajeDescuento(rs.getDouble("porcentajed"));
                 pedido.setSaldo(rs.getDouble("saldo"));
+                pedido.setFechaEntrega(rs.getString("entrega"));
                 listado.add(pedido);
             }
         } catch (SQLException ex) {
@@ -305,6 +496,7 @@ public class Pedidos implements Pedable,Recidable{
                 pedido.setDescuento(rs.getDouble("descuento"));
                 pedido.setPorcentajeDescuento(rs.getDouble("porcentajed"));
                 pedido.setSaldo(rs.getDouble("saldo"));
+                pedido.setFechaEntrega(rs.getString("entrega"));
                 listado.add(pedido);
             }
         } catch (SQLException ex) {
@@ -319,7 +511,8 @@ public class Pedidos implements Pedable,Recidable{
         Pedidos pedido;
         ArrayList listado=new ArrayList();
         //String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 and pagado=0 order by id desc";
-        String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 order by id desc";
+        String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 and saldo > 0 order by id desc";
+        System.out.println(sql);
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
         try {
             while(rs.next()){
@@ -337,6 +530,7 @@ public class Pedidos implements Pedable,Recidable{
                 pedido.setDescuento(rs.getDouble("descuento"));
                 pedido.setPorcentajeDescuento(rs.getDouble("porcentajed"));
                 pedido.setSaldo(rs.getDouble("saldo"));
+                pedido.setFechaEntrega(rs.getString("entrega"));
                 listado.add(pedido);
             }
         } catch (SQLException ex) {
@@ -374,7 +568,8 @@ public class Pedidos implements Pedable,Recidable{
         listado1.addColumn("Remito");
         listado1.addColumn("Monto");
         listado1.addColumn("Saldo");
-        Object[] fila=new Object[6];
+        listado1.addColumn("Entrega");
+        Object[] fila=new Object[7];
         while(iL.hasNext()){
             cotizacion=(Pedidos)iL.next();
             fila[0]=String.valueOf(cotizacion.getId());
@@ -383,6 +578,11 @@ public class Pedidos implements Pedable,Recidable{
             fila[3]=String.valueOf(cotizacion.getIdRemito());
             fila[4]=Numeros.ConvertirNumero(cotizacion.getTotal());
             fila[5]=Numeros.ConvertirNumero(cotizacion.getSaldo());
+            if(cotizacion.getFechaEntrega() != null){
+                fila[6]=cotizacion.getFechaEntrega();
+            }else{
+                fila[6]="S/ENTREGA";
+            }
             listado1.addRow(fila);
         }
         
@@ -390,11 +590,14 @@ public class Pedidos implements Pedable,Recidable{
     }
 
     @Override
-    public void transformarEnFactura(Object ped, ArrayList detalle) {
+    public Integer transformarEnFactura(Object ped, ArrayList detalle) {
+        return ConvertirEnFacturaElectronica(ped);
+        /*
         Pedidos pedido=new Pedidos();
         pedido=(Pedidos)ped;
         sql="update pedidos set estado=1 where id="+pedido.getId();
         tra.guardarRegistro(sql);
+*/
     }
 
     @Override
@@ -431,6 +634,12 @@ public class Pedidos implements Pedable,Recidable{
         String sql="update pedidos set total=round(total * "+tasa+",2),subtotal=round(subtotal * "+tasa+",2),saldo=round(saldo * "+tasa+",2),descuento=round(descuento * "+tasa+",2) where id="+pedido.getId();
         Transaccionable tra=new Conecciones();
         tra.guardarRegistro(sql);
+        sql="update movimientosclientes set monto=round(monto * "+tasa+",2) where idpedido="+pedido.id;
+        tra.guardarRegistro(sql);
+        sql="update detallepedidos set preciounitario=round(preciounitario * "+tasa+",2) where idpedido="+pedido.getId();
+        tra.guardarRegistro(sql);
+        pedido.subTotal=Math.round((pedido.subTotal * tasa) * 100.0) / 100.0;
+        pedido.total=Math.round((pedido.total * tasa) * 100.0) / 100.0;
         return pedido;
     }
 
@@ -462,6 +671,11 @@ public class Pedidos implements Pedable,Recidable{
 
     @Override
     public Object cargar(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean EnviarReparto(String entrega, ArrayList lista) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

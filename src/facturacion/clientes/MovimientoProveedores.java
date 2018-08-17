@@ -280,11 +280,9 @@ public class MovimientoProveedores implements Facturable{
             cotizacion=(MovimientoProveedores)iL.next();
             fila[0]=false;
             fila[1]=String.valueOf(cotizacion.getFecha());
-            if(cotizacion.getNumeroFiscal()!=null){
-            fila[2]=String.valueOf(cotizacion.getNumeroFactura());
-            }else{
-                fila[2]=String.valueOf(cotizacion.getNumeroFiscal());
-            }
+            
+                fila[2]=String.valueOf(cotizacion.getNumeroFactura());
+            
             fila[3]=String.valueOf(cotizacion.getMontoOriginal());
             fila[4]=Numeros.ConvertirNumero(cotizacion.getTotal());
             fila[5]=String.valueOf(cotizacion.getIdRemito());

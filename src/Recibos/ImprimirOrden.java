@@ -128,7 +128,7 @@ public class ImprimirOrden {
         while(it.hasNext()){
             det=(DetalleRecibo)it.next();
             //pagina.drawString(String.valueOf(det.get),40,renglon);
-            pagina.drawString("Factura N° "+String.valueOf(det.getNumeroFc())+" fecha "+det.getFecha(),80,renglon);
+            pagina.drawString("Pedido N° "+String.valueOf(det.getIdFactura())+" fecha "+det.getFecha(),80,renglon);
             pagina.drawString(det.getMontoFcatura(),300,renglon);
             pagina.drawString(Numeros.ConvertirNumero(det.getMonto()),400,renglon);
             saldoI=Numeros.ConvertirStringADouble(det.getMontoFcatura()) - det.getMonto();

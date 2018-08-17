@@ -5,7 +5,7 @@
 package FacturaE;
 
 
-import Cotizaciones.*;
+//import Cotizaciones.*;
 import javax.swing.table.DefaultTableModel;
 
 /**

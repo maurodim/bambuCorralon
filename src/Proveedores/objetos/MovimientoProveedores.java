@@ -2,7 +2,6 @@
 package Proveedores.objetos;
 
 import Conversores.Numeros;
-import FacturaE.FacturableE;
 import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;
 import java.sql.ResultSet;
@@ -14,12 +13,13 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import objetos.Conecciones;
 import tablas.MiModeloTablaContacto;
+import FacturaE.FacturableEx;
 
 /**
  *
  * @author mauro
  */
-public class MovimientoProveedores implements FacturableE{
+public class MovimientoProveedores implements FacturableEx{
     private Integer id;
     private Integer idProveedor;
     private String fecha;

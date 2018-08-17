@@ -30,7 +30,6 @@ import Articulos.Modificable;
 import Articulos.Rubrable;
 import Articulos.Rubros;
 import Articulos.SubRubros;
-import FacturaE.FacturableE;
 import ListasDePrecios.Articulable;
 import ListasDePrecios.ArticulosAsignados;
 import Proveedores.objetos.Impuestos;
@@ -44,6 +43,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import objetos.Comprobantes;
 import tablas.MiModeloTablaFacturacion;
+import FacturaE.FacturableEx;
 
 
 /**
@@ -884,7 +884,7 @@ public class IngresoDeFacturas extends javax.swing.JInternalFrame {
             comprobante1.setSaldo(montoTotal);
         }
         //System.out.println("subtotal "+montoTotal+" descuento "+descuen+" total "+subTotal);
-        FacturableE fact=new MovimientoProveedores();
+        FacturableEx fact=new MovimientoProveedores();
         Integer idComprobante=fact.guardar(comprobante1);
         comprobante1.setId(idComprobante);
         Proveer pro=new Impuestos();
