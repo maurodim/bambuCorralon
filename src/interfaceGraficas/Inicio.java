@@ -46,6 +46,7 @@ import FacturaE.AbmFacturaElectronica;
 import ObjetosBackUp.BackUp;
 import ObjetosBackUp.Backapear;
 import Recibos.ChequesAbm;
+import Reparto.pantallas.ListadoDePedidosParaReparto;
 import java.util.Iterator;
 import tarjetas.Tarjetable;
 import tarjetas.Tarjetas;
@@ -206,6 +207,7 @@ public class Inicio extends javax.swing.JFrame {
         jMenuItem23 = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         jMenuItem25 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISITEMA DE GESTION BAMBU SOFTWARE");
@@ -536,6 +538,15 @@ public class Inicio extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu9);
 
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconosNuevos/Link 2.png"))); // NOI18N
+        jMenu7.setText("Repartos");
+        jMenu7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu7MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu7);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -544,7 +555,7 @@ public class Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 845, Short.MAX_VALUE)
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1101, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -868,6 +879,14 @@ public class Inicio extends javax.swing.JFrame {
         System.out.println(bb.GenerarArchivos());
     }//GEN-LAST:event_formWindowClosing
 
+    private void jMenu7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu7MouseClicked
+        ListadoDePedidosParaReparto lst=new ListadoDePedidosParaReparto();
+        Inicio.jDesktopPane1.add(lst);
+        lst.setVisible(true);
+        lst.pack();
+        lst.toFront();
+    }//GEN-LAST:event_jMenu7MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -932,6 +951,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     public static javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
