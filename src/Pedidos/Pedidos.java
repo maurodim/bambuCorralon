@@ -675,7 +675,7 @@ public class Pedidos implements Pedable,Recidable{
     }
 
     @Override
-    public Boolean EnviarReparto(String entrega, ArrayList lista) {
+    public Boolean EnviarReparto(String entrega, ArrayList lista,String fechaG) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

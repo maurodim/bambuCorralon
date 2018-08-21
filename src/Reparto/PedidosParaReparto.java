@@ -526,6 +526,108 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
             return verificador;
         
     }
+    private ArrayList ListarPedidosPorVehiculoParaCarga(int vehiculo,String fechEnt){
+	/*
+         * ACA SE GENERA UN ARRAY CON TODOS LOS OBJETOS PEDIDOS QUE CORRESPONDEN SER ENTREGADOS
+         * EN LA FECHA PUNTUALIZADA. POR LO TANTO SE PUEDE VOLCAR A LA TABLA PARA SU SELECCION
+         * 
+         */
+          //      Connection cp=cn.ObtenerConeccion();
+          ArrayList <PedidosParaReparto> listaPed=new ArrayList();
+		String sql="select *,sum(pedidos_carga1.peso * pedidos_carga1.CANT_PEDID) as total,(select zonas.descripcion from zonas where zonas.numero=pedidos_carga1.zona)as zonasDescripcion,(select vendedores.nombre from vendedores where vendedores.id=pedidos_carga1.COD_VENDED)as vendedor from pedidos_carga1 where entrega like '"+fechEnt+"%'and reparto=1 and vehiculo="+vehiculo+" group by NRO_PEDIDO order by RAZON_SOC";
+		System.out.println(sql);
+                Transaccionable tra=new Conecciones();
+                //PreparedStatement st=cp.prepareStatement(sql);
+                //st.execute(sql);
+		ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+            try {
+                //synchronized rs;
+                while(rs.next()){
+                    PedidosParaReparto pedidos=new PedidosParaReparto();
+                    Clientes clie=new Clientes();
+                    pedidos.setiDPedido(rs.getInt("numero"));
+                    pedidos.setRazonSocial(rs.getString("RAZON_SOC"));
+                    pedidos.setCodigoTangoDePedido(rs.getString("NRO_PEDIDO"));
+                    pedidos.setVehiculoAsignado(rs.getInt("vehiculo"));
+                    pedidos.setPesoTotal(rs.getDouble("total"));
+                    pedidos.setCodigoArticulo(rs.getString("COD_ARTIC"));
+                    pedidos.setDescripcionArticulo(rs.getString("DESC_ARTIC")+" "+rs.getString("DESC_ADIC"));
+                    pedidos.setPesoItems(rs.getDouble("peso")* rs.getDouble("CANT_PEDID"));
+                    //pedidos.setPesoTotal(rs.getDouble("peso")* rs.getDouble("CANT_PEDID"));
+                    pedidos.setCantidadArticulo(rs.getDouble("CANT_PEDID"));
+                    pedidos.setCodigoCliente(rs.getString("COD_CLIENT"));
+                    pedidos.setFechaEnvio(rs.getString("entrega"));
+                    //pedidos.setFechaActualizacionSaldoCliente(rs.getDate("act"));
+                    pedidos.setNumeroDeListadoDeMateriales(rs.getInt("listado"));
+                    pedidos.setNumeroDeRevisionDeListado(rs.getInt("revision"));
+                    pedidos.setNumeroDeHojaDeRuta(rs.getInt("hdr1"));
+                    pedidos.setNumeroDeProceso(rs.getInt("orden_num"));
+                    pedidos.setNumeroDeFletero(rs.getInt("fletero"));
+                    pedidos.setNumeroComprobante(rs.getString("N_REMITO"));
+                    pedidos.setEmpresa(rs.getString("TALON_PEDI"));
+                    pedidos.setVerificadorRevision(rs.getInt("revisionado"));
+                    pedidos.setVehiculoAnterior(rs.getInt("vehiculoAnterior"));
+                    pedidos.setIdPedidoEnTango(rs.getInt("ID_GVA03"));
+                    pedidos.setObservaciones(rs.getString("LEYENDA_1"));
+                    pedidos.setObservaciones1(rs.getString("LEYENDA_2"));
+                    pedidos.setObservaciones2(rs.getString("LEYENDA_3"));
+                    pedidos.setFechaPedidosTango(rs.getString("FEC_PEDIDO"));
+                    //pedidos.setSaldoACobrar(rs.getDouble("saldo"));
+                    clie.setCodigoCliente(pedidos.getCodigoCliente());
+                    clie.setRazonSocial(pedidos.getRazonSocial());
+                    clie.setEmpresa(pedidos.getEmpresa());
+                    //ACA TENDRIA QUE HACER UNA INTERFAZ PAR QUE ME BUSQUE Y ACTUALICE LOS SALDOS
+                    
+                    //Iterator iSc=SiderconCapaatos.saldoCliente.listIterator();
+                    Double sald=0.00;
+                    //Clientes cli=new Clientes();
+                    //Actualizable actCli=new Clientes();
+                    
+                    //while(iSc.hasNext()){
+                    //  cli=(Clientes)iSc.next();
+                    
+                    pedidos.setSaldoCliente(sald);
+                    sald=0.00;
+                    pedidos.setNumeroVendedor(rs.getInt("COD_VENDED"));
+                    pedidos.setNombreVendedor(rs.getString("vendedor"));
+                    System.err.println(" numero v"+pedidos.getNumeroVendedor()+" nombre v "+pedidos.getNombreVendedor()+" cliente "+pedidos.getRazonSocial()+" saldo "+pedidos.getSaldoCliente());
+                    String pendiente=String.valueOf(rs.getDouble("CANT_FACT"));
+                    
+                    Double articulosPendientes=0.00;
+                    if(pendiente==null){
+                        
+                    }else{
+                        articulosPendientes=Double.parseDouble(pendiente);
+                    }
+                    //pedidos.setCantidadArticulosEntregados(articulosPendientes);
+                    //articulosPendientes=pedidos.getCantidadArticulo()- pedidos.getCantidadArticulosEntregados();
+                    pedidos.setCantidadArticuloPendiente(articulosPendientes);
+                    pedidos.setZonaAsignada(rs.getInt("zona"));
+                    pedidos.setAlertaAsignada(0);
+                    pedidos.setNotificado(rs.getInt("notificado"));
+                    if(pedidos.getZonaAsignada() <=1){
+                        pedidos.setZonaDescripcion("SANTA FE");
+                    }else{
+                        pedidos.setZonaDescripcion(rs.getString("zonasDescripcion"));
+                    }
+                    if(pedidos.getAlertaAsignada() > 0){
+                        pedidos.setAlertaDescripcion(rs.getString("alertasDescripcion"));
+                    }
+                    
+                    listaPed.add(pedidos);
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PedidosParaReparto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+                //ActualizarDatosPedidos act=new ActualizarDatosPedidos();
+                //act.setPedidos(listaPed);
+                //act.start();
+            //    cn.CerrarConneccion(cp);
+		return listaPed;
+		
+	}
     private ArrayList ListarPedidosPorFecha(String fechEnt) throws SQLException, ClassNotFoundException{
 	/*
          * ACA SE GENERA UN ARRAY CON TODOS LOS OBJETOS PEDIDOS QUE CORRESPONDEN SER ENTREGADOS
@@ -1113,6 +1215,11 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
     @Override
     public ArrayList ListarPedidosPorZona(String fecha, int zonaSeleccionada) {
         return this.listadoPedidosPorZona(fecha, zonaSeleccionada);
+    }
+
+    @Override
+    public ArrayList ListarPedidosParaCargaEnVehiculo(int vehiculo, String fecha) {
+        return this.ListarPedidosPorVehiculoParaCarga(vehiculo, fecha);
     }
   	
 }

@@ -377,18 +377,22 @@ public class SelectorReparto extends javax.swing.JDialog {
             //String fechaNueva=dateChooserCombo1.getSelectedDate();
             //String seleccion1=fechaNueva.toString();
             String seleccion=fr.format(dd)+"/"+fr.format(mes)+"/"+ano;
+            
             //seleccion=new SimpleDateFormat(seleccion1).format(mes);
             fechaSeleccionada=seleccion;
             if(fechaSeleccionada != null){
                 //pedido.setFechaEntrega(fechaSeleccionada);
+                String fechaParaGuardar=ano+"-"+fr.format(mes)+"-"+fr.format(dd);
                 Iterator it=detalleP.listIterator();
                 ArrayList lstEnviar=new ArrayList();
                 int renglon=0;
                 Double cantidad=0.00;
+                String ccant="";
                 while(it.hasNext()){
                     detalle=new DetallePedidos();
                     detalle=(DetallePedidos) it.next();
-                    cantidad=Double.parseDouble((String) this.jTable1.getValueAt(renglon,2));
+                    cantidad=(Double) this.jTable1.getValueAt(renglon,2);
+                    //cantidad=Double.parseDouble(ccant);
                     if(cantidad > 0){
                         
                         detalle.setCantidad(cantidad);
@@ -400,7 +404,7 @@ public class SelectorReparto extends javax.swing.JDialog {
                 if(lstEnviar.size() > 0){
                     //enviar
                     Pedable peda=new DetallePedidos();
-                    peda.EnviarReparto(fechaSeleccionada, lstEnviar);
+                    peda.EnviarReparto(fechaSeleccionada, lstEnviar,fechaParaGuardar);
                     this.dispose();
                 }else{
                     JOptionPane.showMessageDialog(rootPane, "No determino items para el reparto");

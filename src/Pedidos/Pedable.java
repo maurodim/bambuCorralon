@@ -29,6 +29,6 @@ public interface Pedable {
     public ArrayList convertirAArticulos(ArrayList detalle);
     public Object ActualizarPedido(Object ped);
     public Object AplicarRecargo(Double tasa,Object ped);
-    public Boolean EnviarReparto(String entrega,ArrayList lista);
+    public Boolean EnviarReparto(String entrega,ArrayList lista,String fechaG);
     
 }

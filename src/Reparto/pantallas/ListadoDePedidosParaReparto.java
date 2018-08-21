@@ -11,6 +11,7 @@
 package Reparto.pantallas;
 
 
+import Reparto.Checking;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import Reparto.PedidosParaReparto;
 import Reparto.Vehiculos;
+import Reparto.interfaces.ChequearCantidadesPedidos;
 import Reparto.interfaces.Editables;
 import Reparto.interfaces.Procesos;
 import interfaceGraficas.Inicio;
@@ -159,7 +161,6 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
 
         jInternalFrame1.setVisible(true);
 
@@ -286,7 +287,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(jTable2);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/logo.png")));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/isologo_32.png"))); // NOI18N
         jButton1.setText("Guardar Seleccion");
         jButton1.setToolTipText("Almacena los pedidos señalado para el vehiculo marcado");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -369,7 +370,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/logo.png")));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/isologo_32.png"))); // NOI18N
         jButton2.setText("Ver Carga");
         jButton2.setToolTipText("Muestra la carga asignada al vehiculo señalado");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -378,7 +379,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/logo.png")));
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/isologo_32.png"))); // NOI18N
         jButton3.setText("Modificar Pedido");
         jButton3.setToolTipText("Permite modificar el pedido señalado");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -387,7 +388,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/logo.png")));
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/isologo_32.png"))); // NOI18N
         jButton4.setText("Consultar Saldo ");
         jButton4.setToolTipText("Muestra el Saldo actual (según base Tango) del cliente marcado");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -396,6 +397,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
             }
         });
 
+        dateChooserCombo1.setCalendarPreferredSize(new java.awt.Dimension(450, 280));
         dateChooserCombo1.addSelectionChangedListener(new datechooser.events.SelectionChangedListener() {
             public void onSelectionChange(datechooser.events.SelectionChangedEvent evt) {
                 dateChooserCombo1OnSelectionChange(evt);
@@ -431,7 +433,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
         }
         jComboBox1.setToolTipText("Listado de Zonas establecidas en los recorridos");
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/logo.png")));
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/isologo_32.png"))); // NOI18N
         jButton5.setText("Filtrar P/Zona");
         jButton5.setToolTipText("muestra el listado de pedidos correspondientes a la zona seleccionada");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -448,21 +450,12 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/logo.png")));
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/isologo_32.png"))); // NOI18N
         jButton7.setText("Anular LPM´S");
         jButton7.setToolTipText("Lista y permite la anulación de los LPM emitidos en la fecha");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/logo.png")));
-        jButton8.setText("Eliminar Pedido");
-        jButton8.setToolTipText("Permite modificar el pedido señalado");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
             }
         });
 
@@ -497,7 +490,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
                                                 .addGap(53, 53, 53)
                                                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(134, 134, 134)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jScrollPane1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
@@ -513,16 +506,13 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
                             .addComponent(jButton7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -561,10 +551,8 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton6))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8))
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addComponent(jButton7)
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         pack();
@@ -797,7 +785,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
         
         Iterator yy=seleccionados.listIterator();
         
-        /*
+        
         ChequearCantidadesPedidos ch=new Checking();
         while(yy.hasNext()){
             pd=(PedidosParaReparto)yy.next();
@@ -808,7 +796,7 @@ public class ListadoDePedidosParaReparto extends javax.swing.JInternalFrame {
         Inicio.jDesktopPane1.add(lst);
         lst.toFront();
         lst.setVisible(true);
-        */
+        
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -982,17 +970,6 @@ modelo.addRow(fila6);
         
     }//GEN-LAST:event_formInternalFrameClosed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        /*
-        int pedidoModificable=jTable1.getSelectedRow();
-        String numePedido=(String) jTable1.getValueAt(pedidoModificable,0);
-        EliminacionDePedidos elimina=new EliminacionDePedidos(numePedido);
-        Inicio.jDesktopPane1.add(elimina);
-        elimina.setVisible(true);
-        elimina.toFront();
-        */
-    }//GEN-LAST:event_jButton8ActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static datechooser.beans.DateChooserCombo dateChooserCombo1;
     private javax.swing.JButton jButton1;
@@ -1002,7 +979,6 @@ modelo.addRow(fila6);
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;

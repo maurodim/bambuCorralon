@@ -137,7 +137,7 @@
                                       <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="47" max="32767" attributes="0"/>
+                              <EmptySpace pref="11" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -160,18 +160,13 @@
                           <Component id="jButton4" alignment="0" pref="165" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="jButton3" min="-2" pref="156" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton2" min="-2" pref="142" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="159" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton6" min="-2" pref="139" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jButton8" min="-2" pref="156" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jButton3" min="-2" pref="156" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButton2" min="-2" pref="142" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButton1" min="-2" pref="159" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButton6" min="-2" pref="139" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -223,11 +218,8 @@
                   <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton8" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="204" max="32767" attributes="0"/>
+              <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="156" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -275,8 +267,8 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/iconos/logo.png&quot;))" type="code"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagen/isologo_32.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Guardar Seleccion"/>
         <Property name="toolTipText" type="java.lang.String" value="Almacena los pedidos se&#xf1;alado para el vehiculo marcado"/>
@@ -338,8 +330,8 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/iconos/logo.png&quot;))" type="code"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagen/isologo_32.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Ver Carga"/>
         <Property name="toolTipText" type="java.lang.String" value="Muestra la carga asignada al vehiculo se&#xf1;alado"/>
@@ -350,8 +342,8 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/iconos/logo.png&quot;))" type="code"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagen/isologo_32.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Modificar Pedido"/>
         <Property name="toolTipText" type="java.lang.String" value="Permite modificar el pedido se&#xf1;alado"/>
@@ -362,8 +354,8 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton4">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/iconos/logo.png&quot;))" type="code"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagen/isologo_32.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Consultar Saldo "/>
         <Property name="toolTipText" type="java.lang.String" value="Muestra el Saldo actual (seg&#xfa;n base Tango) del cliente marcado"/>
@@ -373,6 +365,11 @@
       </Events>
     </Component>
     <Component class="datechooser.beans.DateChooserCombo" name="dateChooserCombo1">
+      <Properties>
+        <Property name="dch_calSize" type="java.awt.Dimension" editor="datechooser.beans.editor.dimension.SimpleDimensionEditor">
+          <SerializedValue value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,24,0,0,1,-62"/>
+        </Property>
+      </Properties>
       <Events>
         <EventHandler event="onSelectionChange" listener="datechooser.events.SelectionChangedListener" parameters="datechooser.events.SelectionChangedEvent" handler="dateChooserCombo1OnSelectionChange"/>
       </Events>
@@ -428,8 +425,8 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/iconos/logo.png&quot;))" type="code"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagen/isologo_32.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Filtrar P/Zona"/>
         <Property name="toolTipText" type="java.lang.String" value="muestra el listado de pedidos correspondientes a la zona seleccionada"/>
@@ -449,26 +446,14 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton7">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/iconos/logo.png&quot;))" type="code"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/imagen/isologo_32.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Anular LPM&#xb4;S"/>
         <Property name="toolTipText" type="java.lang.String" value="Lista y permite la anulaci&#xf3;n de los LPM emitidos en la fecha"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton8">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/iconos/logo.png&quot;))" type="code"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Eliminar Pedido"/>
-        <Property name="toolTipText" type="java.lang.String" value="Permite modificar el pedido se&#xf1;alado"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

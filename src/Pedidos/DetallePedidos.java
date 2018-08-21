@@ -126,7 +126,7 @@ public class DetallePedidos implements Pedable{
     public void setCantidadRemitida(Double cantidadRemitida) {
         this.cantidadRemitida = cantidadRemitida;
     }
-    private Boolean EnviarAReparto(String entrega,ArrayList listado){
+    private Boolean EnviarAReparto(String entrega,ArrayList listado,String guardarF){
         DetallePedidos detalle;
         Iterator it=listado.listIterator();
         PedidosParaReparto pedido;
@@ -135,6 +135,8 @@ public class DetallePedidos implements Pedable{
         Articulos articulo;
         ArrayList enviados=new ArrayList();
         Integer idPedido=0;
+        Transaccionable tra=new Conecciones();
+        String sql=null;
         while(it.hasNext()){
             detalle=(DetallePedidos) it.next();
             pedido=new PedidosParaReparto();
@@ -160,11 +162,14 @@ public class DetallePedidos implements Pedable{
             pedido.setAlertaAsignada(0);
             pedido.setNumeroVendedor(1);
             idPedido=detalle.getIdPedido();
-            pedido.setIdPedidoEnTango(detalle.getIdPedido());
+            pedido.setIdPedidoEnTango(detalle.getId());
+            sql="update detallepedidos set entrega='"+guardarF+"' where id="+detalle.getId();
+            tra.guardarRegistro(sql);
             enviados.add(pedido);
         }
-        Transaccionable tra=new Conecciones();
-        String sql="update pedidos set entrega='"+entrega+"' where id="+idPedido;
+        
+        
+        sql="update pedidos set entrega='"+guardarF+"' where id="+idPedido;
         tra.guardarRegistro(sql);
         if(enviados.size() > 0){
             ExportacionDePedidos expor=new PedidosParaReparto();
@@ -389,8 +394,8 @@ public class DetallePedidos implements Pedable{
     }
 
     @Override
-    public Boolean EnviarReparto(String entrega, ArrayList lista) {
-        return this.EnviarAReparto(entrega, lista);
+    public Boolean EnviarReparto(String entrega, ArrayList lista,String fechaG) {
+        return this.EnviarAReparto(entrega, lista,fechaG);
     }
     
     

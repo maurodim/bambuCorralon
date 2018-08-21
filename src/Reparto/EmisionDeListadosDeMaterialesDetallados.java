@@ -1,0 +1,239 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Reparto;
+
+import Objetos.PdfListado;
+import java.io.File;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import Clientes.Objectos.Clientes;
+import interfacesPrograma.Facturar;
+import java.io.IOException;
+import objetos.Mail;
+import objetos.Conecciones;
+
+
+/**
+ *
+ * @author MAURO DI
+ */
+public class EmisionDeListadosDeMaterialesDetallados extends Thread{
+    static Connection cc;
+    private Integer numeroListado;
+    private Double totalKg;
+    private Integer numeroRevision;
+    private String vehiculo;
+    private String fechaEntrega;
+    private ArrayList listado;
+
+    public void setVehiculo(String vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+    public void setFechaEntrega(String fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    public void setListado(ArrayList listado) {
+        this.listado = listado;
+    }
+    
+    
+
+    public void setNumeroRevision(Integer numeroRevision) {
+        this.numeroRevision = numeroRevision;
+    }
+    
+
+    public void setNumeroListado(Integer numeroListado) {
+        this.numeroListado = numeroListado;
+    }
+
+    public void setTotalKg(Double totalKg) {
+        this.totalKg = totalKg;
+    }
+
+    
+
+    
+    @Override
+    public synchronized void run(){
+        chequearListado(this.numeroListado);
+        //Configu configuracion=Configu.DETALLADO;
+         Conecciones con=new Conecciones();
+        cc=con.obtenerConeccion();
+        Map listDetallado=new HashMap();
+        listDetallado.put("numeroListado",this.numeroListado);
+        listDetallado.put("numeroRevision", this.numeroRevision);
+        System.err.println("Listado "+this.numeroListado+" kg "+this.totalKg);
+        listDetallado.put("kG",totalKg);
+        String master = "Repartos//Listados//";//"C://src//listadosDePreparacion//revisionDeListados.jasper";
+        //configuracion.valueOf(master);
+        System.out.println("DIRECCION DE DESTINO //////////////////////////////////// "+master);
+        String destino="Repartos\\Listados\\"+this.numeroListado+"- listado detallado de materiales.pdf";
+        String destino2="Repartos//Listados//"+this.numeroListado+"- listado detallado de materiales.pdf";
+        
+        String kg=String.valueOf(Math.round(totalKg * 100.0) / 100.0);
+        Iterator it=this.listado.listIterator();
+        ArrayList definitivo=new ArrayList();
+        PdfListado pdfD=new PdfListado();
+        PedidosParaReparto pedi;
+        Clientes cliente;
+        //ChequearCantidadesPedidos cheq=new Clientes();
+        String kk;
+        Facturar fact=new Clientes();
+        Integer codCli=0;
+        while(it.hasNext()){
+            pedi= (PedidosParaReparto) it.next();
+            pdfD=new PdfListado();
+            cliente=new Clientes();
+            codCli=Integer.parseInt(pedi.getCodigoCliente());
+            cliente=(Clientes) fact.cargarPorCodigoAsignado(codCli);
+            cliente.setCodigoCliente(pedi.getCodigoCliente());
+            cliente.setEmpresa(pedi.getEmpresa());
+            //cliente=(Clientes) cheq.actualizar(cliente);
+            pdfD.setIdListado(pedi.getNumeroDeListadoDeMateriales());
+            pdfD.setIdRevision(pedi.getNumeroDeRevisionDeListado());
+            pdfD.setVehiculo(String.valueOf(pedi.getVehiculoAsignado()));
+            kk=String.valueOf(Math.round(pedi.getPesoTotal() * 100.0) / 100.0);
+            pdfD.setKilos(kk);
+            pdfD.setFechaEntrega(pedi.getFechaEnvio());
+            this.fechaEntrega=pedi.getFechaEnvio();
+            pdfD.setNumeroPedido(pedi.getCodigoTangoDePedido());
+            pdfD.setNombreCliente(pedi.getRazonSocial());
+            pdfD.setLeyenda1(pedi.getObservaciones());
+            pdfD.setLeyenda2(pedi.getObservaciones1());
+            pdfD.setLeyenda3(pedi.getObservaciones2());
+            pdfD.setPeso(String.valueOf(pedi.getPesoItems()));
+            pdfD.setSaldoCliente(String.valueOf(cliente.getSaldo()));
+            pdfD.setRevision(String.valueOf(pedi.getNumeroDeRevisionDeListado()));
+            pdfD.setFechaPedido(pedi.getFechaPedidosTango());
+            //pdfD.setDomicilioCliente(cliente.getDireccion());
+            pdfD.setLocalidad(pedi.getZonaDescripcion());
+            pdfD.setCodigoArticulo(pedi.getCodigoArticulo());
+            pdfD.setDescripcion(pedi.getDescripcionArticulo());
+            pdfD.setCantidad(String.valueOf(pedi.getCantidadArticulo()));
+            pdfD.setOrdenDetrabajo(String.valueOf(pedi.getNumeroDeProceso()));
+            //pdfD.setRepetido(String.valueOf(pedi.get));
+            pdfD.setEmpresa(pedi.getEmpresa());
+            pdfD.setNombreVendedor(pedi.getNombreVendedor().substring(0, 4));
+            pdfD.setDomicilioCliente(cliente.getDireccion());
+            pdfD.setLocalidadCliente(cliente.getLocalidad());
+            pdfD.setTelefonoCliente(cliente.getTelefono());
+            pdfD.setCodigoCliente(cliente.getCodigoCliente());
+            pdfD.setNotificado(pedi.getNotificado());
+            System.out.println(pdfD.getLocalidadCliente()+" - "+pdfD.getTelefonoCliente()+" - "+pdfD.getLeyenda2());
+            definitivo.add(pdfD);
+        }
+        
+        
+        
+        PdfListado pdf=new PdfListado(cc,this.numeroListado,this.numeroRevision,this.vehiculo,kg,this.fechaEntrega,destino2,null,definitivo);
+        pdf.start();
+        
+        
+        
+        //sleep(1000);
+                PrintWriter print = new PrintWriter(System.out, true);
+                 File f=new File(destino);
+                 if(f.exists()){
+                    try {
+                        Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+destino);
+                    } catch (IOException ex) {
+                        Logger.getLogger(EmisionDeListadosDeMaterialesDetallados.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                     
+                     System.out.println("DESTINO :::"+destino+"---");
+                     Mail mail=new Mail();
+                     mail.setDireccionFile(destino2);
+                     mail.setDetalleListado(this.numeroListado+" listado detallado de materiales.pdf");
+                     mail.setAsunto("LPM DETALLADA GENERADA N° "+this.numeroListado);
+            //mail.enviarMailRepartoCargaCompleta();
+}
+                    //listadoNum=ped.getNumeroDeListadoDeMateriales();
+                    String sql1="select COD_ARTIC,CANT_PEDID,((select round(pesos.peso,2) from pesos where pesos.codigo = pedidos_carga1.COD_ARTIC limit 0,1) * CANT_PEDID) as pesoIndividual from pedidos_carga1 where listado="+this.numeroListado+" GROUP BY ID_GVA03";
+                    Double estr=0.00;
+                    
+                    try {
+                    Statement st=cc.createStatement();
+                    ResultSet rs=st.executeQuery(sql1);
+
+
+                        while(rs.next()){
+                            estr=estr + rs.getDouble("pesoIndividual");
+                        }
+                        estr=Math.round(estr * 100.0) / 100.0;
+                        sql1="update listadosdemateriales set pesoTotal="+estr+" where numero="+this.numeroListado;
+                        System.out.println(sql1);
+                        st.executeUpdate(sql1);
+                    } catch (SQLException ex1) {
+                        Logger.getLogger(EmisionHojaDeRuta.class.getName()).log(Level.SEVERE, null, ex1);
+                    }
+                    
+                    
+                 
+    }
+    private synchronized void chequearListado(int listadox){
+        try {
+            Conecciones con=new Conecciones();
+            Connection cnn1=con.obtenerConeccion();
+            blanquearListado(cnn1,listadox);
+            ArrayList listado=new ArrayList();
+            ArrayList numeros=new ArrayList();
+            String sql="select pedidos_carga1.DESC_ARTIC,pedidos_carga1.numero from pedidos_carga1 where listado="+listadox;
+            Statement st=cnn1.createStatement();
+            st.execute(sql);
+            ResultSet rs=st.getResultSet();
+            while(rs.next()){
+                listado.add(rs.getString(1));
+                numeros.add(rs.getInt(2));
+            }
+            rs.close();
+            st.close();
+            String actual="";
+            for (int i=0;i<listado.size();i++){
+             String descripcion=(String)listado.get(i);   
+             Integer numeroSel=(Integer)numeros.get(i);
+             Integer numeroDestino=0;
+             Statement st1=cnn1.createStatement();
+             int c=i+1;
+             for(int h=c;h<listado.size();h++){
+                actual=(String)listado.get(h);
+                numeroDestino=(Integer)numeros.get(h);
+                //actual=(String)il.next();
+                if(actual.equals(descripcion)){
+                    System.err.println(actual+" descr "+descripcion);
+                    sql="update pedidos_carga1 set repetidoEnListado=1 where numero="+numeroSel;
+                    st1.executeUpdate(sql);
+                    sql="update pedidos_carga1 set repetidoEnListado=1 where numero="+numeroDestino;
+                    st1.executeUpdate(sql);
+                }
+            }
+            st1.close();
+            ////Coneccion.CerrarConneccion(cnn);
+            //con.CerrarConneccion(cc);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EmisionDeListadosDeMaterialesDetallados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+    private void blanquearListado(Connection cc,int lis) throws SQLException{
+        String sql="update pedidos_carga1 set repetidoEnListado=0 where listado="+lis;
+        Statement sta=cc.createStatement();
+        sta.executeUpdate(sql);
+        System.out.println(sql);
+        sta.close();
+    }
+    
+}

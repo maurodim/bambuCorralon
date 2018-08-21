@@ -210,7 +210,9 @@ public class Conecciones implements Transaccionable{
         if(con==null)verificar=false;
         return verificar;
     }
-   
+    public Connection obtenerConeccion(){
+        return this.con;
+    }
 
     }
     
