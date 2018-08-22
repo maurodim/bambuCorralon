@@ -24,7 +24,9 @@ import Reparto.RevisionDeListados;
 import Reparto.Vehiculos;
 import Reparto.interfaces.Procesos;
 import Reparto.interfaces.Revisionar;
+import interfaceGraficas.Inicio;
 import interfaces.Transaccionable;
+import java.text.ParseException;
 import objetos.Conecciones;
 import tablas.MiTablaDeCarga;
 
@@ -570,13 +572,14 @@ public class ListadoDeCargaPorVehiculo extends javax.swing.JInternalFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         //actualizarCarga();
         
+        
+        Procesos pr=new PedidosParaReparto();
+        //carga=pr.actualizarComprobantesPedidos(carga); //DatosClientes dt=new DatosClientes();
+        
+        //ArrayList detall1=new ArrayList();
+        
+        //detall1=pr.listadoDetalladoPorVehiculo(seleccion, fecha2);
         /*
-        Procesos pr=new Procesos();
-        carga=pr.actualizarComprobantesPedidos(carga); //DatosClientes dt=new DatosClientes();
-        
-        ArrayList detall1=new ArrayList();
-        
-        detall1=pr.listadoDetalladoPorVehiculo(seleccion, fecha2);
         ActualizableTango actu=new Checking();
         String res=actu.verificarRemitosTotales(detall1);
         if(res.equals("")){
@@ -585,11 +588,18 @@ public class ListadoDeCargaPorVehiculo extends javax.swing.JInternalFrame {
             System.out.println(res);
             JOptionPane.showMessageDialog(null,res,"EXISTENCIA CANT PENDIENTES DE REMITIR DE LOS PEDIDOS DE LA HDR ",JOptionPane.PLAIN_MESSAGE);
         }
-        VistaHdr vista=new VistaHdr(carga,seleccion);
-        Inicio.jDesktopPane1.add(vista);
+        */
+        VistaHdr vista;
+        try {
+            vista = new VistaHdr(carga,seleccion);
+            Inicio.jDesktopPane1.add(vista);
         vista.toFront();
         vista.setVisible(true);
-        */
+        } catch (ParseException ex) {
+            Logger.getLogger(ListadoDeCargaPorVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         /*
         EmisionHojaDeRuta emis=new EmisionHojaDeRuta();
         emis.setListado(carga);

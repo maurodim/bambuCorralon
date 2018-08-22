@@ -1221,5 +1221,10 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
     public ArrayList ListarPedidosParaCargaEnVehiculo(int vehiculo, String fecha) {
         return this.ListarPedidosPorVehiculoParaCarga(vehiculo, fecha);
     }
+
+    @Override
+    public ArrayList ListarFleteros() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
   	
 }

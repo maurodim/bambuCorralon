@@ -19,4 +19,5 @@ public interface Procesos {
     public ArrayList ListarPedidosPorVehiculo(int idUnidad,ArrayList lstPedidos);
     public ArrayList ListarPedidosPorZona(String fecha,int zonaSeleccionada);
     public ArrayList ListarPedidosParaCargaEnVehiculo(int vehiculo,String fecha);
+    public ArrayList ListarFleteros();
 }

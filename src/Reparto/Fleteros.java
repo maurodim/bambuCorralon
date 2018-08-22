@@ -4,11 +4,20 @@
  */
 package Reparto;
 
+import Reparto.interfaces.Procesos;
+import interfaces.Transaccionable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import objetos.Conecciones;
+
 /**
  *
  * @author Administrador
  */
-public class Fleteros {
+public class Fleteros implements Procesos{
     private Integer numeroFletero;
     private String nombreFletero;
     private String celularFletero;
@@ -44,6 +53,69 @@ public class Fleteros {
 
     public void setNumeroFletero(Integer numeroFletero) {
         this.numeroFletero = numeroFletero;
+    }
+    
+    private ArrayList ListadoDeFleteros(){
+            //Fleteros conductor=new Fleteros();
+       //     Connection cp=cn.ObtenerConeccion();
+            ArrayList lista=new ArrayList();
+            String sql="select * from fleteros order by numero";
+            Transaccionable tra=new Conecciones();
+            ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        try {
+            while(rs.next()){
+                Fleteros conductor=new Fleteros();
+                conductor.setNumeroFletero(rs.getInt("numero"));
+                conductor.setNombreFletero(rs.getString("nombre"));
+                conductor.setCelularFletero(rs.getString("celular"));
+                lista.add(conductor);
+            }
+             rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Fleteros.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
+       //     cn.CerrarConneccion(cp);
+            return lista;
+        }
+    @Override
+    public ArrayList detallePedidosParaCorreccion(String numeroPedido, String fecha) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList ListarVehiculos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Integer cargarHdrVehiculo(int lst, String fecha) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void guardarAsignacionDeVehiculos(ArrayList lista) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList ListarPedidosPorVehiculo(int idUnidad, ArrayList lstPedidos) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList ListarPedidosPorZona(String fecha, int zonaSeleccionada) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList ListarPedidosParaCargaEnVehiculo(int vehiculo, String fecha) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList ListarFleteros() {
+        return this.ListadoDeFleteros();
     }
     
 }
