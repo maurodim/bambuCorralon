@@ -45,7 +45,7 @@ public class Checking implements ChequearCantidadesPedidos{
         PedidosParaReparto ped=new PedidosParaReparto();
         ped=(PedidosParaReparto)pedido;
         String empresa=ped.getEmpresa();
-        String codigoPedido=ped.getCodigoTangoDePedido().substring(2);
+        String codigoPedido=ped.getCodigoTangoDePedido();
         Double cantidad=(Double)ped.getCantidadArticulo();
         Double cantidadPendiente=(Double)ped.getCantidadArticuloPendiente();
         Double cantidadTotal=(Double)ped.getCantidadArticulosTotales();
