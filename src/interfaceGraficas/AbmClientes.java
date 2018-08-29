@@ -4,6 +4,7 @@
  */
 package interfaceGraficas;
 
+import Clientes.Pantallas.NuevoCliente;
 import Articulos.Rubrable;
 import Excel.InformesClientes;
 import Clientes.Objectos.Clientes;

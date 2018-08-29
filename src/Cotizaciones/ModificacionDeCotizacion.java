@@ -6,7 +6,7 @@ package Cotizaciones;
 
 import Conversores.Numeros;
 import Clientes.Objectos.Clientes;
-import interfaceGraficas.NuevoCliente;
+import Clientes.Pantallas.NuevoCliente;
 import facturacion.pantallas.SeleccionDeClientes;
 
 import interfaceGraficas.Inicio;
@@ -894,12 +894,12 @@ public class ModificacionDeCotizacion extends javax.swing.JInternalFrame {
             Double servicio;
             //Articulos articuloss=new Articulos();
             if(this.jCheckBox1.isSelected()){
-                servicio=arti.getPrecioServicio();
+                servicio=arti.getPrecioUnitarioNeto();
             }else{
                 servicio=0.00;
             }
             if(arti.getModificaPrecio())servicio=Numeros.ConvertirStringADouble(String.valueOf(this.jTextField4.getText()));
-            Double tota=arti.getPrecioUnitarioNeto() + servicio;
+            Double tota=servicio;
             //arti.setPrecioUnitarioNeto(tota);
             //arti.setPrecioServicio(servicio);
             Double cantt=Double.parseDouble(this.jTextField2.getText());

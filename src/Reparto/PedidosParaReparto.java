@@ -9,7 +9,10 @@ import Clientes.Objectos.Clientes;
 import Reparto.interfaces.Editables;
 import Reparto.interfaces.ExportacionDePedidos;
 import Reparto.interfaces.Procesos;
+import Vendedores.Vendable;
+import Vendedores.Vendedores;
 import interfaces.Transaccionable;
+import interfacesPrograma.Facturar;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -542,6 +545,7 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
 		ResultSet rs=tra.leerConjuntoDeRegistros(sql);
             try {
                 //synchronized rs;
+                Facturar factu=new Clientes();
                 while(rs.next()){
                     PedidosParaReparto pedidos=new PedidosParaReparto();
                     Clientes clie=new Clientes();
@@ -573,13 +577,14 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
                     pedidos.setObservaciones2(rs.getString("LEYENDA_3"));
                     pedidos.setFechaPedidosTango(rs.getString("FEC_PEDIDO"));
                     //pedidos.setSaldoACobrar(rs.getDouble("saldo"));
-                    clie.setCodigoCliente(pedidos.getCodigoCliente());
-                    clie.setRazonSocial(pedidos.getRazonSocial());
+                    clie=(Clientes) factu.cargarPorCodigoAsignado(Integer.parseInt(pedidos.getCodigoCliente()));
+                    //clie.setCodigoCliente(pedidos.getCodigoCliente());
+                    //clie.setRazonSocial(pedidos.getRazonSocial());
                     clie.setEmpresa(pedidos.getEmpresa());
                     //ACA TENDRIA QUE HACER UNA INTERFAZ PAR QUE ME BUSQUE Y ACTUALICE LOS SALDOS
                     
                     //Iterator iSc=SiderconCapaatos.saldoCliente.listIterator();
-                    Double sald=0.00;
+                    Double sald=clie.getSaldo();
                     //Clientes cli=new Clientes();
                     //Actualizable actCli=new Clientes();
                     
@@ -587,7 +592,7 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
                     //  cli=(Clientes)iSc.next();
                     
                     pedidos.setSaldoCliente(sald);
-                    sald=0.00;
+                    //sald=0.00;
                     pedidos.setNumeroVendedor(rs.getInt("COD_VENDED"));
                     pedidos.setNombreVendedor(rs.getString("vendedor"));
                     System.err.println(" numero v"+pedidos.getNumeroVendedor()+" nombre v "+pedidos.getNombreVendedor()+" cliente "+pedidos.getRazonSocial()+" saldo "+pedidos.getSaldoCliente());
@@ -643,6 +648,7 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
                 //st.execute(sql);
 		ResultSet rs=tra.leerConjuntoDeRegistros(sql);
 		//synchronized rs;
+                Facturar factu=new Clientes();
                 while(rs.next()){
 			PedidosParaReparto pedidos=new PedidosParaReparto();
                         Clientes clie=new Clientes();
@@ -674,21 +680,22 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
                         pedidos.setObservaciones2(rs.getString("LEYENDA_3"));
                         pedidos.setFechaPedidosTango(rs.getString("FEC_PEDIDO"));
                         //pedidos.setSaldoACobrar(rs.getDouble("saldo"));
-                        clie.setCodigoCliente(pedidos.getCodigoCliente());
-                        clie.setRazonSocial(pedidos.getRazonSocial());
-                        clie.setEmpresa(pedidos.getEmpresa());
-                        //ACA TENDRIA QUE HACER UNA INTERFAZ PAR QUE ME BUSQUE Y ACTUALICE LOS SALDOS
-                        
-                        //Iterator iSc=SiderconCapaatos.saldoCliente.listIterator();
-                        Double sald=0.00;
-                        //Clientes cli=new Clientes();
-                        //Actualizable actCli=new Clientes();
-                        
-                        //while(iSc.hasNext()){
-                          //  cli=(Clientes)iSc.next();
-                        
-                        pedidos.setSaldoCliente(sald);
-                        sald=0.00;
+                        clie=(Clientes) factu.cargarPorCodigoAsignado(Integer.parseInt(pedidos.getCodigoCliente()));
+                    //clie.setCodigoCliente(pedidos.getCodigoCliente());
+                    //clie.setRazonSocial(pedidos.getRazonSocial());
+                    clie.setEmpresa(pedidos.getEmpresa());
+                    //ACA TENDRIA QUE HACER UNA INTERFAZ PAR QUE ME BUSQUE Y ACTUALICE LOS SALDOS
+                    
+                    //Iterator iSc=SiderconCapaatos.saldoCliente.listIterator();
+                    Double sald=clie.getSaldo();
+                    //Clientes cli=new Clientes();
+                    //Actualizable actCli=new Clientes();
+                    
+                    //while(iSc.hasNext()){
+                    //  cli=(Clientes)iSc.next();
+                    
+                    pedidos.setSaldoCliente(sald);
+                    //sald=0.00;
                         pedidos.setNumeroVendedor(rs.getInt("COD_VENDED"));
                         pedidos.setNombreVendedor(rs.getString("vendedor"));
                         System.err.println(" numero v"+pedidos.getNumeroVendedor()+" nombre v "+pedidos.getNombreVendedor()+" cliente "+pedidos.getRazonSocial()+" saldo "+pedidos.getSaldoCliente());
@@ -929,7 +936,44 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
             return detalles;
         }
     
-    
+        private ArrayList vistaHdr(Integer listado){
+            ArrayList <PedidosParaReparto> lst=new ArrayList();
+            Transaccionable conR=new Conecciones();
+            String sql="select pedidos_carga1.listado,pedidos_carga1.entrega,pedidos_carga1.vehiculo,pedidos_carga1.NRO_PEDIDO,pedidos_carga1.COD_VENDED,pedidos_carga1.COND_VENTA,pedidos_carga1.RAZON_SOC,pedidos_carga1.COD_CLIENT,GROUP_CONCAT(pedidos_carga1.NRO_PEDIDO SEPARATOR '-')as pedidoNumero from pedidos_carga1 WHERE listado="+listado+" group by pedidos_carga1.COD_CLIENT";
+            PedidosParaReparto detalle;
+            ResultSet rs=conR.leerConjuntoDeRegistros(sql);
+            Facturar factu=new Clientes();
+            Clientes cliente;
+            Vendedores vendedor;
+            Vendable venda=new Vendedores();
+            int idV=0;
+            try {
+                while(rs.next()){
+                    detalle=new PedidosParaReparto();
+                    cliente=new Clientes();
+                    detalle.codigoCliente=rs.getString("COD_CLIENT");
+                    cliente=(Clientes) factu.cargarPorCodigoAsignado(Integer.parseInt(detalle.codigoCliente));
+                    detalle.razonSocial=cliente.getRazonSocial();
+                    detalle.saldoCliente=cliente.getSaldo();
+                    detalle.numeroComprobante=rs.getString("pedidoNumero");
+                    detalle.numeroVendedor=rs.getInt("COD_VENDED");
+                    idV=Integer.parseInt(rs.getString("COD_VENDED"));
+                    vendedor=(Vendedores) venda.cargar(idV);
+                    detalle.nombreVendedor=vendedor.getNombre();
+                    detalle.condicionDeVenta=Integer.parseInt(rs.getString("COND_VENTA"));
+                    detalle.numeroDeListadoDeMateriales=rs.getInt("listado");
+                    detalle.fechaEnvio=rs.getString("entrega");
+                    detalle.vehiculoAsignado=rs.getInt("vehiculo");
+                    detalle.codigoTangoDePedido=rs.getString("NRO_PEDIDO");
+                    detalle.empresa="CER";
+                    lst.add(detalle);
+                }
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PedidosParaReparto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return lst;
+        }
     
     
     
@@ -947,6 +991,7 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
                 ResultSet rs=conR.leerConjuntoDeRegistros(sql);
                 //ChequearCantidadesPedidos chp=new Clientes();
                 //synchronized rs;
+                Facturar factu=new Clientes();
                 while(rs.next()){
                     PedidosParaReparto pedidos=new PedidosParaReparto();
                     Clientes clie=new Clientes();
@@ -974,23 +1019,22 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
                     pedidos.setVehiculoAnterior(rs.getInt("vehiculoAnterior"));
                     pedidos.setIdPedidoEnTango(rs.getInt("ID_GVA03"));
                     //pedidos.setSaldoACobrar(rs.getDouble("saldo"));
-                    clie.setCodigoCliente(pedidos.getCodigoCliente());
-                    clie.setRazonSocial(pedidos.getRazonSocial());
+                    clie=(Clientes) factu.cargarPorCodigoAsignado(Integer.parseInt(pedidos.getCodigoCliente()));
+                    //clie.setCodigoCliente(pedidos.getCodigoCliente());
+                    //clie.setRazonSocial(pedidos.getRazonSocial());
                     clie.setEmpresa(pedidos.getEmpresa());
                     //ACA TENDRIA QUE HACER UNA INTERFAZ PAR QUE ME BUSQUE Y ACTUALICE LOS SALDOS
                     
                     //Iterator iSc=SiderconCapaatos.saldoCliente.listIterator();
-                    Double sald=0.00;
+                    Double sald=clie.getSaldo();
                     //Clientes cli=new Clientes();
                     //Actualizable actCli=new Clientes();
                     
                     //while(iSc.hasNext()){
                     //  cli=(Clientes)iSc.next();
-                    String empresa=pedidos.getEmpresa();
-                    int numeroConeccion=0;
                     
-                    pedidos.setSaldoCliente(clie.getSaldoActual());
-                    sald=0.00;
+                    pedidos.setSaldoCliente(sald);
+                    //sald=0.00;
                     pedidos.setNumeroVendedor(rs.getInt("COD_VENDED"));
                     pedidos.setNombreVendedor(rs.getString("vendedor"));
                     System.err.println(" numero v"+pedidos.getNumeroVendedor()+" nombre v "+pedidos.getNombreVendedor()+" cliente "+pedidos.getRazonSocial()+" saldo "+pedidos.getSaldoCliente());
@@ -1225,6 +1269,11 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
     @Override
     public ArrayList ListarFleteros() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList actualizarVistaHdr(int vehiculo) {
+        return this.vistaHdr(vehiculo);
     }
   	
 }

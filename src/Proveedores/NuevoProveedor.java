@@ -13,7 +13,7 @@ import Proveedores.objetos.OrdenDePago;
 import Recibos.Recidable;
 import facturacion.clientes.ListasDePrecios;
 import interfaceGraficas.Inicio;
-import interfaceGraficas.NuevoCliente;
+import Clientes.Pantallas.NuevoCliente;
 import interfaces.Personalizable;
 import interfacesPrograma.Busquedas;
 import java.beans.PropertyVetoException;

@@ -29,16 +29,14 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Component id="jPanel4" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jPanel1" alignment="0" min="-2" max="-2" attributes="1"/>
-                          <Group type="102" attributes="0">
-                              <Component id="jPanel2" max="32767" attributes="1"/>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jPanel1" min="-2" max="-2" attributes="1"/>
+                          <Component id="jPanel2" min="-2" max="-2" attributes="1"/>
                       </Group>
-                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jPanel3" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -102,8 +100,8 @@
                 <Property name="toolTipText" type="java.lang.String" value="Vista previa y editable de la Hoja de Ruta"/>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="MiTablaHd hd=new MiTablaHd();&#xa;//jPanel4.setVisible(false);&#xa;PedidosParaReparto ped=new PedidosParaReparto();&#xa;String cli=null;&#xa;//Procesos pr=new Procesos();&#xa;Iterator ih=ListadoDeCargaPorVehiculo.carga.listIterator();"/>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="hd.addColumn(&quot;Cliente&quot;);&#xa;hd.addColumn(&quot;Saldo&quot;);&#xa;hd.addColumn(&quot;Comprobante&quot;);&#xa;hd.addColumn(&quot;Observaciones&quot;);&#xa;Object[] fila=new Object[4];&#xa;while(ih.hasNext()){&#xa;    ped=(PedidosParaReparto)ih.next();&#xa;    fila[0]=ped.getRazonSocial();&#xa;cli=ped.getCodigoCliente();&#xa;cli.trim();&#xa;&#xa;fila[1]=(Double)ped.getSaldoCliente();&#xa;String comprobantes=String.valueOf(ped.getiDPedido());&#xa;String parte=null;&#xa;if(comprobantes.length()&gt;13){&#xa;    parte=comprobantes.substring(0,9);&#xa;    comprobantes=comprobantes.replaceAll(parte,&quot;/&quot;);&#xa;}&#xa;System.out.println(&quot;COMPROBANTES &quot;+comprobantes+&quot; PARTES &quot;+parte+&quot; cantidad&quot;+comprobantes.length());&#xa;fila[2]=comprobantes;&#xa;fila[3]=&quot;&quot;;&#xa;hd.addRow(fila);&#xa;fechaE=ped.getFechaEnvio();&#xa;numeroDeListadoDeMateriales=ped.getNumeroDeListadoDeMateriales();&#xa;}&#xa;this.jPanel4.setVisible(false);"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="MiTablaHd hd=new MiTablaHd();&#xa;//jPanel4.setVisible(false);&#xa;PedidosParaReparto ped=new PedidosParaReparto();&#xa;String cli=null;&#xa;//Procesos pr=new Procesos();&#xa;Iterator ih=cargados.listIterator();"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="hd.addColumn(&quot;Cliente&quot;);&#xa;hd.addColumn(&quot;Saldo&quot;);&#xa;hd.addColumn(&quot;Comprobante&quot;);&#xa;hd.addColumn(&quot;Observaciones&quot;);&#xa;Object[] fila=new Object[4];&#xa;while(ih.hasNext()){&#xa;    ped=(PedidosParaReparto)ih.next();&#xa;    fila[0]=ped.getRazonSocial();&#xa;cli=ped.getCodigoCliente();&#xa;cli.trim();&#xa;&#xa;fila[1]=(Double)ped.getSaldoCliente();&#xa;String comprobantes=ped.getNumeroComprobante();&#xa;String parte=null;&#xa;if(comprobantes.length()&gt;13){&#xa;    parte=comprobantes.substring(0,9);&#xa;    comprobantes=comprobantes.replaceAll(parte,&quot;/&quot;);&#xa;}&#xa;System.out.println(&quot;COMPROBANTES &quot;+comprobantes+&quot; PARTES &quot;+parte+&quot; cantidad&quot;+comprobantes.length());&#xa;fila[2]=comprobantes;&#xa;fila[3]=&quot;&quot;;&#xa;hd.addRow(fila);&#xa;fechaE=ped.getFechaEnvio();&#xa;numeroDeListadoDeMateriales=ped.getNumeroDeListadoDeMateriales();&#xa;}&#xa;this.jPanel4.setVisible(false);"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -121,7 +119,7 @@
                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   <Component id="jButton2" min="-2" pref="171" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jButton3" pref="158" max="32767" attributes="0"/>
+                  <Component id="jButton3" pref="185" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -187,7 +185,7 @@
                       <Component id="jComboBox1" alignment="0" max="32767" attributes="1"/>
                       <Component id="jLabel1" alignment="0" pref="165" max="32767" attributes="1"/>
                   </Group>
-                  <EmptySpace pref="41" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -277,7 +275,7 @@
                   </Group>
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="111" max="32767" attributes="0"/>
+                  <EmptySpace pref="115" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

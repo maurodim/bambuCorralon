@@ -591,7 +591,7 @@ public class ListadoDeCargaPorVehiculo extends javax.swing.JInternalFrame {
         */
         VistaHdr vista;
         try {
-            vista = new VistaHdr(carga,seleccion);
+            vista = new VistaHdr(nListado,seleccion);
             Inicio.jDesktopPane1.add(vista);
         vista.toFront();
         vista.setVisible(true);

@@ -40,7 +40,7 @@ public class GuardarListados extends Thread{
         
         while(ig.hasNext()){
             pd=(PedidosParaReparto)ig.next();
-            sql="update pedidos_carga1 set hdr1="+pd.getNumeroDeHojaDeRuta()+", listado="+pd.getNumeroDeListadoDeMateriales()+",revision="+pd.getNumeroDeRevisionDeListado()+" where NRO_PEDIDO='"+pd.getCodigoTangoDePedido()+"' and entrega='"+pd.getFechaEnvio()+"'";
+            sql="update pedidos_carga1 set hdr1="+pd.getNumeroDeHojaDeRuta()+", listado="+pd.getNumeroDeListadoDeMateriales()+",revision=0 where NRO_PEDIDO='"+pd.getCodigoTangoDePedido()+"' and entrega='"+pd.getFechaEnvio()+"'";
             cg.guardarRegistro(sql);
             System.out.println(sql);
             

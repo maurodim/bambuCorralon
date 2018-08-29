@@ -5,7 +5,7 @@
 package Proveedores;
 
 import facturacion.pantallas.*;
-import interfaceGraficas.NuevoCliente;
+import Clientes.Pantallas.NuevoCliente;
 import Pedidos.IngresoDePedidos;
 import Conversores.Numeros;
 import Clientes.Objectos.Clientes;

@@ -7,7 +7,7 @@ package Proveedores;
 
 import Pedidos.*;
 import Conversores.Numeros;
-import interfaceGraficas.NuevoCliente;
+import Clientes.Pantallas.NuevoCliente;
 import facturacion.pantallas.SeleccionDeClientes;
 import interfaceGraficas.Inicio;
 import interfaces.Comparables;

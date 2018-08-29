@@ -646,6 +646,7 @@
               <Image iconType="3" name="/imagen/Currency- Dollar.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Emitir Recibo"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton10ActionPerformed"/>

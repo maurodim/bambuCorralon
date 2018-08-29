@@ -40,11 +40,19 @@ public class VistaHdr extends javax.swing.JInternalFrame {
         Procesos pr=new PedidosParaReparto();
         //cargados=pr.actualizarComprobantesPedidos(car);
         //cargados=pr.actualizarVistaHdr(cargados);
-        System.err.println("cantidad array "+cargados.size());
+        System.err.println("cantidad array "+car.size());
         unidad=vehiculo;
         initComponents();
     }
-
+    public VistaHdr(int listado,int vehiculo) throws ParseException {
+        Procesos pr=new PedidosParaReparto();
+        //cargados=pr.actualizarComprobantesPedidos(car);
+        cargados=pr.actualizarVistaHdr(listado);
+        //System.err.println("cantidad array "+car.size());
+        
+        unidad=vehiculo;
+        initComponents();
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -61,7 +69,7 @@ public class VistaHdr extends javax.swing.JInternalFrame {
         PedidosParaReparto ped=new PedidosParaReparto();
         String cli=null;
         //Procesos pr=new Procesos();
-        Iterator ih=ListadoDeCargaPorVehiculo.carga.listIterator();
+        Iterator ih=cargados.listIterator();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -111,7 +119,7 @@ public class VistaHdr extends javax.swing.JInternalFrame {
             cli.trim();
 
             fila[1]=(Double)ped.getSaldoCliente();
-            String comprobantes=String.valueOf(ped.getiDPedido());
+            String comprobantes=ped.getNumeroComprobante();
             String parte=null;
             if(comprobantes.length()>13){
                 parte=comprobantes.substring(0,9);
@@ -175,7 +183,7 @@ public class VistaHdr extends javax.swing.JInternalFrame {
                 .addGap(39, 39, 39)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -207,7 +215,7 @@ public class VistaHdr extends javax.swing.JInternalFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,7 +303,7 @@ public class VistaHdr extends javax.swing.JInternalFrame {
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addComponent(jButton4)
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -305,14 +313,13 @@ public class VistaHdr extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)))
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -374,14 +381,14 @@ public class VistaHdr extends javax.swing.JInternalFrame {
                 }
                 System.out.println("COND E VENTA "+condVenta);
                 if(condVenta < 2){
-                    importe="PS";
+                    importe="PAGADO";
                     vto=null;
                 }else{
                     importe="FIRMA";
                     vto="";
                 }
             }else{
-                if((ped.getCondicionDeVenta() ==2)||(ped.getCondicionDeVenta() > 2)){
+                if(ped.getCondicionDeVenta() ==1){
                  importe="FIRMA";
                  vto="";
                 }else{

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaceGraficas;
+package Clientes.Pantallas;
 
 import Articulos.Rubrable;
 import Clientes.Pantallas.AbmSaldosClientes;
@@ -29,6 +29,10 @@ import facturacion.clientes.ImprimirFactura;
 import facturacion.clientes.ListasDePrecios;
 import facturacion.pantallas.IngresoDeFacturas;
 import facturacion.pantallas.ModificacionDeFacturas;
+import interfaceGraficas.AbmClientes;
+import interfaceGraficas.Inicio;
+import interfaceGraficas.LocalidadesAbm;
+import interfaceGraficas.TransporteAbm;
 import interfaces.Componable;
 import interfaces.Personalizable;
 import interfacesPrograma.Busquedas;
@@ -479,6 +483,7 @@ public class NuevoCliente extends javax.swing.JInternalFrame implements Internal
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Currency- Dollar.png"))); // NOI18N
         jButton10.setText("Emitir Recibo");
+        jButton10.setEnabled(false);
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);

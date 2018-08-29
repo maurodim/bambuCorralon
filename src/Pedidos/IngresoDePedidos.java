@@ -7,7 +7,7 @@ package Pedidos;
 
 import Conversores.Numeros;
 import Clientes.Objectos.Clientes;
-import interfaceGraficas.NuevoCliente;
+import Clientes.Pantallas.NuevoCliente;
 import facturacion.pantallas.SeleccionDeClientes;
 
 import interfaceGraficas.Inicio;
@@ -447,6 +447,7 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
             this.jLabel8.setText(arti.getDescripcionArticulo());
             if(arti.getModificaPrecio()){
                 this.jLabel7.setVisible(true);
+                this.jTextField4.setText(String.valueOf(arti.getPrecioUnitarioNeto()));
                 this.jTextField4.setVisible(true);
                 //this.jTextField4.setEnabled(true);
                // this.jCheckBox1.setVisible(false);
@@ -461,7 +462,7 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
                     this.jLabel7.setVisible(true);
                     this.jTextField4.setVisible(true);
                     
-                    this.jTextField4.setText(Numeros.ConvertirNumero(arti.getPrecioServicio()));
+                    this.jTextField4.setText(String.valueOf(arti.getPrecioUnitarioNeto()));
                     //this.jTextField4.setEnabled(false);
                     this.jCheckBox1.setVisible(true);
                     Calendar calendario=new GregorianCalendar();
@@ -625,10 +626,12 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
             Double cantt=Double.parseDouble(this.jTextField2.getText());
             
             if(arti.getModificaPrecio()){
+                this.jTextField4.selectAll();
                 this.jTextField4.requestFocus();
             }else{
                 if(arti.getPrecioServicio()>0){
-                 this.jTextField4.requestFocus();   
+                    this.jTextField4.selectAll();
+                    this.jTextField4.requestFocus();   
                 }else{
                     Articulos articul=new Articulos();
                     Comparables comparar=new Articulos();
@@ -845,9 +848,22 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
         //comp.setTipoComprobante(comprobanteTipo);
         //comp.setMontoTotal(montoTotal);
         if(selector.btnSeleccionado==1){
+            
+            Facturar fac=new Clientes();
+            cliT=(Clientes) fac.cargarPorCodigoAsignado(1);
             detalleDelPedido.clear();
-            agregarRenglonTabla();
-            this.dispose();
+                agregarRenglonTabla();
+                this.jCheckBox2.setSelected(true);
+                //this.jCheckBox2.setEnabled(false);
+                this.jTable2.removeAll();
+                listadoDeBusqueda.clear();
+                cargarLista(listadoDeBusqueda);
+                //cliT=new Clientes("99");
+                this.jLabel6.setText(cliT.getRazonSocial());
+                this.jTextField2.setText("");
+                jTextField1.setText("");
+                jTextField1.requestFocus();
+            //this.dispose();
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -891,12 +907,12 @@ public class IngresoDePedidos extends javax.swing.JInternalFrame {
             Double servicio;
             //Articulos articuloss=new Articulos();
             if(this.jCheckBox1.isSelected()){
-                servicio=arti.getPrecioServicio();
+                servicio=arti.getPrecioUnitarioNeto();
             }else{
                 servicio=0.00;
             }
             if(arti.getModificaPrecio())servicio=Numeros.ConvertirStringADouble(String.valueOf(this.jTextField4.getText()));
-            Double tota=arti.getPrecioUnitarioNeto() + servicio;
+            Double tota=servicio;
             //arti.setPrecioUnitarioNeto(tota);
             //arti.setPrecioServicio(servicio);
             Double cantt=Double.parseDouble(this.jTextField2.getText());

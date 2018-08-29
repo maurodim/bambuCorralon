@@ -7,6 +7,7 @@ package Reparto;
 import Objetos.PdfHdr;
 import Reparto.interfaces.Procesos;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -93,7 +94,7 @@ public class EmisionHojaDeRuta extends Thread{
         while(il.hasNext()){
             ped=(PedidosParaReparto)il.next();
             ped.setNumeroDeHojaDeRuta(num);
-            pesoTotal+=ped.getPesoTotal();
+            //pesoTotal+=ped.getPesoTotal();
             
             System.out.println("listado numero "+listadoNum);
             if(ped.getNumeroDeListadoDeMateriales() > 0)listadoNum=ped.getNumeroDeListadoDeMateriales();
@@ -188,36 +189,25 @@ public class EmisionHojaDeRuta extends Thread{
         //System.out.println(fechaEnvio+" "+numVehiculo+" "+descVehiculo+" "+total);
         String master="Repartos//HDR//";
         //System.out.println(SiderconCapaatos.formularioHdr);
-        String destino="Repartos//HDR//"+num+"hdr.pdf";
+        String destino="Repartos\\HDR\\"+num+"hdr.pdf";
         String destino2="Repartos//HDR//"+num+"hdr.pdf";
         
         Connection ch1=con.obtenerConeccion();
         //System.out.println(ch1.toString());
         
-        PdfHdr pdf=new PdfHdr(ch1,num,destino2,destino);
+        PdfHdr pdf=new PdfHdr(ch1,num,destino2,null);
         pdf.start();
         
                
             File f=new File(destino2);
             System.out.println("destino2 hdr: "+destino2);
            // if(f.exists()){
-           
-                //Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+destino2);
-                 Mail mail=new Mail();
-                mail.setDireccionFile(destino2);
-                mail.setDetalleListado(num+"hdr.pdf");
-                mail.setAsunto("HDR GENERADA NÂ° "+num);
-                         try {
-                             mail.enviarMailRepartoCargaCompleta();
-                         } catch (MessagingException ex) {
-                             Logger.getLogger(EmisionHojaDeRuta.class.getName()).log(Level.SEVERE, null, ex);
-                             //System.err.println(ex);
-                             JOptionPane.showMessageDialog(null,"El mail no ha podido ser enviado, informe del error: "+ex);
-                         }
-            
-           // }
-            
-           // }
+            try {
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler "+destino);
+            } catch (IOException ex) {
+                Logger.getLogger(EmisionHojaDeRuta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                 
         
  
     }

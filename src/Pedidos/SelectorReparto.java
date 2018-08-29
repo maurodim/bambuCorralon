@@ -258,7 +258,13 @@ public class SelectorReparto extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        
+        ImprimirPedido imprimirOt=new ImprimirPedido();
+        btnSeleccionado=1;
+        try {
+            imprimirOt.ImprimirOrdenDetallada(pedido);
+        } catch (IOException ex) {
+            Logger.getLogger(SelectorReparto.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         RemitosX remito=new RemitosX();
         DetalleRemitosX detalleR;
@@ -291,9 +297,9 @@ public class SelectorReparto extends javax.swing.JDialog {
             remX.nuevo(detalleR);
         }
         
-        ImprimirPedido imprimirOt=new ImprimirPedido();
+        ImprimirPedido imprimirOt1=new ImprimirPedido();
         try {
-            imprimirOt.ImprimirOrdenDeTrabajo(remito.getId());
+            imprimirOt1.ImprimirOrdenDeTrabajo(remito.getId());
             /*
             pdfsJavaGenerador pdf=new pdfsJavaGenerador();
             pdf.setDoc(comprobante1);
@@ -308,6 +314,13 @@ public class SelectorReparto extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ImprimirPedido imprimirOt=new ImprimirPedido();
+        btnSeleccionado=1;
+        try {
+            imprimirOt.ImprimirOrdenDetallada(pedido);
+        } catch (IOException ex) {
+            Logger.getLogger(SelectorReparto.class.getName()).log(Level.SEVERE, null, ex);
+        }
         btnSeleccionado=1;
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -382,6 +395,14 @@ public class SelectorReparto extends javax.swing.JDialog {
             fechaSeleccionada=seleccion;
             if(fechaSeleccionada != null){
                 //pedido.setFechaEntrega(fechaSeleccionada);
+                    ImprimirPedido imprimirOt=new ImprimirPedido();
+                    btnSeleccionado=1;
+                    try {
+                        imprimirOt.ImprimirOrdenDetallada(pedido);
+                    } catch (IOException ex) {
+                        Logger.getLogger(SelectorReparto.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                
                 String fechaParaGuardar=ano+"-"+fr.format(mes)+"-"+fr.format(dd);
                 Iterator it=detalleP.listIterator();
                 ArrayList lstEnviar=new ArrayList();

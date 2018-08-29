@@ -148,7 +148,11 @@ public class DetallePedidos implements Pedable{
             pedido.setFechaPedidosTango(Inicio.fechaDia);
             pedido.setCodigoCliente(String.valueOf(detalle.getIdCliente()));
             pedido.setRazonSocial(cliente.getRazonSocial());
-            pedido.setCondicionDeVenta(cliente.getCondicionDeVenta());
+            if(cliente.getCupoDeCredito() > cliente.getSaldo()){
+                pedido.setCondicionDeVenta(1);
+            }else{
+                pedido.setCondicionDeVenta(0);
+            }
             pedido.setObservaciones(detalle.getObservaciones());
             pedido.setObservaciones1("");
             pedido.setObservaciones2("");
@@ -160,7 +164,7 @@ public class DetallePedidos implements Pedable{
             pedido.setFechaEnvio(entrega);
             pedido.setZonaAsignada(1);
             pedido.setAlertaAsignada(0);
-            pedido.setNumeroVendedor(1);
+            pedido.setNumeroVendedor(Inicio.usuario.getNumeroId());
             idPedido=detalle.getIdPedido();
             pedido.setIdPedidoEnTango(detalle.getId());
             sql="update detallepedidos set entrega='"+guardarF+"' where id="+detalle.getId();

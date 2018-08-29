@@ -189,91 +189,81 @@ public class ImprimirPedido {
         String fec=dia+"/"+mes+"/"+ano;
         String hrs=hora+","+minuto+":"+segundo;
         // formulario izquierdo
-        
-        pagina = pj.getGraphics();
+        //ESTABLEZCO LAS COPIAS
+      
+       
         try{
-        //BufferedImage imagen= ImageIO.read(new File("C://Gestion//imagen//logo.png"));
-        //pagina.drawImage(imagen,63,20,174,93,null);
-        pagina.setFont(fuente6);
-        pagina.setColor(Color.black);
-        pagina.drawString("PEDIDO N° 00"+Inicio.sucursal.getNumero()+"-000"+cotizacion.getId(),20,20);
-        pagina.setFont(fuente);
-        pagina.drawString("FECHA IMPRESION:"+fec, 20,30);
-        //pagina.drawString(" :"+Inicio.sucursal.getDescripcion(),20,150);
-        pagina.drawString("USUARIO :"+Inicio.usuario.getNombre(),320,20);
-        pagina.setFont(fuente6);
-        Double monto=0.00; //caja.getMontoMovimiento()* -1;
-        pagina.drawLine(20, 35, 600, 35);
-        pagina.drawString("RAZON SOCIAL: "+cliente.getRazonSocial(),30,45);
-        pagina.drawString("C.U.I.T.: "+cliente.getNumeroDeCuit(), 350,45);
-        pagina.drawString("NOMBRE FANTASIA: "+cliente.getFantasia(),30,55);
-        pagina.drawString("TELEFONO: "+cliente.getTelefono(),350,55);
-        pagina.drawString("DIRECCION: "+cliente.getDireccion(),30,65);
-        
-        pagina.drawString("LOCALIDAD: ("+cliente.getCodigoPostal()+") "+cliente.getLocalidad(),350,65);
-        
-        pagina.drawString("COND IVA: "+cliente.getCondicionIva(),30,75);
-        pagina.drawString("MAIL: "+cliente.getEmail(),350, 75);
-        pagina.drawLine(20, 85, 600, 85);
-        pagina.setFont(fuente);
-        pagina.drawString("CODIGO",20,95);
-        pagina.drawString("DESCRIPCION",100,95);
-        pagina.drawString("CANTIDAD", 400,95);
-        pagina.drawString("PRECIO U",450,95);
-        pagina.drawString("PRECIO",500,95);
-        int renglon=105;
-        Iterator it=listadoDetalle.listIterator();
-        Double generalT=0.00;
-        String descripcionArt=null;
-        while(it.hasNext()){
-            detalleDeCotizacion=(DetallePedidos)it.next();
-            pagina.drawString(String.valueOf(detalleDeCotizacion.getIdArticulo()),20,renglon);
-            
-            if(detalleDeCotizacion.getDescripcionArticulo().length() > 50){
-            descripcionArt=detalleDeCotizacion.getDescripcionArticulo().substring(0, 50);
-            }else{
-                descripcionArt=detalleDeCotizacion.getDescripcionArticulo();
+            for(int aaa=0; aaa < 2;aaa++){
+                 pagina = pj.getGraphics();
+            //BufferedImage imagen= ImageIO.read(new File("C://Gestion//imagen//logo.png"));
+            //pagina.drawImage(imagen,63,20,174,93,null);
+            pagina.setFont(fuente6);
+            pagina.setColor(Color.black);
+            pagina.drawString("PEDIDO N° 00"+Inicio.sucursal.getNumero()+"-000"+cotizacion.getId(),20,20);
+            pagina.setFont(fuente);
+            pagina.drawString("FECHA IMPRESION:"+fec, 20,30);
+            //pagina.drawString(" :"+Inicio.sucursal.getDescripcion(),20,150);
+            pagina.drawString("USUARIO :"+Inicio.usuario.getNombre(),320,20);
+            pagina.setFont(fuente6);
+            Double monto=0.00; //caja.getMontoMovimiento()* -1;
+            pagina.drawLine(20, 35, 600, 35);
+            pagina.drawString("RAZON SOCIAL: "+cliente.getRazonSocial(),30,45);
+            pagina.drawString("C.U.I.T.: "+cliente.getNumeroDeCuit(), 350,45);
+            pagina.drawString("NOMBRE FANTASIA: "+cliente.getFantasia(),30,55);
+            pagina.drawString("TELEFONO: "+cliente.getTelefono(),350,55);
+            pagina.drawString("DIRECCION: "+cliente.getDireccion(),30,65);
+
+            pagina.drawString("LOCALIDAD: ("+cliente.getCodigoPostal()+") "+cliente.getLocalidad(),350,65);
+
+            pagina.drawString("COND IVA: "+cliente.getCondicionIva(),30,75);
+            pagina.drawString("MAIL: "+cliente.getEmail(),350, 75);
+            pagina.drawLine(20, 85, 600, 85);
+            pagina.setFont(fuente);
+            pagina.drawString("CODIGO",20,95);
+            pagina.drawString("DESCRIPCION",100,95);
+            pagina.drawString("CANTIDAD", 400,95);
+            pagina.drawString("PRECIO U",450,95);
+            pagina.drawString("PRECIO",500,95);
+            int renglon=105;
+            Iterator it=listadoDetalle.listIterator();
+            Double generalT=0.00;
+            String descripcionArt=null;
+            while(it.hasNext()){
+                detalleDeCotizacion=(DetallePedidos)it.next();
+                pagina.drawString(String.valueOf(detalleDeCotizacion.getIdArticulo()),20,renglon);
+
+                if(detalleDeCotizacion.getDescripcionArticulo().length() > 50){
+                descripcionArt=detalleDeCotizacion.getDescripcionArticulo().substring(0, 50);
+                }else{
+                    descripcionArt=detalleDeCotizacion.getDescripcionArticulo();
+                }
+
+                //descripcionArt=detalleDeCotizacion.getDescripcionArticulo().substring(0, 50);
+
+                pagina.drawString(descripcionArt,60,renglon);
+                pagina.drawString(String.valueOf(detalleDeCotizacion.getCantidad()),420,renglon);
+                pagina.drawString(Numeros.ConvertirNumero(detalleDeCotizacion.getPrecioUnitario()),470,renglon);
+                Double total=detalleDeCotizacion.getCantidad() * (detalleDeCotizacion.getPrecioUnitario());
+                generalT=generalT + total;
+                pagina.drawString(Numeros.ConvertirNumero(total),510,renglon);
+                renglon=renglon + 10;
             }
-            
-            //descripcionArt=detalleDeCotizacion.getDescripcionArticulo().substring(0, 50);
-            
-            pagina.drawString(descripcionArt,60,renglon);
-            pagina.drawString(String.valueOf(detalleDeCotizacion.getCantidad()),420,renglon);
-            pagina.drawString(Numeros.ConvertirNumero(detalleDeCotizacion.getPrecioUnitario()),470,renglon);
-            Double total=detalleDeCotizacion.getCantidad() * (detalleDeCotizacion.getPrecioUnitario());
-            generalT=generalT + total;
-            pagina.drawString(Numeros.ConvertirNumero(total),510,renglon);
             renglon=renglon + 10;
-        }
-        renglon=renglon + 10;
-        pagina.setFont(fuente1);
-        pagina.drawString("TOTAL: "+Numeros.ConvertirNumero(generalT),40,renglon);
-        //formulario derecho
-        renglon=renglon + 30;
-        //pagina.drawImage(imagen,363,20,174,93,null);
-        pagina.setFont(fuente);
-        pagina.drawLine(20, renglon, 600,renglon);
-        renglon=renglon + 10;
-        pagina.drawString("ENVIAR POR: "+transporte.getDescripcion(), 30,renglon);
-        pagina.drawString("ENCARGADO: "+transporte.getEncargado(),350,renglon);
-        renglon=renglon + 10;
-        pagina.drawString("DIRECCION: "+transporte.getDireccion()+"- ("+transporte.getCodigoPostal()+") "+transporte.getLocalidad(), 30, renglon);
-        renglon=renglon + 10;
-        pagina.drawString("TELEFONO: "+transporte.getTelefono(),30,renglon);
-        pagina.drawString("CUIT: "+transporte.getCuit(),350,renglon);
-        
-        renglon=renglon + 10;
-        pagina.drawLine(20, renglon, 600,renglon);
-        renglon=renglon + 30;
-        pagina.setFont(fuente11);
-        if(cliente.getDireccionDeEntrega()!=null){
-            pagina.drawString("ENTREGAR EN: "+cliente.getDireccionDeEntrega()+" - ("+cliente.getCodigoPostal()+") "+cliente.getLocalidad(), 30,renglon);
-        }else{
-            pagina.drawString("ENTREGAR EN: "+cliente.getDireccion()+" - ("+cliente.getCodigoPostal()+") "+cliente.getLocalidad(), 30,renglon);
-        }
-        
-        pagina.dispose();
-        pj.end();
+            pagina.setFont(fuente1);
+            pagina.drawString("TOTAL: $ "+Numeros.ConvertirNumero(generalT),40,renglon);
+            //formulario derecho
+            renglon=renglon + 30;
+            //pagina.drawImage(imagen,363,20,174,93,null);
+            pagina.setFont(fuente);
+            pagina.drawLine(20, renglon, 600,renglon);
+            renglon=renglon + 10;
+            pagina.drawString("ESTIMADO CLIENTE, LAS CUENTAS CORRIENTES SE ABONAN A PRECIO ACTUALIZADO AL MOMENTO DEL PAGO. GRACIAS ", 30,renglon);
+            
+            pagina.dispose();
+            
+          } 
+            
+            pj.end();
         }catch(Exception e)
 	{
 		System.out.println("LA IMPRESION HA SIDO CANCELADA..."+e);

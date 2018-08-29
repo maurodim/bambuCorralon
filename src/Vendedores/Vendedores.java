@@ -38,7 +38,24 @@ public class Vendedores implements Vendable{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
+    
+    private Vendedores cargaPorId(int id){
+        Vendedores vendedor = null;
+        Transaccionable tra=new Conecciones();
+        String sql="select * from vendedores where id="+id;
+        ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        try {
+            while(rs.next()){
+                vendedor=new Vendedores();
+                vendedor.id=rs.getInt("id");
+                vendedor.nombre=rs.getString("nombre");
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Vendedores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vendedor;
+    }
     @Override
     public Integer nuevo(Object vend) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -46,7 +63,7 @@ public class Vendedores implements Vendable{
 
     @Override
     public Object cargar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.cargaPorId(id);
     }
 
     @Override
