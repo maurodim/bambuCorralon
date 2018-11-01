@@ -122,5 +122,10 @@ public class Fleteros implements Procesos{
     public ArrayList actualizarVistaHdr(int vehiculo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Object regenerarCantidades(Object ped) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

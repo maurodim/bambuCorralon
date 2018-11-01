@@ -975,7 +975,34 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
             return lst;
         }
     
-    
+        private PedidosParaReparto regenerarCantidadesTango(PedidosParaReparto ped){
+            Transaccionable tra=new Conecciones();
+            try {
+                
+                String codigoDeArticulo=ped.getCodigoArticulo().trim();
+                String numPed=ped.getCodigoTangoDePedido().substring(3);
+                String sql="select cantidad from detallepedidos where id = "+ped.getIdPedidoEnTango();
+                System.out.println("SQLLLLLL "+sql);
+                
+                ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+                Double cantTango=0.00;
+                Double cantEqui=0.00;
+                Double cantTotal=0.00;
+                while(rs.next()){
+                    cantTotal=rs.getDouble("cantidad");
+                }
+                ped.setCantidadArticuloPendiente(cantTotal);
+                System.err.println("cantidades "+cantTotal);
+                ped.setFechaEnvio("00/00/0000");
+                ped.setNumeroDeListadoDeMateriales(0);
+                ped.setVehiculoAsignado(0);
+                rs.close();
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(Procesos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return ped;
+        }
     
     @Override
     public ArrayList ListarDetalleDePedidos(String codigoPedido) {
@@ -1274,6 +1301,11 @@ public class PedidosParaReparto implements Editables,ExportacionDePedidos,Proces
     @Override
     public ArrayList actualizarVistaHdr(int vehiculo) {
         return this.vistaHdr(vehiculo);
+    }
+
+    @Override
+    public Object regenerarCantidades(Object ped) {
+        return this.regenerarCantidadesTango((PedidosParaReparto) ped);
     }
   	
 }

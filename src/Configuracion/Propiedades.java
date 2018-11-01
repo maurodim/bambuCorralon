@@ -323,8 +323,8 @@ public class Propiedades {
                             CONDICIONIVA=p.getProperty("CONDICIONIVA");
                             PUNTODEVENTA=p.getProperty("PUNTODEVENTA");
                             TIPODEVENTA=p.getProperty("TIPODEVENTA");
-                            PASS=p.getProperty("PASS");
-                            CORREOSALIENTE=p.getProperty("CORREOSALIENTE");
+                            PASS="bambuSoft001";
+                            CORREOSALIENTE="bambusuite@bambusoft.com.ar";
                             
                             
                         

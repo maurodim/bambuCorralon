@@ -46,6 +46,7 @@ import FacturaE.AbmFacturaElectronica;
 import ObjetosBackUp.BackUp;
 import ObjetosBackUp.Backapear;
 import Recibos.ChequesAbm;
+import Reparto.pantallas.CargaHdr;
 import Reparto.pantallas.ListadoDePedidosParaReparto;
 import java.util.Iterator;
 import tarjetas.Tarjetable;
@@ -208,6 +209,7 @@ public class Inicio extends javax.swing.JFrame {
         jMenu9 = new javax.swing.JMenu();
         jMenuItem25 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
+        jMenu10 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISITEMA DE GESTION BAMBU SOFTWARE");
@@ -546,6 +548,15 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
         jMenuBar1.add(jMenu7);
+
+        jMenu10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagen/Document 2.png"))); // NOI18N
+        jMenu10.setText("Ver Hojas de Ruta");
+        jMenu10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu10MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu10);
 
         setJMenuBar(jMenuBar1);
 
@@ -887,6 +898,14 @@ public class Inicio extends javax.swing.JFrame {
         lst.toFront();
     }//GEN-LAST:event_jMenu7MouseClicked
 
+    private void jMenu10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu10MouseClicked
+        CargaHdr carga=new CargaHdr();
+        Inicio.jDesktopPane1.add(carga);
+        carga.setVisible(true);
+        carga.pack();
+        carga.toFront();
+    }//GEN-LAST:event_jMenu10MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -946,6 +965,7 @@ public class Inicio extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     public static javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
     public static javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;

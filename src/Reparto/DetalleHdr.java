@@ -4,11 +4,20 @@
  */
 package Reparto;
 
+import Reparto.interfaces.AbmHdr;
+import interfaces.Transaccionable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import objetos.Conecciones;
+
 /**
  *
  * @author Administrador
  */
-public class DetalleHdr {
+public class DetalleHdr implements AbmHdr{
     private Integer numero;
     private Integer numeroHdr;
     private String numeroPedidoTango;
@@ -145,7 +154,87 @@ public class DetalleHdr {
     public void setSaldo(String saldo) {
         this.saldo = saldo;
     }
-    
+    private ArrayList cargarDetalleHdr(Integer numeroHdr){
+            ArrayList detalle=new ArrayList();
+            String sql="select detalle_hdr.cliente,detalle_hdr.numero_cli,detalle_hdr.comprobante,detalle_hdr.importe,detalle_hdr.entregado,detalle_hdr.motivoFallido,detalle_hdr.numero,detalle_hdr.reenviar,(select pedidos_carga1.NRO_PEDIDO from pedidos_carga1 where pedidos_carga1.hdr1=detalle_hdr.hdr and pedidos_carga1.COD_CLIENT=detalle_hdr.numero_cli group by pedidos_carga1.NRO_PEDIDO limit 0,1) from detalle_hdr where hdr="+numeroHdr;
+            System.out.println(sql);
+            Boolean entreg=true;
+            Transaccionable tra=new Conecciones();
+            ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        try {
+            while(rs.next()){
+                DetalleHdr det=new DetalleHdr();
+                det.setRazonSocial(rs.getString(1));
+                det.setCodigoCliente(rs.getString(2));
+                det.setNumeroDeComprobante(rs.getString(3));
+                det.setSaldo(rs.getString(4));
+                if(rs.getInt(5)==1){
+                    entreg=false;
+                }else{
+                    entreg=true;
+                }
+                det.setEntregaCompletada(entreg);
+                det.setMotivoFaltaDeEntrega(rs.getString(6));
+                det.setNumero(rs.getInt(7));
+                det.setReenviarPedido(rs.getInt(8));
+                det.setNumeroPedidoTango(rs.getString(9));
+                System.out.println("numero de pedido"+det.getNumeroPedidoTango());
+                detalle.add(det);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DetalleHdr.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            return detalle;
+        }
+    private ArrayList leerMotivosFallidos() throws SQLException{
+            ArrayList listado=new ArrayList();
+            String sql="select * from motivosentregasfallidas order by numero";
+            Transaccionable tra=new Conecciones();
+            
+            ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+            while(rs.next()){
+                listado.add(rs.getString("descripcion"));
+            }
+            rs.close();
+            
+            return listado;
+        }
+     private int leerNumeroMotivoElegido(String seleccion) throws SQLException{
+                      int elegido=0;
+            String sql="select * from motivosentregasfallidas where descripcion like '"+seleccion+"%'";
+            Transaccionable tra=new Conecciones();
+            
+            ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+            while(rs.next()){
+                elegido=rs.getInt("numero");
+            }
+            rs.close();
+            
+            return elegido;
+  
+    }
+
+    @Override
+    public void agregarItem(Object item, Integer numero, String comprobante) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void anularHdr(Integer numeroHdr, String motivo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList cargarItemsHdr(Integer numero) {
+        return this.cargarDetalleHdr(numero);
+    }
+
+    @Override
+    public ArrayList cargarUltimaHdr() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }

@@ -10,6 +10,11 @@
  */
 package Reparto.pantallas;
 
+import Pedidos.DetallePedidos;
+import Pedidos.Pedable;
+import Remitos.DetalleRemitosX;
+import Remitos.Remitable;
+import Remitos.RemitosX;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -23,6 +28,7 @@ import Reparto.Fleteros;
 import Reparto.PedidosParaReparto;
 import Reparto.EmisionHojaDeRuta;
 import Reparto.interfaces.Procesos;
+import interfaceGraficas.Inicio;
 import tablas.MiTablaHd;
 
 /**
@@ -360,6 +366,12 @@ public class VistaHdr extends javax.swing.JInternalFrame {
         int condVenta=0;
         String cliente=null;
         String clienteAnt=null;
+        DetallePedidos detalle;
+        RemitosX remito;
+        DetalleRemitosX detalleR;
+        Remitable rem;
+        Remitable remX;
+        
         for(int i=0;i<jTable1.getRowCount();i++){
             System.err.println("cantidad array "+cargados.size());
             ped=(PedidosParaReparto)cargados.get(i);
@@ -417,8 +429,51 @@ public class VistaHdr extends javax.swing.JInternalFrame {
             ped.setNumeroComprobante(numeroComprobante);
             ped.setSaldoACobrar(importe);
             ped.setVuelto(vto);
+            
+            
             //ped.setSaldoCliente();
         }
+        
+        Procesos pr=new PedidosParaReparto();
+        ArrayList lstPed=pr.ListarPedidosParaCargaEnVehiculo(unidad, fechaE);
+        Iterator itPe=lstPed.listIterator();
+        while(itPe.hasNext()){
+            ped=(PedidosParaReparto) itPe.next();
+            remito=new RemitosX();
+            rem=new RemitosX();
+            remX=new DetalleRemitosX();
+            remito.setIdCliente(Integer.parseInt(ped.getCodigoCliente()));
+            remito.setIdComprobante(Integer.parseInt(ped.getCodigoTangoDePedido()));
+            remito.setTipoComprobantte(5);
+            remito.setCantidadBultos(0);
+            remito.setDomicilioDeEntrega("CERMAT");
+            remito.setLocalidad("NELSON");
+            remito.setTipoBulto(0);
+
+            remito.setId(rem.nuevo(remito));
+            Pedable det=new DetallePedidos();
+            ArrayList detalleP=det.cargarDetallePedido(Integer.parseInt(ped.getCodigoTangoDePedido()));
+            Iterator it=detalleP.listIterator();
+            while(it.hasNext()){
+                detalle=(DetallePedidos) it.next();
+                if(detalle.getCantidad() > 0){
+                    detalleR=new DetalleRemitosX();
+                    detalleR.setIdArticulo(detalle.getIdArticulo());
+                    detalleR.setDescripcionArticulo(detalle.getDescripcionArticulo());
+                    detalleR.setPrecioDeCosto(detalle.getPrecioUnitario());
+                    detalleR.setPrecioDeVenta(detalle.getPrecioUnitario());
+                    detalleR.setCantidadRemitida(detalle.getCantidad());
+                    detalleR.setIdPedido(detalle.getIdPedido());
+                    detalleR.setIdCliente(detalle.getIdCliente());
+                    detalleR.setIdCaja(Inicio.caja.getNumero());
+                    detalleR.setIdUsuario(1);
+                    detalleR.setIdRemito(remito.getId());
+                    remX.nuevo(detalleR);
+                }
+            }
+
+        }
+        
         try {
             Iterator ic=cargados.listIterator();
             while(ic.hasNext()){

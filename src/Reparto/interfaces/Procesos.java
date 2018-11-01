@@ -21,4 +21,6 @@ public interface Procesos {
     public ArrayList ListarPedidosParaCargaEnVehiculo(int vehiculo,String fecha);
     public ArrayList ListarFleteros();
     public ArrayList actualizarVistaHdr(int vehiculo);
+    public Object regenerarCantidades(Object ped);
+    
 }

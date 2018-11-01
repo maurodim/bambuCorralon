@@ -4,11 +4,20 @@
  */
 package Reparto;
 
+import Reparto.interfaces.AbmHdr;
+import interfaces.Transaccionable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import objetos.Conecciones;
+
 /**
  *
  * @author Administrador
  */
-public class EncabezadoHdr {
+public class EncabezadoHdr implements AbmHdr{
     private Integer numero;
     private String fechaImpresion;
     private String fechaReparto;
@@ -28,6 +37,25 @@ public class EncabezadoHdr {
     private Integer minutosLlegada;
     private Double totalCobranza;
     private Double totalVuelto;
+    private int estadoHdr;
+    private String motivoAnulacion;
+
+    public int getEstadoHdr() {
+        return estadoHdr;
+    }
+
+    public void setEstadoHdr(int estadoHdr) {
+        this.estadoHdr = estadoHdr;
+    }
+
+    public String getMotivoAnulacion() {
+        return motivoAnulacion;
+    }
+
+    public void setMotivoAnulacion(String motivoAnulacion) {
+        this.motivoAnulacion = motivoAnulacion;
+    }
+    
 
     
     public Double getTotalCobranza() {
@@ -180,6 +208,68 @@ public class EncabezadoHdr {
     public void setPesoListado(Double pesoListado) {
         this.pesoListado = pesoListado;
     }
- 
+    private ArrayList UltimaHdr(){
+            ArrayList listadoEnc=new ArrayList();
+            EncabezadoHdr enc=new EncabezadoHdr();
+            String sql="select hdr.numero,hdr.kmInicio,hdr.kmFinal,hdr.numeroFletero,hdr.numeroVehiculo,hdr.pesoCarga,hdr.listadoNumero,hdr.fechaEntrega,hdr.horaInicio,hdr.horaFinal,(select unidades.descripcion from unidades where unidades.numero=hdr.numeroVehiculo) as unid,(select fleteros.nombre from fleteros where fleteros.numero=hdr.numeroFletero) as flete,hdr.fechaImpresion,hdr.estado,hdr.motivoAnulacion from hdr order by numero";
+            Transaccionable tra=new Conecciones();
+            ResultSet rs=tra.leerConjuntoDeRegistros(sql);
+        try {
+            while(rs.next()){
+                enc=new EncabezadoHdr();
+                enc.setNumero(rs.getInt("numero"));
+                enc.setKmIniciales(rs.getInt("kmInicio"));
+                enc.setKmFinales(rs.getInt("kmFinal"));
+                enc.setNumeroOperador(rs.getInt("numeroFletero"));
+                enc.setNumeroVehiculo(rs.getInt("numeroVehiculo"));
+                enc.setPesoEntregado(rs.getDouble("pesoCarga"));
+                enc.setNumeroListado(rs.getInt("listadoNumero"));
+                enc.setFechaReparto(rs.getString("fechaEntrega"));
+                String horaS=rs.getString("horaInicio");
+                String horaF=rs.getString("horaFinal");
+                enc.setPesoListado(0.00);
+                enc.setDescripcionVehiculo(rs.getString("unid"));
+                enc.setNombreOperador(rs.getString("flete"));
+                enc.setFechaImpresion(rs.getString("fechaImpresion"));
+                enc.setEstadoHdr(rs.getInt("estado"));
+                enc.setMotivoAnulacion(rs.getString("motivoAnulacion"));
+                System.err.println(" horas "+horaS+" "+horaF);
+                Integer hrS=Integer.parseInt(horaS.substring(0,2));
+                Integer minS=Integer.parseInt(horaS.substring(3,4));
+                Integer hrF=Integer.parseInt(horaF.substring(0, 2));
+                Integer minF=Integer.parseInt(horaF.substring(3,4));
+                enc.setHoraSalida(hrS);
+                enc.setMinutosSalida(minS);
+                enc.setHoraLlegada(hrF);
+                enc.setMinutosLlegada(minF);
+                listadoEnc.add(enc);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(EncabezadoHdr.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+            return listadoEnc;
+        }
+
+    @Override
+    public void agregarItem(Object item, Integer numero, String comprobante) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void anularHdr(Integer numeroHdr, String motivo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList cargarItemsHdr(Integer numero) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList cargarUltimaHdr() {
+        return this.UltimaHdr();
+    }
     
 }

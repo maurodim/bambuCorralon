@@ -511,7 +511,7 @@ public class Pedidos implements Pedable,Recidable{
         Pedidos pedido;
         ArrayList listado=new ArrayList();
         //String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 and pagado=0 order by id desc";
-        String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 and saldo > 0 order by id desc";
+        String sql="select *,(select facturas.numerofactura from facturas where facturas.id=pedidos.idfactura)as factura from pedidos where idcliente="+idClient+" and idfactura=0 order by id desc";
         System.out.println(sql);
         ResultSet rs=tra.leerConjuntoDeRegistros(sql);
         try {
